@@ -9,6 +9,7 @@ import requests
 import zipfile
 from handle_languages import handle_languages
 from creative import creativize
+import bibtexparser
 
 
 o_name = "_book"
@@ -32,6 +33,7 @@ pygment_theme = "default"
 summary = ""
 summary_indent_level = 4
 style_path = "styles"
+bib_database = None
 
 
 def render_one(file_handle, code_dir) -> str:
@@ -90,6 +92,9 @@ if __name__ == '__main__':
         print("Moving SUMMARY.md...")
         os.rename(os.path.join("/tmp/aaa-repo", aaa_summary), summary_name)
 
+        print("Moving bibtex...")
+        os.rename(os.path.join("/tmp/aaa-repo", "literature.bib"), "literature.bib")
+
         print("Cleanup...")
         shutil.rmtree("/tmp/aaa-repo")
 
@@ -143,6 +148,9 @@ if __name__ == '__main__':
 
     print("Moving styles...")
     shutil.copytree(style_path, f"{o_name}/styles")
+
+    with open('literature.bib') as bibtex_file:
+        bib_database = bibtexparser.load(bibtex_file)
 
     print("Rendering index...")
     with open(index_name, 'r') as readme:

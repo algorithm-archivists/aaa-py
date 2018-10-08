@@ -14,6 +14,7 @@ python-markdown-math = "*"
 gfm = "*"
 requests = "*"
 autolink = "*"
+bibtexparser = "*"
 
 [dev-packages]
 
