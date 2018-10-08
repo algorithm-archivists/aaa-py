@@ -15,6 +15,27 @@
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
+    <script>
+        lang = "julia";
+        function reload() {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    if (element.classList.contains(lang)) {
+                        element.style.display = 'block';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+        };
+        window.onload = () => {
+            reload();
+        };
+    </script>
     <div class="sidenav">
         {% for line in summary %}
             <p>
@@ -28,6 +49,7 @@
     </div>
     <div class="content">
         {{md_text|safe}}
+        <hr>
     </div>
 </body>
 </html>
