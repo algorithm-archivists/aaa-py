@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel=stylesheet href="/pygments.css" type="text/css">
+    <link rel=stylesheet href="/styles/style.css" type="text/css">
+</head>
+<body>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <div class="sidenav">
+        {{summary}}
+    </div>
+    <div class="content">
+        {{md_text}}
+    </div>
+</body>
+</html>
