@@ -7,7 +7,8 @@ import jinja2
 import markdown
 import requests
 import zipfile
-from handle_languages import handle_languages, handle_after_md
+from handle_languages import handle_languages
+from creative import creativize
 
 
 o_name = "_book"
@@ -38,9 +39,9 @@ def render_one(file_handle, code_dir) -> str:
     text = handle_languages(text, code_dir)
     mathjaxed = text.replace('$$', '$')
     mdified = md.convert(mathjaxed)
-    languaged = handle_after_md(mdified)
+    creativized = creativize(mdified)
 
-    rendered = template.render(md_text=languaged, summary=summary)
+    rendered = template.render(md_text=creativized, summary=summary)
     print("Finished rendering the chapter. Reading next...")
     return rendered
 

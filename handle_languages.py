@@ -46,7 +46,3 @@ def handle_languages(code: str, code_dir):
         result += handle_section(section, code_dir)
         result += '\n'
     return result
-
-
-def handle_after_md(code:str):
-    return code
