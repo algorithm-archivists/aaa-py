@@ -7,6 +7,7 @@ import jinja2
 import markdown
 import requests
 import zipfile
+from handle_languages import handle_languages, handle_after_md
 
 
 o_name = "_book"
@@ -32,8 +33,15 @@ summary_indent_level = 4
 style_path = "styles"
 
 
-def render_one(file_handle) -> str:
-    rendered = template.render(md_text=md.convert(file_handle.read().replace('$$', '$')), summary=summary)
+def render_one(file_handle, code_dir) -> str:
+    text = file_handle.read()
+    text = handle_languages(text, code_dir)
+    mathjaxed = text.replace('$$', '$')
+    mdified = md.convert(mathjaxed)
+    languaged = handle_after_md(mdified)
+
+    rendered = template.render(md_text=languaged, summary=summary)
+    print("Finished rendering the chapter. Reading next...")
     return rendered
 
 
@@ -41,7 +49,8 @@ def render_chapter(chapter):
     os.mkdir(f"{o_name}/{contents_name}/{chapter}")
     md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{contents_name}/{chapter}")))
     with open(f"{contents_name}/{chapter}/{md_file}", 'r') as r:
-        contents: str = render_one(r)
+        print(f"Rendering {md_file}...")
+        contents: str = render_one(r, f"{contents_name}/{chapter}")
     with open(f"{o_name}/{contents_name}/{chapter}/{md_file.replace('.md', '.html')}", 'w') as f:
         f.write(contents)
     try:
@@ -117,7 +126,7 @@ if __name__ == '__main__':
     summary = summary.replace(".md", ".html")\
                      .replace("(contents", "(/contents")\
                      .replace('* ', '')\
-                     .replace('README', 'index')
+                     .replace('README', '/index')
     summary_parsed = []
     for index, line in enumerate(summary.split('\n')[2:-1]):
         indent, rest = line.split('[')
@@ -137,5 +146,5 @@ if __name__ == '__main__':
     print("Rendering index...")
     with open(index_name, 'r') as readme:
         with open(f"{o_name}/index.html", 'w') as index:
-            index.write(render_one(readme))
+            index.write(render_one(readme, None))
     print("Done!")

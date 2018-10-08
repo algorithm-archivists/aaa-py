@@ -13,6 +13,7 @@ python-markdown-math = "*"
 "jinja2" = "*"
 gfm = "*"
 requests = "*"
+autolink = "*"
 
 [dev-packages]
 

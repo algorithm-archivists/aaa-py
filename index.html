@@ -24,9 +24,10 @@
                 <a href="{{line[1]}}">{{line[0]}}</a>
             </p>
         {% endfor %}
+        <hr>
     </div>
     <div class="content">
-        {{md_text}}
+        {{md_text|safe}}
     </div>
 </body>
 </html>
