@@ -16,7 +16,14 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
     <div class="sidenav">
-        {{summary}}
+        {% for line in summary %}
+            <p>
+                {% for _ in range(line[2]) %}
+                    &nbsp;
+                {% endfor %}
+                <a href="{{line[1]}}">{{line[0]}}</a>
+            </p>
+        {% endfor %}
     </div>
     <div class="content">
         {{md_text}}

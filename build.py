@@ -20,7 +20,8 @@ aaa_summary = "SUMMARY.md"
 aaa_repo_path = "algorithm-archive-master"
 ext = [
     "fenced_code",
-    "codehilite"
+    "codehilite",
+    "tables"
 ]
 md = markdown.Markdown(extensions=ext)
 template = None
@@ -45,6 +46,10 @@ def render_chapter(chapter):
         f.write(contents)
     try:
         shutil.copytree(f"{contents_name}/{chapter}/res", f"{o_name}/{contents_name}/{chapter}/res")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.copytree(f"{contents_name}/{chapter}/code", f"{o_name}/{contents_name}/{chapter}/code")
     except FileNotFoundError:
         pass
 
@@ -118,7 +123,7 @@ if __name__ == '__main__':
         indent, rest = line.split('[')
         name, link = rest.split('](')
         link = link[:-1]
-        current_indent = len(indent) / summary_indent_level
+        current_indent = len(indent) // summary_indent_level
         summary_parsed.append((name, link, current_indent))
     summary = summary_parsed
 
