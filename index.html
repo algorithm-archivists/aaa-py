@@ -16,7 +16,8 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
     <script>
-        lang = "julia";
+        var lang = "julia";
+        var langs = new Set([]);
         function reload() {
             var samples = document.getElementsByClassName("code-section");
             for (var a = 0; a < samples.length; a++) {
@@ -24,6 +25,7 @@
                 var children = sample.children;
                 for (var b = 0; b < children.length; b++)  {
                     var element = children[b];
+                    langs.add(new Array(element.classList).filter(a => a != "codehilite"));
                     if (element.classList.contains(lang)) {
                         element.style.display = 'block';
                     } else {
