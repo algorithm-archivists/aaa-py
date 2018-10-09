@@ -5,6 +5,7 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 import pygments
+from build import pygment_theme
 
 
 def handle_section(section: str, code_dir):
@@ -45,7 +46,7 @@ def handle_section(section: str, code_dir):
                         lexer = get_lexer_by_name("c")
                     else:
                         lexer = get_lexer_by_name("python")
-                res += highlight(source_code, lexer, HtmlFormatter())
+                res += highlight(source_code, lexer, HtmlFormatter(style=pygment_theme))
             else:
                 res += markdown.markdown(line) + '\n\n'
         result += f'<div class="{lang} codehilite">\n'

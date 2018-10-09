@@ -17,7 +17,6 @@
     </script>
     <script>
         var lang = "julia";
-        var langs = new Set([]);
         function reload() {
             var samples = document.getElementsByClassName("code-section");
             for (var a = 0; a < samples.length; a++) {
@@ -25,7 +24,6 @@
                 var children = sample.children;
                 for (var b = 0; b < children.length; b++)  {
                     var element = children[b];
-                    langs.add(new Array(element.classList).filter(a => a != "codehilite"));
                     if (element.classList.contains(lang)) {
                         element.style.display = 'block';
                     } else {
@@ -37,14 +35,17 @@
         window.onload = () => {
             reload();
         };
+        var index = {{index}};
+        var pages = [];
     </script>
     <div class="sidenav">
-        {% for line in summary %}
+        {% for i, line in enumerate(summary) %}
             <p>
                 {% for _ in range(line[2]) %}
                     &nbsp;
                 {% endfor %}
                 <a href="{{line[1]}}">{{line[0]}}</a>
+                <script>pages[{{i}}] = "{{line[0]}}"</script>
             </p>
         {% endfor %}
         <hr>
