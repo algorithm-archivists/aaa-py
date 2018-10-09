@@ -46,12 +46,15 @@ def handle_section(section: str, code_dir):
                         lexer = get_lexer_by_name("c")
                     else:
                         lexer = get_lexer_by_name("python")
+                res += '<div class=codehilite>'
                 res += highlight(source_code, lexer, HtmlFormatter(style=pygment_theme))
+                res += '</div>'
             else:
                 res += markdown.markdown(line) + '\n\n'
-        result += f'<div class="{lang} codehilite">\n'
-        result += res
-        result += '\n</div>'
+        if lang is not None:
+            result += f'<div class="{lang}">\n'
+            result += res
+            result += '\n</div>'
     result += '\n</div>'
     return section.replace(code, result).replace("{% endmethod %}", '')
 

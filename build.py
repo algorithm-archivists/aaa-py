@@ -78,32 +78,32 @@ if __name__ == '__main__':
     if contents_name not in os.listdir("."):
         print("No contents present, cloning...")
         origin = requests.get(aaa_origin)
-        with open("/tmp/aaa-repo.zip", 'wb') as origin_zip:
+        with open("aaa-repo.zip", 'wb') as origin_zip:
             origin_zip.write(origin.content)
 
         print("Cloned, extracting...")
-        with zipfile.ZipFile("/tmp/aaa-repo.zip", 'r') as origin_zip:
+        with zipfile.ZipFile("aaa-repo.zip", 'r') as origin_zip:
             origin_zip.extractall("/tmp/aaa-repo-all")
-        os.rename(f"/tmp/aaa-repo-all/{aaa_repo_path}", "/tmp/aaa-repo")
+        shutil.move(f"aaa-repo-all/{aaa_repo_path}", "aaa-repo")
 
         print("Cleanup...")
-        shutil.rmtree("/tmp/aaa-repo-all")
-        os.remove("/tmp/aaa-repo.zip")
+        shutil.rmtree("aaa-repo-all")
+        os.remove("aaa-repo.zip")
 
         print("Extracted, moving...")
-        os.rename(os.path.join("/tmp/aaa-repo", aaa_path), contents_name)
+        shutil.move(os.path.join("aaa-repo", aaa_path), contents_name)
 
         print("Moving README.md...")
-        os.rename(os.path.join("/tmp/aaa-repo", aaa_readme), index_name)
+        shutil.move(os.path.join("aaa-repo", aaa_readme), index_name)
 
         print("Moving SUMMARY.md...")
-        os.rename(os.path.join("/tmp/aaa-repo", aaa_summary), summary_name)
+        shutil.move(os.path.join("aaa-repo", aaa_summary), summary_name)
 
         print("Moving bibtex...")
-        os.rename("/tmp/aaa-repo/literature.bib", "literature.bib")
+        shutil.move("aaa-repo/literature.bib", "literature.bib")
 
         print("Cleanup...")
-        shutil.rmtree("/tmp/aaa-repo")
+        shutil.move("aaa-repo")
 
         print("Cleanup successful, building...")
     else:

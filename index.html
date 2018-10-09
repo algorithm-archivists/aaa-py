@@ -5,6 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel=stylesheet href="/pygments.css" type="text/css">
     <link rel=stylesheet href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
     <script type="text/x-mathjax-config">
@@ -17,6 +18,7 @@
     </script>
     <script>
         var lang = "julia";
+        var langs = {};
         function reload() {
             var samples = document.getElementsByClassName("code-section");
             for (var a = 0; a < samples.length; a++) {
@@ -24,21 +26,35 @@
                 var children = sample.children;
                 for (var b = 0; b < children.length; b++)  {
                     var element = children[b];
-                    if (element.classList.contains(lang)) {
+                    if (element.className == lang) {
                         element.style.display = 'block';
                     } else {
                         element.style.display = 'none';
                     }
+                    langs[element.className] = true;
                 };
             };
         };
         window.onload = () => {
             reload();
+            document.getElementById("name").innerText = pages[index];
         };
         var index = {{index}};
         var pages = [];
+        var shown = true;
+        function flipSidebar() {
+            if (shown) {
+                // hide
+            } else {
+                // show
+            }
+            shown = !shown;
+        }
     </script>
-    <div class="sidenav">
+    <nav id="navbar">
+        <span onclick="flipSidebar()"><i class="fas fa-bars"></i></span>&nbsp;<span id="name"></span>
+    </nav>
+    <div class="sidenav" id="sidenav">
         {% for i, line in enumerate(summary) %}
             <p>
                 {% for _ in range(line[2]) %}
