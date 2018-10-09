@@ -19,10 +19,25 @@ def handle_section(section: str, code_dir):
         res = ''
         for line in language.split('\n'):
             if line.startswith("[import"):
+                ns = line.split("import")[1]
+                nsed = ":" == ns[0]
+                if nsed:
+                    if ", " in ns:
+                        ns = ns[1:].split(", ")[0]
+                else:
+                    ns = ns[1:].split(" ")[0]
                 lang = line.split('lang')[1][2:].split('"')[0]
                 lnk = line.split('](')[1].split(')')[0]
                 with open(os.path.join(code_dir, lnk)) as source:
                     source_code = source.read()
+                    if nsed:
+                        if ns[0] == ":":
+                            ns = ns[1:]
+                        a, b = ns.split("-")
+                        if " " in b:
+                            b = b.split(" ")[0]
+                        if a and b:
+                            source_code = "\n".join(source_code.split("\n")[int(a)-1:int(b)])
                 try:
                     lexer = get_lexer_by_name(lang)
                 except pygments.util.ClassNotFound:
