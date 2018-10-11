@@ -9,6 +9,7 @@ import requests
 import zipfile
 from creative import creativize
 import pybtex.database
+from mathjaxify import mathjaxify
 
 
 o_name = "_book"
@@ -38,10 +39,10 @@ bib_database = {}
 def render_one(file_handle, code_dir, index) -> str:
     text = file_handle.read()
     from handle_languages import handle_languages
-    text = handle_languages(text, code_dir)
-    mathjaxed = text.replace('$$', '$')
-    mdified = md.convert(mathjaxed)
-    creativized = creativize(mdified)
+    handled = handle_languages(text, code_dir)
+    mdified = md.convert(handled)
+    mathjaxed = mathjaxify(mdified)
+    creativized = creativize(mathjaxed)
     from bibtexivize import bibtex
     bibtexivized, formatted = bibtex(creativized, bib_database, path=code_dir, use_path=False)
 
