@@ -10,6 +10,8 @@ import zipfile
 from creative import creativize
 import pybtex.database
 from mathjaxify import mathjaxify
+from importize import importize
+from bibtexivize import bibtex
 
 
 o_name = "_book"
@@ -24,7 +26,8 @@ aaa_repo_path = "algorithm-archive-master"
 ext = [
     "fenced_code",
     "codehilite",
-    "tables"
+    "tables",
+    "mdx_links"
 ]
 md = markdown.Markdown(extensions=ext)
 template = None
@@ -39,14 +42,14 @@ bib_database = {}
 def render_one(file_handle, code_dir, index) -> str:
     text = file_handle.read()
     from handle_languages import handle_languages
-    handled = handle_languages(text, code_dir)
+    handled = handle_languages(text)
     mdified = md.convert(handled)
     mathjaxed = mathjaxify(mdified)
     creativized = creativize(mathjaxed)
-    from bibtexivize import bibtex
     bibtexivized, formatted = bibtex(creativized, bib_database, path=code_dir, use_path=False)
+    finalized = importize(bibtexivized, code_dir, pygment_theme)
 
-    rendered = template.render(md_text=bibtexivized, summary=summary, index=index, enumerate=enumerate)
+    rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate)
     print("Finished rendering the chapter. Reading next...")
     return rendered
 
