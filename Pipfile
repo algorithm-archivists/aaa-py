@@ -15,6 +15,7 @@ gfm = "*"
 requests = "*"
 autolink = "*"
 bibtexparser = "*"
+pybtex = "*"
 
 [dev-packages]
 
