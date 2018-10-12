@@ -81,20 +81,21 @@ if __name__ == '__main__':
     print("Detecting if contents present...")
     if contents_name not in os.listdir("."):
         print("No contents present, cloning...")
-        origin = requests.get(aaa_origin)
+        origin = requests.get(aaa_origin, stream=True)
         with open("aaa-repo.zip", 'wb') as origin_zip:
-            origin_zip.write(origin.content)
+            shutil.copyfileobj(origin.raw, origin_zip)
+        del origin
 
         print("Cloned, extracting...")
         with zipfile.ZipFile("aaa-repo.zip", 'r') as origin_zip:
-            origin_zip.extractall("/tmp/aaa-repo-all")
+            origin_zip.extractall("aaa-repo-all")
         shutil.move(f"aaa-repo-all/{aaa_repo_path}", "aaa-repo")
 
         print("Cleanup...")
         shutil.rmtree("aaa-repo-all")
         os.remove("aaa-repo.zip")
 
-        print("Extracted, moving...")
+        print("Cleaned up, moving...")
         shutil.move(os.path.join("aaa-repo", aaa_path), contents_name)
 
         print("Moving README.md...")
@@ -107,7 +108,7 @@ if __name__ == '__main__':
         shutil.move("aaa-repo/literature.bib", "literature.bib")
 
         print("Cleanup...")
-        shutil.move("aaa-repo")
+        shutil.rmtree("aaa-repo")
 
         print("Cleanup successful, building...")
     else:
