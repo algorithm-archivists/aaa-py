@@ -1,2 +1,2 @@
 import os
-os.system("python build.py; cd _book; python -m http.server 80")
+os.system("python build.py; cd _book; sudo python -m http.server 80")
