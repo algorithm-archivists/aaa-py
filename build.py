@@ -12,7 +12,7 @@ import pybtex.database
 from mathjaxify import mathjaxify
 from importize import importize
 from bibtexivize import bibtex
-
+import json
 
 o_name = "_book"
 contents_name = "contents"
@@ -37,6 +37,7 @@ summary = ""
 summary_indent_level = 4
 style_path = "styles"
 bib_database = {}
+book_json = ""
 
 
 def render_one(file_handle, code_dir, index) -> str:
@@ -49,7 +50,8 @@ def render_one(file_handle, code_dir, index) -> str:
     bibtexivized, formatted = bibtex(creativized, bib_database, path=code_dir, use_path=False)
     finalized = importize(bibtexivized, code_dir, pygment_theme)
 
-    rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate)
+    rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,
+                               bjs=json.dumps(book_json))
     print("Finished rendering the chapter. Reading next...")
     return rendered
 
@@ -107,6 +109,9 @@ if __name__ == '__main__':
         print("Moving bibtex...")
         shutil.move("aaa-repo/literature.bib", "literature.bib")
 
+        print("Moving book.json...")
+        shutil.move("aaa-repo/book.json", "book.json")
+
         print("Cleanup...")
         shutil.rmtree("aaa-repo")
 
@@ -156,6 +161,10 @@ if __name__ == '__main__':
 
     print("Opening bibtex...")
     bib_database = pybtex.database.parse_file("literature.bib")
+
+    print("Opening book.json...")
+    with open("book.json") as bjs:
+        book_json = json.load(bjs)
 
     print("Rendering chapters...")
     for chapter in chapters:

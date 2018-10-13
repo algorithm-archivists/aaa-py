@@ -17,8 +17,31 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
     <script>
+        var bjs = {{bjs}};
         var lang = "jl";
         var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash"
+        };
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+            langs = Object.keys(langs);
+            langNames.forEach(element => {translations[element.lang] = element.name});
+        }
         function reload() {
             var samples = document.getElementsByClassName("code-section");
             for (var a = 0; a < samples.length; a++) {
@@ -31,13 +54,14 @@
                     } else {
                         element.style.display = 'none';
                     }
-                    langs[element.className] = true;
                 };
             };
         };
         window.onload = () => {
+            initLangs();
             reload();
             document.getElementById("name").innerText = pages[index];
+            initLs();
         };
         var index = {{index}};
         var pages = [];
@@ -50,9 +74,63 @@
             }
             shown = !shown;
         }
+        var lsed = false;
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+        var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                var h1 = 0;
+                var h2 = 0;
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+                    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs." + language + "()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    if (i % 2) {
+                        h2 += 1
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        h1 += 1
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (h1 > h2) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
+                }
+            }
+        }
     </script>
     <nav id="navbar">
-        <span onclick="flipSidebar()"><i class="fas fa-bars"></i></span>&nbsp;<span id="name"></span>
+        <span onclick="flipSidebar()"><i class="fas fa-bars"></i></span>
+        <span onclick="flipLs()" id="flipper">&nbsp;
+            <i class="fas fa-code"></i>
+            <div class=ls id=ls></div>
+            <div class=ls2 id=ls2></div>
+        </span>
+        &nbsp;<span id="name"></span>
     </nav>
     <div class="sidenav" id="sidenav">
         {% for i, line in enumerate(summary) %}

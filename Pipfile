@@ -4,17 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
 markdown = "*"
-sh = "*"
 pygments = "*"
-gitpython = "*"
-python-markdown-math = "*"
 "jinja2" = "*"
-gfm = "*"
 requests = "*"
-autolink = "*"
-bibtexparser = "*"
+gunicorn = "*"
 pybtex = "*"
 
 [dev-packages]
