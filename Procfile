@@ -1,1 +1,1 @@
-web: python run.py
+web: python build.py; python -m http.server 80
