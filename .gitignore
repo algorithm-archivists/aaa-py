@@ -509,6 +509,7 @@ vscode/
 # Python stuff
 .mypy_cache
 .clang-format
-content/s
+contents/
 SUMMARY.md
 literature.bib
+book.json
