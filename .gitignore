@@ -1,3 +1,8 @@
+_book
+.vscode
+contents
+book.json
+literature.bib
 
 # Created by https://www.gitignore.io/api/vim,linux,emacs,macos,windows,gitbook,sublimetext,visualstudio,visualstudiocode
 
