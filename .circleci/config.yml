@@ -23,4 +23,5 @@ jobs:
       - run:
           command: |
             pipenv run "python test.py"
-
+      - store_test_results:
+          path: test-results
