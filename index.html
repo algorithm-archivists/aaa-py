@@ -17,8 +17,31 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
     <script>
+        var bjs = {{bjs}};
         var lang = "jl";
         var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash"
+        };
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+            langs = Object.keys(langs);
+            langNames.forEach(element => {translations[element.lang] = element.name});
+        }
         function reload() {
             var samples = document.getElementsByClassName("code-section");
             for (var a = 0; a < samples.length; a++) {
@@ -31,12 +54,11 @@
                     } else {
                         element.style.display = 'none';
                     }
-                    langs[element.className] = true;
                 };
             };
-            langs = Object.keys(langs)
         };
         window.onload = () => {
+            initLangs();
             reload();
             document.getElementById("name").innerText = pages[index];
             initLs();
@@ -70,6 +92,8 @@
             if (langs.length === 0) {
                 document.getElementById("flipper").remove();
             } else {
+                var h1 = 0;
+                var h2 = 0;
                 for (var i = 0; i < langs.length; i++) {
                     let language = langs[i];
                     var elem = document.createElement("p");
@@ -78,17 +102,23 @@
                         lang = language;
                         reload();
                     };
-                    elem.innerHTML = "<a onclick='funcs." + language + "()' href='#' class=ls-link>" + language + "</a>";
+                    elem.innerHTML = "<a onclick='funcs." + language + "()' href='#' class=ls-link>" + translations[language] + "</a>";
                     if (i % 2) {
+                        h2 += 1
                         document.getElementById("ls2").appendChild(elem);
                     } else {
+                        h1 += 1
                         document.getElementById("ls").appendChild(elem);
                     }
                 }
-                if (langs.length % 2) {
+                if (h1 > h2) {
                     var elem = document.createElement("p");
-                    document.getElementById("ls2").appendChild(elem);
                     elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
                 }
             }
         }
