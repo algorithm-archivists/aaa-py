@@ -34,10 +34,12 @@
                     langs[element.className] = true;
                 };
             };
+            langs = Object.keys(langs)
         };
         window.onload = () => {
             reload();
             document.getElementById("name").innerText = pages[index];
+            initLs();
         };
         var index = {{index}};
         var pages = [];
@@ -50,9 +52,55 @@
             }
             shown = !shown;
         }
+        var lsed = false;
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+        var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+                    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs." + language + "()' href='#' class=ls-link>" + language + "</a>";
+                    if (i % 2) {
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (langs.length % 2) {
+                    var elem = document.createElement("p");
+                    document.getElementById("ls2").appendChild(elem);
+                    elem.innerHTML = "&nbsp;";
+                }
+            }
+        }
     </script>
     <nav id="navbar">
-        <span onclick="flipSidebar()"><i class="fas fa-bars"></i></span>&nbsp;<span id="name"></span>
+        <span onclick="flipSidebar()"><i class="fas fa-bars"></i></span>
+        <span onclick="flipLs()" id="flipper">&nbsp;
+            <i class="fas fa-code"></i>
+            <div class=ls id=ls></div>
+            <div class=ls2 id=ls2></div>
+        </span>
+        &nbsp;<span id="name"></span>
     </nav>
     <div class="sidenav" id="sidenav">
         {% for i, line in enumerate(summary) %}
