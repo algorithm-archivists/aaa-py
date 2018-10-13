@@ -1,1 +1,1 @@
-web: python build.py; python -m http.server 80
+web: python build.py; cd _book; python -m http.server
