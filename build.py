@@ -34,7 +34,8 @@ def render_chapter(chapter):
     with open(f"{contents_name}/{chapter}/{md_file}", 'r') as r:
         print(f"Rendering {md_file}...")
         try:
-            index = [k[0] for k in filter(lambda x: x[1] in out_file, [(i, a[1]) for i, a in enumerate(summary)])][0]
+            index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
+                                          [(i, a[1]) for i, a in enumerate(summary)])][0]
         except IndexError:
             return
         contents: str = render_one(r, f"{contents_name}/{chapter}", index)
@@ -108,7 +109,7 @@ if __name__ == '__main__':
     os.mkdir(f"{o_name}/{contents_name}")
 
     print("Done making, looking for chapters...")
-    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_]+$', a), os.listdir(contents_name))
+    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a), os.listdir(contents_name))
 
     print("Looking for the template...")
     with open(template_path, 'r') as template_file:
