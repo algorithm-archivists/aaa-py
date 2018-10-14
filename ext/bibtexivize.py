@@ -19,18 +19,27 @@ def bibtex(code, bib_database, path, use_path=False):
         to_ref = ref.split('"')[1]
         halves[index] = ref.split('{{ ')[0]
         references.append(to_ref)
-        halves[index] += f'<a href="#ref-{to_ref}">[{index + 1}]</a>'
+        halves[index] += f'<a href="#ref-{index + 1}">[{index + 1}]</a>'
     code = "".join(halves)
     formatted = []
+    count = 1
     for i in references:
         if "/" in i:
             cd, form = bibtex("", bib_database, os.path.join(path, i), True)
+            for index, e in enumerate(form):
+                a, b, *c = e.split('"')
+                form[index] = a + '"' + "ref-" + str(count + index) + '"' + '"'.join(c)
+            formatted += form
+            count += len(form)
         else:
             entry = bib_database.entries[i]
             author = entry.fields['author']
             title = entry.fields['title']
             publisher = entry.fields['publisher']
             year = entry.fields['year']
-            formatted.append(f"{author}: {title}, <i>{publisher}</i>, {year}")
-    code = ("\n".join(formatted)).join(code.split('{% references %} {% endreferences %}'))
+            jumper = f"<a name=\"ref-{count}\" class=bib-link></a>"
+            string = f"{author}: {title}, <i>{publisher}</i>, {year}"
+            formatted.append(jumper + string)
+            count += 1
+    code = ("".join(formatted)).join(code.split('{% references %} {% endreferences %}'))
     return code, formatted
