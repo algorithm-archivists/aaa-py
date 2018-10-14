@@ -1,6 +1,7 @@
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
+from pygments.util import ClassNotFound
 import os
 from .extension import Extension
 
@@ -36,11 +37,20 @@ def importize(code, path, theme='default'):
                     if i >= start - 1 and i <= end - 1:
                         res += line
             result += '<div class="codehilite">\n'
-            lang = "python"
+            try:
+                lang = txt.split('lang="')[1].split('"')[0]
+            except IndexError:
+                lang = 'python'
             if lang in cache:
                 lexer = cache[lang]
             else:
-                lexer = get_lexer_by_name(lang)
+                try:
+                    lexer = get_lexer_by_name(lang)
+                except ClassNotFound:
+                    if lang == "c_cpp":
+                        lexer = get_lexer_by_name("c")
+                    else:
+                        lexer = get_lexer_by_name("python")
                 cache[lang] = lexer
             if formatter is None:
                 formatter = HtmlFormatter(style=theme)
