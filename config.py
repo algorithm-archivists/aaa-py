@@ -29,3 +29,4 @@ import_files = {
     "book.json": "book.json"
 }
 favicon_path = "favicon.ico"
+num_workers = 4

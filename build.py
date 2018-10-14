@@ -10,6 +10,7 @@ import json
 import sys
 from config import *
 from ext import get_ext
+from multiprocessing import Pool
 
 
 md = markdown.Markdown(extensions=ext)
@@ -145,8 +146,7 @@ if __name__ == '__main__':
     renderer = get_ext(bib_database, pygment_theme, md)
 
     print("Rendering chapters...")
-    for chapter in chapters:
-        render_chapter(chapter)
+    Pool(num_workers).map(render_chapter, chapters)
 
     print("Moving favicon.ico...")
     shutil.copy(favicon_path, f"{o_name}/favicon.ico")
