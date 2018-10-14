@@ -28,3 +28,4 @@ import_files = {
     "literature.bib": "literature.bib",
     "book.json": "book.json"
 }
+favicon_path = "favicon.ico"

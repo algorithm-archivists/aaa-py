@@ -148,6 +148,9 @@ if __name__ == '__main__':
     for chapter in chapters:
         render_chapter(chapter)
 
+    print("Moving favicon.ico...")
+    shutil.copy(favicon_path, f"{o_name}/favicon.ico")
+
     print("Moving styles...")
     shutil.copytree(style_path, f"{o_name}/styles")
 
