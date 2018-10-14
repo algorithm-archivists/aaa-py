@@ -2,6 +2,12 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 import os
+from .extension import Extension
+
+
+class Importize(Extension):
+    def run(self, code, path):
+        return importize(code, path, self.theme)
 
 
 formatter = None

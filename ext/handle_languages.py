@@ -1,4 +1,10 @@
 import markdown
+from .extension import Extension
+
+
+class HandleLanguages(Extension):
+    def run(self, code, path):
+        return handle_languages(code)
 
 
 def handle_section(section: str):

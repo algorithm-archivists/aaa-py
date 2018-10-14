@@ -1,54 +1,24 @@
 import os
 import shutil
-from pprint import pprint
-import pygments
 import re
 import jinja2
 import markdown
 import requests
 import zipfile
-from creative import creativize
 import pybtex.database
-from mathjaxify import mathjaxify
-from importize import importize
-from bibtexivize import bibtex
 import json
+import sys
+from config import *
+from ext import get_ext
 
-o_name = "_book"
-contents_name = "contents"
-index_name = "README.md"
-summary_name = "SUMMARY.md"
-aaa_origin = "https://github.com/algorithm-archivists/algorithm-archive/archive/master.zip"
-aaa_path = "contents"
-aaa_readme = "README.md"
-aaa_summary = "SUMMARY.md"
-aaa_repo_path = "algorithm-archive-master"
-ext = [
-    "fenced_code",
-    "codehilite",
-    "tables",
-    "mdx_links"
-]
+
 md = markdown.Markdown(extensions=ext)
-template = None
-template_path = "index.html"
-pygment_theme = "friendly"
-summary = ""
-summary_indent_level = 4
-style_path = "styles"
-bib_database = {}
-book_json = ""
+renderer = None
 
 
 def render_one(file_handle, code_dir, index) -> str:
     text = file_handle.read()
-    from handle_languages import handle_languages
-    handled = handle_languages(text)
-    mdified = md.convert(handled)
-    mathjaxed = mathjaxify(mdified)
-    creativized = creativize(mathjaxed)
-    bibtexivized, formatted = bibtex(creativized, bib_database, path=code_dir, use_path=False)
-    finalized = importize(bibtexivized, code_dir, pygment_theme)
+    finalized = renderer(text, code_dir)
 
     rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,
                                bjs=json.dumps(book_json))
@@ -81,12 +51,26 @@ def render_chapter(chapter):
 
 if __name__ == '__main__':
     print("Detecting if contents present...")
-    if contents_name not in os.listdir("."):
+    do_clone = False
+    for file in import_files:
+        if file not in os.listdir("."):
+            do_clone = True
+    if do_clone:
         print("No contents present, cloning...")
-        origin = requests.get(aaa_origin, stream=True)
-        with open("aaa-repo.zip", 'wb') as origin_zip:
-            shutil.copyfileobj(origin.raw, origin_zip)
-        del origin
+        with open("aaa-repo.zip", "wb") as f:
+            response = requests.get(aaa_origin, stream=True)
+            total_length = response.headers.get('content-length')
+            if total_length is None:
+                f.write(response.content)
+            else:
+                dl = 0
+                total_length = int(total_length)
+                for data in response.iter_content(chunk_size=4096):
+                    dl += len(data)
+                    f.write(data)
+                    done = int(50 * dl / total_length)
+                    sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50 - done)))
+                    sys.stdout.flush()
 
         print("Cloned, extracting...")
         with zipfile.ZipFile("aaa-repo.zip", 'r') as origin_zip:
@@ -98,19 +82,10 @@ if __name__ == '__main__':
         os.remove("aaa-repo.zip")
 
         print("Cleaned up, moving...")
-        shutil.move(os.path.join("aaa-repo", aaa_path), contents_name)
 
-        print("Moving README.md...")
-        shutil.move(os.path.join("aaa-repo", aaa_readme), index_name)
-
-        print("Moving SUMMARY.md...")
-        shutil.move(os.path.join("aaa-repo", aaa_summary), summary_name)
-
-        print("Moving bibtex...")
-        shutil.move("aaa-repo/literature.bib", "literature.bib")
-
-        print("Moving book.json...")
-        shutil.move("aaa-repo/book.json", "book.json")
+        for file, name in import_files.items():
+            print(f"Moving {file}...")
+            shutil.move(os.path.join("aaa-repo", file), name)
 
         print("Cleanup...")
         shutil.rmtree("aaa-repo")
@@ -165,6 +140,9 @@ if __name__ == '__main__':
     print("Opening book.json...")
     with open("book.json") as bjs:
         book_json = json.load(bjs)
+
+    print("Creating rendering pipeline...")
+    renderer = get_ext(bib_database, pygment_theme, md)
 
     print("Rendering chapters...")
     for chapter in chapters:
