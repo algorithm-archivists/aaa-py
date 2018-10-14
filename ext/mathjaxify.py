@@ -16,7 +16,10 @@ def mathjaxify(code):
                 .replace('</em>', '*')\
                 .replace('&lt;', '<')\
                 .replace('&gt;', '>')\
-                .replace("&amp;", "&")
+                .replace("&amp;", "&")\
+                .replace("\\left{", "\\left[")\
+                .replace("\\right.", "\\right]")\
+                .replace("\\\n", "\\\\\n")
             result += "<script type='math/tex'>"
             result += section
             result += "</script>"
