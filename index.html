@@ -134,27 +134,29 @@
                 {% for _ in range(line[2]) %}
                     &nbsp;
                 {% endfor %}
-                <a href="{{line[1]}}">{{line[0]}}</a>
+                <a name="{{line[0]}}"></a>
+                <a href="{{line[1]}}#{{line[0]}}">{{line[0]}}</a>
                 <script>pages[{{i}}] = "{{line[0]}}"</script>
             </p>
         {% endfor %}
         <hr>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id=navbar>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <button type="button" class="btn btn-info" onclick="toggleSidenav()">
-                        <i class="fas fa-align-left"></i>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    &nbsp;<button type="button" class="btn btn-info" onclick="flipLs()">
-                        <i class="fas fa-code"></i>
-                    </button>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbarrio" id=navbar>
+        <ul class="navbarro">
+            <li>
+                <span onclick="toggleSidenav()">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </li>
+            <li>
+                <span onclick="flipLs()">
+                    <i class="fas fa-code"></i>
+                </span>
+            </li>
+            <li>
+                <span id=name></span>
+            </li>
+        </ul>
     </nav>
     <div class="container-fluid on-sidebar" id="content">
         {{md_text|safe}}

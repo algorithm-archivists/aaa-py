@@ -3,6 +3,8 @@
     position: fixed;
     width: 100%;
     margin-left: 250px;
+    font-size: 20px !important;
+    text-align: left;
 }
 
 #navbar.no-sidebar {
@@ -32,6 +34,42 @@
     margin-left: -250px;
 }
 
+#sidebar p a {
+    color: #364149;
+}
+
+#sidebar p a:active {
+    color: #008cff;
+}
+
+.navbarro li {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+}
+
+.navbarro li span {
+    font-weight: 200;
+    color: rgba(0,0,0,.2);
+}
+
+.navbarro {
+    overflow: hidden;
+    list-style-type: none;
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+}
+
+.navbarrio {
+    background: #fafafa;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0,0,0,.07);
+    padding-left: 2px;
+    padding-bottom: 2px;
+}
+
 #content {
     margin-left: 0px;
     text-align: justify;
@@ -51,17 +89,18 @@
     }
     #sidebar.hide {
         margin-left: 0;
+        width: 60%;
     }
 
     #content {
-        margin-left: 100%;
-        max-width: 100%;
+        margin-left: 60%;
+        max-width: 40%;
     }
 
     #content.on-sidebar {
         margin-left: 0px;
-        padding-right: 100px;
-        max-width: 0%;
+        padding-right: 10px;
+        max-width: 100%;
     }
 
     #navbar {
@@ -72,8 +111,8 @@
     }
     
     #navbar.no-sidebar {
-        margin-left: 100%;
-    }    
+        margin-left: 60%;
+    }
 }
 
 blockquote {
@@ -103,13 +142,5 @@ div .codehilite {
 }
 
 a {
-    color: #008cff;
-}
-
-.sidenbar a {
-    color: #364149;
-}
-
-.sidebar a:active {
     color: #008cff;
 }
