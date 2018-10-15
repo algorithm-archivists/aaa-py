@@ -155,6 +155,13 @@ if __name__ == '__main__':
     print("Moving styles...")
     shutil.copytree(style_path, f"{o_name}/styles")
 
+    print("Parsing redirects...")
+    with open("redirects.json") as rjs_file:
+        rjs = json.load(rjs_file)
+    rjs = {i["from"]:i["to"] for i in rjs["redirects"]}
+    with open("redirects.json", 'w') as rjs_file:
+        json.dump(rjs, rjs_file)
+
     print("Rendering index...")
     with open(index_name, 'r') as readme:
         with open(f"{o_name}/index.html", 'w') as index:

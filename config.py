@@ -26,7 +26,8 @@ import_files = {
     "README.md": "README.md",
     "contents": "contents",
     "literature.bib": "literature.bib",
-    "book.json": "book.json"
+    "book.json": "book.json",
+    "redirects.json": "redirects.json"
 }
 favicon_path = "favicon.ico"
 num_workers = 4
