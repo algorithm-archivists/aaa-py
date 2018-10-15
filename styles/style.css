@@ -49,8 +49,8 @@
 }
 
 .navbarro li span {
-    font-weight: 200;
-    color: rgba(0,0,0,.2);
+    font-weight: 300;
+    color: rgba(0,0,0,.4);
 }
 
 .navbarro {
@@ -163,6 +163,7 @@ a {
     border-width: 1px;
     border-color: rgba(0,0,0,.07);
     border-style: solid;
+    
 }
 
 .ls {
@@ -180,7 +181,8 @@ a {
 
 .ls p a, .ls2 p a {
     color: rgba(0,0,0,.2);
-    font-weight: 200;
+    font-weight: 300;
+    color: rgba(0,0,0,.4);
     text-align: center
 }
 
