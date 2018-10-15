@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel=stylesheet href="/pygments.css" type="text/css">
     <link rel=stylesheet href="/styles/style.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <title id="ttl"></title>
-     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
     <script type="text/x-mathjax-config">
@@ -15,8 +17,10 @@
         });
     </script>
     <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script>
         var bjs = {{bjs}};
         var lang = "jl";
@@ -70,15 +74,6 @@
         };
         var index = {{index}};
         var pages = [];
-        var shown = true;
-        function flipSidebar() {
-            if (shown) {
-                // hide
-            } else {
-                // show
-            }
-            shown = !shown;
-        }
         var lsed = false;
         function flipLs () {
             var ls = document.getElementById("ls");
@@ -127,17 +122,13 @@
                 }
             }
         }
+        function toggleSidenav () {
+            $("#sidebar").toggleClass("hide");
+            $("#content").toggleClass("on-sidebar");
+            $("#navbar").toggleClass("no-sidebar");
+        }
     </script>
-    <nav id="navbar">
-        <span onclick="flipSidebar()"><i class="fas fa-bars"></i></span>
-        <span onclick="flipLs()" id="flipper">&nbsp;
-            <i class="fas fa-code"></i>
-            <div class=ls id=ls></div>
-            <div class=ls2 id=ls2></div>
-        </span>
-        &nbsp;<span id="name"></span>
-    </nav>
-    <div class="sidenav" id="sidenav">
+    <div class="sidebar-wrapper" id="sidebar">
         {% for i, line in enumerate(summary) %}
             <p>
                 {% for _ in range(line[2]) %}
@@ -149,7 +140,23 @@
         {% endfor %}
         <hr>
     </div>
-    <div class="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id=navbar>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-info" onclick="toggleSidenav()">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    &nbsp;<button type="button" class="btn btn-info" onclick="flipLs()">
+                        <i class="fas fa-code"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid on-sidebar" id="content">
         {{md_text|safe}}
         <hr>
     </div>

@@ -159,7 +159,7 @@ if __name__ == '__main__':
     with open("redirects.json") as rjs_file:
         rjs = json.load(rjs_file)
     rjs = {i["from"]:i["to"] for i in rjs["redirects"]}
-    with open("redirects.json", 'w') as rjs_file:
+    with open(f"{o_name}/redirects.json", 'w') as rjs_file:
         json.dump(rjs, rjs_file)
 
     print("Rendering index...")
