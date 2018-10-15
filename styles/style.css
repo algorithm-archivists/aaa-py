@@ -75,12 +75,14 @@
     text-align: justify;
     padding-top: 60px;
     overflow-x: hidden;
-    max-width: 100%;
+    max-width: calc(100% - 250px);
+    padding-right: 100px;
+    padding-left: 100px;
 }
 
 #content.on-sidebar {
     margin-left: 250px;
-    width: 80%;
+    max-width: calc(100% - 250px);
 }
 
 @media (max-width: 768px) {
@@ -93,14 +95,17 @@
     }
 
     #content {
+        padding-left: 15px;
+        padding-right: 0px;
         margin-left: 60%;
+        margin-right: 0px;
         max-width: 40%;
     }
 
     #content.on-sidebar {
         margin-left: 0px;
-        padding-right: 10px;
-        max-width: 100%;
+        margin-right: 0px;
+        max-width: 95%;
     }
 
     #navbar {
@@ -171,4 +176,15 @@ a {
 .ls p, .ls2 p {
     margin: 2px;
     font-size: 19px;
+}
+
+.ls p a, .ls2 p a {
+    color: rgba(0,0,0,.2);
+    font-weight: 200;
+    text-align: center
+}
+
+
+body {
+    overflow-x: hidden
 }

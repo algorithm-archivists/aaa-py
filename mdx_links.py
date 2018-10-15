@@ -1,6 +1,5 @@
 import markdown
 
-# Global Vars
 URLIZE_RE = '(%s)' % '|'.join([
     r'<(?:f|ht)tps?://[^>]*>',
     r'\b(?:f|ht)tps?://[^)<>\s]+[^.,)<>\s]',
@@ -10,8 +9,6 @@ URLIZE_RE = '(%s)' % '|'.join([
 
 
 class UrlizePattern(markdown.inlinepatterns.Pattern):
-    """ Return a link Element given an autolink (`http://example/com`). """
-
     def handleMatch(self, m):
         url = m.group(2)
 
@@ -33,10 +30,8 @@ class UrlizePattern(markdown.inlinepatterns.Pattern):
 
 
 class UrlizeExtension(markdown.Extension):
-    """ Urlize Extension for Python-Markdown. """
 
     def extendMarkdown(self, md, md_globals):
-        """ Replace autolink with UrlizePattern """
         md.inlinePatterns['autolink'] = UrlizePattern(URLIZE_RE, md)
 
 

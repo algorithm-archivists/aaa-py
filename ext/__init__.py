@@ -9,7 +9,8 @@ extensions = [
     ("mathjaxify", "MathJax"),
     ("creative", "Creativize"),
     ("bibtexivize", "Bibtex"),
-    ("importize", "Importize")
+    ("importize", "Importize"),
+    ("self_link", "SelfLink")
 ]
 
 
