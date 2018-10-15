@@ -23,7 +23,6 @@ def render_one(file_handle, code_dir, index) -> str:
 
     rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,
                                bjs=json.dumps(book_json))
-    print("Finished rendering the chapter. Reading next...")
     return rendered
 
 
@@ -32,7 +31,6 @@ def render_chapter(chapter):
     md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{contents_name}/{chapter}")))
     out_file = f"{o_name}/{contents_name}/{chapter}/{md_file.replace('.md', '.html')}"
     with open(f"{contents_name}/{chapter}/{md_file}", 'r') as r:
-        print(f"Rendering {md_file}...")
         try:
             index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
                                           [(i, a[1]) for i, a in enumerate(summary)])][0]

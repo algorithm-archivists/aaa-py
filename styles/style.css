@@ -144,3 +144,31 @@ div .codehilite {
 a {
     color: #008cff;
 }
+
+.ls, .ls2 {
+    display: none;
+    position: absolute;
+    background-color: #fafafa;
+    width: 100px;
+    z-index: 1010;
+    top: 52px;
+    padding: 1px;
+    font-weight: 200;
+    text-align: center;
+    border-width: 1px;
+    border-color: rgba(0,0,0,.07);
+    border-style: solid;
+}
+
+.ls {
+    left: -1px;
+}
+
+.ls2 {
+    left: 99px;
+}
+
+.ls p, .ls2 p {
+    margin: 2px;
+    font-size: 19px;
+}

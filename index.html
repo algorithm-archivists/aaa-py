@@ -120,6 +120,8 @@
                     elem.innerHTML = "&nbsp;";
                     document.getElementById("ls").appendChild(elem);
                 }
+                document.getElementById("ls").style.display = "none";
+                document.getElementById("ls2").style.display = "none";
             }
         }
         function toggleSidenav () {
@@ -149,8 +151,10 @@
                 </button>
             </li>
             <li>
-                <span onclick="flipLs()">
+                <span onclick="flipLs()" id=flipper>
                     <i class="fas fa-code"></i>
+                    <div class=ls id=ls></div>
+                    <div class=ls2 id=ls2></div>
                 </span>
             </li>
             <li>
