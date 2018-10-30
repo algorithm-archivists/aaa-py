@@ -7,7 +7,7 @@ name = "pypi"
 markdown = "*"
 pygments = "*"
 "jinja2" = "*"
-requests = "*"
+requests = ">=2.20.0"
 gunicorn = "*"
 pybtex = "*"
 
