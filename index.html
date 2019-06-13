@@ -48,7 +48,7 @@
                 };
             };
             langs = Object.keys(langs);
-            langNames.forEach(element => {translations[element.lang] = element.name});
+            langNames.forEach(function(element) { translations[element.lang] = element.name });
         }
         function reload() {
             var samples = document.getElementsByClassName("code-section");
