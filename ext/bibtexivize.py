@@ -33,7 +33,7 @@ def bibtex(code, bib_database, path, use_path=False):
             count += len(form)
         else:
             entry = bib_database.entries[i]
-            author = entry.fields['author']
+            author = entry.persons['author']
             title = entry.fields['title']
             publisher = entry.fields['publisher']
             year = entry.fields['year']

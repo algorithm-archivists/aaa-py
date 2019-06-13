@@ -3,6 +3,7 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 from pygments.util import ClassNotFound
 import os
+import math
 from .extension import Extension
 
 
@@ -24,12 +25,14 @@ def importize(code, path, theme='default'):
             if txt.startswith(':'):
                 txt = txt[1:]
                 arr = txt.split(' ')[0]
+                if len(arr.split('-')) == 1:
+                    continue
                 start, end = arr.split('-')
                 if end[-1] == ',':
                     end = end[:-1]
-                start, end = int(start or '-1'), int(end or '99999')
+                start, end = int(start or '-1'), int(end or '999999')
             else:
-                start, end = -1, 99999
+                start, end = -1, math.inf
             rest = "</a>".join(rest.split("</a>")[1:])
             res = ''
             with open(os.path.join(path, lnk)) as file:
