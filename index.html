@@ -102,7 +102,7 @@
                         lang = language;
                         reload();
                     };
-                    elem.innerHTML = "<a onclick='funcs." + language + "()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    elem.innerHTML = "<a onclick='funcs[\"" + language + "\"]()' href='#' class=ls-link>" + translations[language] + "</a>";
                     if (i % 2) {
                         h2 += 1
                         document.getElementById("ls2").appendChild(elem);
