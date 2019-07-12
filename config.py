@@ -11,10 +11,9 @@ ext = [
     "fenced_code",
     "codehilite",
     "tables",
-    "mdx_links"
+    "ext.mdx_links"
 ]
-template = None
-template_path = "index.html"
+template_path = "templates/index.html"
 pygment_theme = "friendly"
 summary = ""
 summary_indent_level = 4
@@ -31,3 +30,12 @@ import_files = {
 }
 favicon_path = "favicon.ico"
 num_workers = 4
+extensions = [
+    ("handle_languages", "HandleLanguages"),
+    ("mdify", "MDfier"),
+    ("mathjaxify", "MathJax"),
+    ("creative", "Creativize"),
+    ("bibtexivize", "Bibtex"),
+    ("importize", "Importize"),
+    ("self_link", "SelfLink")
+]

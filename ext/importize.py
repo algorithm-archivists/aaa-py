@@ -14,6 +14,8 @@ class Importize(Extension):
 
 formatter = None
 cache = {}
+
+
 def importize(code, path, theme='default'):
     global formatter
     result = code.split("<a href=\"")[0]

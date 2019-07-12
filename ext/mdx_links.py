@@ -9,7 +9,7 @@ URLIZE_RE = '(%s)' % '|'.join([
 
 
 class UrlizePattern(markdown.inlinepatterns.Pattern):
-    def handleMatch(self, m):
+    def handle_match(self, m):
         url = m.group(2)
 
         if url.startswith('<'):

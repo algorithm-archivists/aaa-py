@@ -10,46 +10,10 @@ import json
 import sys
 from config import *
 from ext import get_ext
-from multiprocessing import Pool
 
 
-md = markdown.Markdown(extensions=ext)
-renderer = None
-
-
-def render_one(file_handle, code_dir, index) -> str:
-    text = file_handle.read()
-    finalized = renderer(text, code_dir)
-
-    rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,
-                               bjs=json.dumps(book_json))
-    return rendered
-
-
-def render_chapter(chapter):
-    os.mkdir(f"{o_name}/{contents_name}/{chapter}")
-    md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{contents_name}/{chapter}")))
-    out_file = f"{o_name}/{contents_name}/{chapter}/{md_file.replace('.md', '.html')}"
-    with open(f"{contents_name}/{chapter}/{md_file}", 'r') as r:
-        try:
-            index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
-                                          [(i, a[1]) for i, a in enumerate(summary)])][0]
-        except IndexError:
-            return
-        contents: str = render_one(r, f"{contents_name}/{chapter}", index)
-    with open(out_file, 'w') as f:
-        f.write(contents)
-    try:
-        shutil.copytree(f"{contents_name}/{chapter}/res", f"{o_name}/{contents_name}/{chapter}/res")
-    except FileNotFoundError:
-        pass
-    try:
-        shutil.copytree(f"{contents_name}/{chapter}/code", f"{o_name}/{contents_name}/{chapter}/code")
-    except FileNotFoundError:
-        pass
-
-
-if __name__ == '__main__':
+def build():
+    md = markdown.Markdown(extensions=ext)
     print("Detecting if contents present...")
     do_clone = False
     for file in import_files:
@@ -82,7 +46,6 @@ if __name__ == '__main__':
         os.remove("aaa-repo.zip")
 
         print("Cleaned up, moving...")
-
         for file, name in import_files.items():
             print(f"Moving {file}...")
             shutil.move(os.path.join("aaa-repo", file), name)
@@ -119,20 +82,7 @@ if __name__ == '__main__':
     os.system(f"pygmentize -S {pygment_theme} -f html -a .codehilite > {o_name}/pygments.css")
 
     print("Parsing SUMMARY.md...")
-    with open(summary_name) as s:
-        summary = s.read()
-    summary = summary.replace(".md", ".html")\
-                     .replace("(contents", "(/contents")\
-                     .replace('* ', '')\
-                     .replace('README', '/index')
-    summary_parsed = []
-    for index, line in enumerate(summary.split('\n')[2:-1]):
-        indent, rest = line.split('[')
-        name, link = rest.split('](')
-        link = link[:-1]
-        current_indent = len(indent) // summary_indent_level
-        summary_parsed.append((name, link, current_indent))
-    summary = summary_parsed
+    summary = parse_summary()
 
     print("Opening bibtex...")
     bib_database = pybtex.database.parse_file("literature.bib")
@@ -145,7 +95,8 @@ if __name__ == '__main__':
     renderer = get_ext(bib_database, pygment_theme, md)
 
     print("Rendering chapters...")
-    Pool(num_workers).map(render_chapter, chapters)
+    for chapter in chapters:
+        render_chapter(chapter, renderer, template)
 
     print("Moving favicon.ico...")
     shutil.copy(favicon_path, f"{o_name}/favicon.ico")
@@ -156,12 +107,63 @@ if __name__ == '__main__':
     print("Parsing redirects...")
     with open("redirects.json") as rjs_file:
         rjs = json.load(rjs_file)
-    rjs = {i["from"]:i["to"] for i in rjs["redirects"]}
+    rjs = {i["from"]: i["to"] for i in rjs["redirects"]}
     with open(f"{o_name}/redirects.json", 'w') as rjs_file:
         json.dump(rjs, rjs_file)
 
     print("Rendering index...")
     with open(index_name, 'r') as readme:
         with open(f"{o_name}/index.html", 'w') as index:
-            index.write(render_one(readme, f"{o_name}/", 0))
+            index.write(render_one(readme, f"{o_name}/", 0, renderer, template))
     print("Done!")
+
+
+def parse_summary():
+    with open(summary_name) as s:
+        summary = s.read()
+    summary = summary.replace(".md", ".html") \
+        .replace("(contents", "(/contents") \
+        .replace('* ', '') \
+        .replace('README', '/index')
+    summary_parsed = []
+    for index, line in enumerate(summary.split('\n')[2:-1]):
+        indent, rest = line.split('[')
+        name, link = rest.split('](')
+        link = link[:-1]
+        current_indent = len(indent) // summary_indent_level
+        summary_parsed.append((name, link, current_indent))
+    return summary_parsed
+
+
+def render_chapter(chapter, renderer, template):
+    os.mkdir(f"{o_name}/{contents_name}/{chapter}")
+    try:
+        md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{contents_name}/{chapter}")))
+    except StopIteration:
+        return
+    out_file = f"{o_name}/{contents_name}/{chapter}/{md_file.replace('.md', '.html')}"
+    with open(f"{contents_name}/{chapter}/{md_file}", 'r') as r:
+        try:
+            index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
+                                          [(i, a[1]) for i, a in enumerate(summary)])][0]
+        except IndexError:
+            return
+        contents: str = render_one(r, f"{contents_name}/{chapter}", index, renderer, template)
+    with open(out_file, 'w') as f:
+        f.write(contents)
+    try:
+        shutil.copytree(f"{contents_name}/{chapter}/res", f"{o_name}/{contents_name}/{chapter}/res")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.copytree(f"{contents_name}/{chapter}/code", f"{o_name}/{contents_name}/{chapter}/code")
+    except FileNotFoundError:
+        pass
+
+
+def render_one(file_handle, code_dir, index, renderer, template) -> str:
+    text = file_handle.read()
+    finalized = renderer(text, code_dir)
+    rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,
+                               bjs=json.dumps(book_json))
+    return rendered

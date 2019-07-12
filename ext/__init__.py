@@ -1,17 +1,7 @@
 import importlib
 from .extension import Extension
 from typing import List
-
-
-extensions = [
-    ("handle_languages", "HandleLanguages"),
-    ("mdify", "MDfier"),
-    ("mathjaxify", "MathJax"),
-    ("creative", "Creativize"),
-    ("bibtexivize", "Bibtex"),
-    ("importize", "Importize"),
-    ("self_link", "SelfLink")
-]
+from config import extensions
 
 
 def get_ext(*args):
@@ -27,4 +17,3 @@ def get_ext(*args):
         return code
 
     return run
-
