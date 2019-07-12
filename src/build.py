@@ -3,28 +3,28 @@ import shutil
 import re
 import jinja2
 import markdown
-import requests
-import zipfile
 import pybtex.database
 import json
-import sys
 from config import *
 from ext import get_ext
+from . import clone, utils
 
 
 def build():
     md = markdown.Markdown(extensions=EXT)
     print("Detecting if contents present...")
-    do_clone = detect_if_contents_present(IMPORT_FILES)
+    do_clone = clone.detect_if_contents_present(AAA_PATH, IMPORT_FILES)
     if do_clone:
+        print("Creating the contents directory...")
+        utils.create_dir_if_not_exists(AAA_PATH)
         print("No contents present, cloning...")
-        clone_contents(CONTENTS_ZIP, AAA_ORIGIN)
+        clone.clone_contents(AAA_PATH, CONTENTS_ZIP, AAA_ORIGIN)
         print("Cloned, extracting...")
-        extract_contents(CONTENTS_ZIP, AAA_REPO_PATH, TMP_OUTPUT_DIRECTORY, OUTPUT_DIRECTORY)
+        clone.extract_contents(AAA_PATH, CONTENTS_ZIP, AAA_REPO_PATH, TMP_OUTPUT_DIRECTORY, OUTPUT_DIRECTORY)
         print("Extracted, moving files...")
-        move_from_contents(OUTPUT_DIRECTORY, IMPORT_FILES)
+        clone.move_from_contents(AAA_PATH, OUTPUT_DIRECTORY, IMPORT_FILES)
         print("Cleaning up...")
-        clean_up(CONTENTS_ZIP, TMP_OUTPUT_DIRECTORY, OUTPUT_DIRECTORY)
+        utils.clean_up(AAA_PATH, CONTENTS_ZIP, TMP_OUTPUT_DIRECTORY, OUTPUT_DIRECTORY)
     else:
         print("Contents already exists.")
 
@@ -77,7 +77,7 @@ def build():
     shutil.copytree(STYLE_PATH, f"{O_NAME}/styles")
 
     print("Parsing redirects...")
-    with open("redirects.json") as rjs_file:
+    with open(f"{AAA_PATH}/redirects.json") as rjs_file:
         rjs = json.load(rjs_file)
     rjs = {i["from"]: i["to"] for i in rjs["redirects"]}
     with open(f"{O_NAME}/redirects.json", 'w') as rjs_file:
@@ -91,7 +91,7 @@ def build():
 
 
 def parse_summary():
-    with open(SUMMARY_NAME) as s:
+    with open(os.path.join(AAA_PATH, SUMMARY_NAME)) as s:
         summary = s.read()
     summary = summary.replace(".md", ".html") \
         .replace("(contents", "(/contents") \
@@ -105,50 +105,6 @@ def parse_summary():
         current_indent = len(indent) // SUMMARY_INDENT_LEVEL
         summary_parsed.append((name, link, current_indent))
     return summary_parsed
-
-
-def clean_up(*files):
-    for file in files:
-        if os.path.isdir(file):
-            shutil.rmtree(file)
-        else:
-            os.remove(file)
-
-
-def detect_if_contents_present(import_files):
-    do_clone = False
-    for file in import_files:
-        if file not in os.listdir("."):
-            do_clone = True
-    return do_clone
-
-
-def clone_contents(contents_zip, origin, disable_stdout_progress=False):
-    with open(contents_zip, "wb") as f:
-        response = requests.get(origin, stream=True)
-        total_length = response.headers.get('content-length')
-        if disable_stdout_progress or total_length is None:
-            f.write(response.content)
-        else:
-            dl = 0
-            total_length = int(total_length)
-            for data in response.iter_content(chunk_size=4096):
-                dl += len(data)
-                f.write(data)
-                done = int(50 * dl / total_length)
-                sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50 - done)))
-                sys.stdout.flush()
-
-
-def extract_contents(contents_zip, repo_path, tmp_output_directory, output_directory):
-    with zipfile.ZipFile(contents_zip, 'r') as origin_zip:
-        origin_zip.extractall(tmp_output_directory)
-    shutil.move(f"{tmp_output_directory}/{repo_path}", output_directory)
-
-
-def move_from_contents(repo_directory, import_files):
-    for file, name in import_files.items():
-        shutil.move(os.path.join(repo_directory, file), name)
 
 
 def render_chapter(chapter, renderer, template, summary, book_json):

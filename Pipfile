@@ -10,6 +10,7 @@ pygments = "*"
 requests = ">=2.20.0"
 gunicorn = "*"
 pybtex = "*"
+tqdm = "*"
 
 [dev-packages]
 
