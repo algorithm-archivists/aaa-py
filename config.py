@@ -1,26 +1,23 @@
-o_name = "_book"
-contents_name = "contents"
-index_name = "README.md"
-summary_name = "SUMMARY.md"
-aaa_origin = "https://github.com/algorithm-archivists/algorithm-archive/archive/master.zip"
-aaa_path = "contents"
-aaa_readme = "README.md"
-aaa_summary = "SUMMARY.md"
-aaa_repo_path = "algorithm-archive-master"
-ext = [
+O_NAME = "_book"
+CONTENTS_NAME = "contents"
+INDEX_NAME = "README.md"
+SUMMARY_NAME = "SUMMARY.md"
+AAA_ORIGIN = "https://github.com/algorithm-archivists/algorithm-archive/archive/master.zip"
+AAA_PATH = "contents"
+AAA_README = "README.md"
+AAA_SUMMARY = "SUMMARY.md"
+AAA_REPO_PATH = "algorithm-archive-master"
+EXT = [
     "fenced_code",
     "codehilite",
     "tables",
     "ext.mdx_links"
 ]
-template_path = "templates/index.html"
-pygment_theme = "friendly"
-summary = ""
-summary_indent_level = 4
-style_path = "styles"
-bib_database = {}
-book_json = ""
-import_files = {
+TEMPLATE_PATH = "templates/index.html"
+PYGMENT_THEME = "friendly"
+SUMMARY_INDENT_LEVEL = 4
+STYLE_PATH = "styles"
+IMPORT_FILES = {
     "SUMMARY.md": "SUMMARY.md",
     "README.md": "README.md",
     "contents": "contents",
@@ -28,9 +25,8 @@ import_files = {
     "book.json": "book.json",
     "redirects.json": "redirects.json"
 }
-favicon_path = "favicon.ico"
-num_workers = 4
-extensions = [
+FAVICON_PATH = "favicon.ico"
+EXTENSIONS = [
     ("handle_languages", "HandleLanguages"),
     ("mdify", "MDfier"),
     ("mathjaxify", "MathJax"),

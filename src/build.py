@@ -13,16 +13,16 @@ from ext import get_ext
 
 
 def build():
-    md = markdown.Markdown(extensions=ext)
+    md = markdown.Markdown(extensions=EXT)
     print("Detecting if contents present...")
     do_clone = False
-    for file in import_files:
+    for file in IMPORT_FILES:
         if file not in os.listdir("."):
             do_clone = True
     if do_clone:
         print("No contents present, cloning...")
         with open("aaa-repo.zip", "wb") as f:
-            response = requests.get(aaa_origin, stream=True)
+            response = requests.get(AAA_ORIGIN, stream=True)
             total_length = response.headers.get('content-length')
             if total_length is None:
                 f.write(response.content)
@@ -39,14 +39,14 @@ def build():
         print("Cloned, extracting...")
         with zipfile.ZipFile("aaa-repo.zip", 'r') as origin_zip:
             origin_zip.extractall("aaa-repo-all")
-        shutil.move(f"aaa-repo-all/{aaa_repo_path}", "aaa-repo")
+        shutil.move(f"aaa-repo-all/{AAA_REPO_PATH}", "aaa-repo")
 
         print("Cleanup...")
         shutil.rmtree("aaa-repo-all")
         os.remove("aaa-repo.zip")
 
         print("Cleaned up, moving...")
-        for file, name in import_files.items():
+        for file, name in IMPORT_FILES.items():
             print(f"Moving {file}...")
             shutil.move(os.path.join("aaa-repo", file), name)
 
@@ -58,28 +58,28 @@ def build():
         print("Contents exists, building...")
     try:
         print("Trying to create _book directory...")
-        os.mkdir(o_name)
+        os.mkdir(O_NAME)
         print("Successfully created.")
     except FileExistsError:
         print("_book already exists. Removing...")
-        shutil.rmtree(o_name)
+        shutil.rmtree(O_NAME)
         print("Making _book...")
-        os.mkdir(o_name)
+        os.mkdir(O_NAME)
 
     print("Making contents folder...")
-    os.mkdir(f"{o_name}/{contents_name}")
+    os.mkdir(f"{O_NAME}/{CONTENTS_NAME}")
 
     print("Done making, looking for chapters...")
-    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a), os.listdir(contents_name))
+    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a), os.listdir(CONTENTS_NAME))
 
     print("Looking for the template...")
-    with open(template_path, 'r') as template_file:
+    with open(TEMPLATE_PATH, 'r') as template_file:
         print("Reading...")
         template = jinja2.Template(template_file.read())
         print("Template ready!")
 
     print("Building Pygments...")
-    os.system(f"pygmentize -S {pygment_theme} -f html -a .codehilite > {o_name}/pygments.css")
+    os.system(f"pygmentize -S {PYGMENT_THEME} -f html -a .codehilite > {O_NAME}/pygments.css")
 
     print("Parsing SUMMARY.md...")
     summary = parse_summary()
@@ -92,34 +92,34 @@ def build():
         book_json = json.load(bjs)
 
     print("Creating rendering pipeline...")
-    renderer = get_ext(bib_database, pygment_theme, md)
+    renderer = get_ext(bib_database, PYGMENT_THEME, md)
 
     print("Rendering chapters...")
     for chapter in chapters:
-        render_chapter(chapter, renderer, template)
+        render_chapter(chapter, renderer, template, summary, book_json)
 
     print("Moving favicon.ico...")
-    shutil.copy(favicon_path, f"{o_name}/favicon.ico")
+    shutil.copy(FAVICON_PATH, f"{O_NAME}/favicon.ico")
 
     print("Moving styles...")
-    shutil.copytree(style_path, f"{o_name}/styles")
+    shutil.copytree(STYLE_PATH, f"{O_NAME}/styles")
 
     print("Parsing redirects...")
     with open("redirects.json") as rjs_file:
         rjs = json.load(rjs_file)
     rjs = {i["from"]: i["to"] for i in rjs["redirects"]}
-    with open(f"{o_name}/redirects.json", 'w') as rjs_file:
+    with open(f"{O_NAME}/redirects.json", 'w') as rjs_file:
         json.dump(rjs, rjs_file)
 
     print("Rendering index...")
-    with open(index_name, 'r') as readme:
-        with open(f"{o_name}/index.html", 'w') as index:
-            index.write(render_one(readme, f"{o_name}/", 0, renderer, template))
+    with open(INDEX_NAME, 'r') as readme:
+        with open(f"{O_NAME}/index.html", 'w') as index:
+            index.write(render_one(readme, f"{O_NAME}/", 0, renderer, template, summary, book_json))
     print("Done!")
 
 
 def parse_summary():
-    with open(summary_name) as s:
+    with open(SUMMARY_NAME) as s:
         summary = s.read()
     summary = summary.replace(".md", ".html") \
         .replace("(contents", "(/contents") \
@@ -130,38 +130,38 @@ def parse_summary():
         indent, rest = line.split('[')
         name, link = rest.split('](')
         link = link[:-1]
-        current_indent = len(indent) // summary_indent_level
+        current_indent = len(indent) // SUMMARY_INDENT_LEVEL
         summary_parsed.append((name, link, current_indent))
     return summary_parsed
 
 
-def render_chapter(chapter, renderer, template):
-    os.mkdir(f"{o_name}/{contents_name}/{chapter}")
+def render_chapter(chapter, renderer, template, summary, book_json):
+    os.mkdir(f"{O_NAME}/{CONTENTS_NAME}/{chapter}")
     try:
-        md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{contents_name}/{chapter}")))
+        md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{CONTENTS_NAME}/{chapter}")))
     except StopIteration:
         return
-    out_file = f"{o_name}/{contents_name}/{chapter}/{md_file.replace('.md', '.html')}"
-    with open(f"{contents_name}/{chapter}/{md_file}", 'r') as r:
+    out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.replace('.md', '.html')}"
+    with open(f"{CONTENTS_NAME}/{chapter}/{md_file}", 'r') as r:
         try:
             index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
                                           [(i, a[1]) for i, a in enumerate(summary)])][0]
         except IndexError:
             return
-        contents: str = render_one(r, f"{contents_name}/{chapter}", index, renderer, template)
+        contents: str = render_one(r, f"{CONTENTS_NAME}/{chapter}", index, renderer, template, summary, book_json)
     with open(out_file, 'w') as f:
         f.write(contents)
     try:
-        shutil.copytree(f"{contents_name}/{chapter}/res", f"{o_name}/{contents_name}/{chapter}/res")
+        shutil.copytree(f"{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
     except FileNotFoundError:
         pass
     try:
-        shutil.copytree(f"{contents_name}/{chapter}/code", f"{o_name}/{contents_name}/{chapter}/code")
+        shutil.copytree(f"{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
     except FileNotFoundError:
         pass
 
 
-def render_one(file_handle, code_dir, index, renderer, template) -> str:
+def render_one(file_handle, code_dir, index, renderer, template, summary, book_json) -> str:
     text = file_handle.read()
     finalized = renderer(text, code_dir)
     rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,

@@ -1,12 +1,12 @@
 import importlib
 from .extension import Extension
 from typing import List
-from config import extensions
+from config import EXTENSIONS
 
 
 def get_ext(*args):
     ext: List[Extension] = []
-    for module, cls in extensions:
+    for module, cls in EXTENSIONS:
         extension: type = getattr(importlib.import_module('.' + module, 'ext'), cls)
         inst: Extension = extension(*args)
         ext.append(inst)
