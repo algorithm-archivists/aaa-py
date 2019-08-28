@@ -42,7 +42,7 @@ def build():
     os.mkdir(f"{O_NAME}/{CONTENTS_NAME}")
 
     print("Done making, looking for chapters...")
-    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a), os.listdir(CONTENTS_NAME))
+    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a), os.listdir(os.path.join(CONTENTS_NAME, CONTENTS_NAME)))
 
     print("Looking for the template...")
     with open(TEMPLATE_PATH, 'r') as template_file:
@@ -60,7 +60,7 @@ def build():
     bib_database = pybtex.database.parse_file("literature.bib")
 
     print("Opening book.json...")
-    with open("book.json") as bjs:
+    with open(os.path.join(CONTENTS_NAME, "book.json")) as bjs:
         book_json = json.load(bjs)
 
     print("Creating rendering pipeline...")
@@ -84,8 +84,7 @@ def build():
         json.dump(rjs, rjs_file)
 
     print("Rendering index...")
-    with open(INDEX_NAME, 'r') as readme:
-        with open(f"{O_NAME}/index.html", 'w') as index:
+    with open(os.path.join(CONTENTS_NAME, INDEX_NAME), 'r') as readme, open(f"{O_NAME}/index.html", 'w') as index:
             index.write(render_one(readme, f"{O_NAME}/", 0, renderer, template, summary, book_json))
     print("Done!")
 
@@ -109,28 +108,35 @@ def parse_summary():
 
 def render_chapter(chapter, renderer, template, summary, book_json):
     os.mkdir(f"{O_NAME}/{CONTENTS_NAME}/{chapter}")
+
     try:
-        md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{CONTENTS_NAME}/{chapter}")))
+        # dirty hack but it works
+        shutil.copyfile(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg") 
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.copytree(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.copytree(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
+    except FileNotFoundError:
+        pass
+
+    try:
+        md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}")))
     except StopIteration:
         return
     out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.replace('.md', '.html')}"
-    with open(f"{CONTENTS_NAME}/{chapter}/{md_file}", 'r') as r:
+    with open(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/{md_file}", 'r') as r:
         try:
             index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
                                           [(i, a[1]) for i, a in enumerate(summary)])][0]
         except IndexError:
             return
-        contents: str = render_one(r, f"{CONTENTS_NAME}/{chapter}", index, renderer, template, summary, book_json)
+        contents: str = render_one(r, f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}", index, renderer, template, summary, book_json)
     with open(out_file, 'w') as f:
         f.write(contents)
-    try:
-        shutil.copytree(f"{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
-    except FileNotFoundError:
-        pass
-    try:
-        shutil.copytree(f"{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
-    except FileNotFoundError:
-        pass
 
 
 def render_one(file_handle, code_dir, index, renderer, template, summary, book_json) -> str:
