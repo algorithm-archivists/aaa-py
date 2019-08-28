@@ -1,4 +1,5 @@
-_book
+_book/
+book/
 .vscode
 contents
 book.json
