@@ -11,6 +11,7 @@ requests = ">=2.20.0"
 gunicorn = "*"
 pybtex = "*"
 tqdm = "*"
+pygit2 = "*"
 
 [dev-packages]
 

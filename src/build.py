@@ -7,27 +7,21 @@ import pybtex.database
 import json
 from config import *
 from ext import get_ext
-from . import clone, utils
+from .pull import pull
+import pygit2
 
 
 def build():
     md = markdown.Markdown(extensions=EXT)
     print("Detecting if contents present...")
-    do_clone = clone.detect_if_contents_present(AAA_PATH, IMPORT_FILES)
+    do_clone = not os.path.exists(AAA_CLONE_PATH)
     if do_clone:
-        print("Creating the contents directory...")
-        utils.create_dir_if_not_exists(AAA_PATH)
         print("No contents present, cloning...")
-        clone.clone_contents(AAA_PATH, CONTENTS_ZIP, AAA_ORIGIN)
-        print("Cloned, extracting...")
-        clone.extract_contents(AAA_PATH, CONTENTS_ZIP, AAA_REPO_PATH, TMP_OUTPUT_DIRECTORY, OUTPUT_DIRECTORY)
-        print("Extracted, moving files...")
-        clone.move_from_contents(AAA_PATH, OUTPUT_DIRECTORY, IMPORT_FILES)
-        print("Cleaning up...")
-        utils.clean_up(AAA_PATH, CONTENTS_ZIP, TMP_OUTPUT_DIRECTORY, OUTPUT_DIRECTORY)
+        pygit2.clone_repository(AAA_ORIGIN, AAA_CLONE_PATH)
     else:
         print("Contents already exists.")
-
+        print("Updating...")
+        pull(pygit2.Repository(AAA_CLONE_PATH))
     try:
         print("Trying to create _book directory...")
         os.mkdir(O_NAME)
@@ -42,7 +36,8 @@ def build():
     os.mkdir(f"{O_NAME}/{CONTENTS_NAME}")
 
     print("Done making, looking for chapters...")
-    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a), os.listdir(os.path.join(CONTENTS_NAME, CONTENTS_NAME)))
+    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a),
+                      os.listdir(os.path.join(AAA_CLONE_PATH, CONTENTS_NAME)))
 
     print("Looking for the template...")
     with open(TEMPLATE_PATH, 'r') as template_file:
@@ -54,10 +49,11 @@ def build():
     os.system(f"pygmentize -S {PYGMENT_THEME} -f html -a .codehilite > {O_NAME}/pygments.css")
 
     print("Parsing SUMMARY.md...")
-    summary = parse_summary()
+    with open(os.path.join(AAA_PATH, SUMMARY_NAME)) as s:
+        summary = parse_summary(s.read())
 
     print("Opening bibtex...")
-    bib_database = pybtex.database.parse_file("literature.bib")
+    bib_database = pybtex.database.parse_file(f"{AAA_CLONE_PATH}/literature.bib")
 
     print("Opening book.json...")
     with open(os.path.join(CONTENTS_NAME, "book.json")) as bjs:
@@ -85,13 +81,11 @@ def build():
 
     print("Rendering index...")
     with open(os.path.join(CONTENTS_NAME, INDEX_NAME), 'r') as readme, open(f"{O_NAME}/index.html", 'w') as index:
-            index.write(render_one(readme, f"{O_NAME}/", 0, renderer, template, summary, book_json))
+        index.write(render_one(readme.read(), f"{O_NAME}/", 0, renderer, template, summary, book_json))
     print("Done!")
 
 
-def parse_summary():
-    with open(os.path.join(AAA_PATH, SUMMARY_NAME)) as s:
-        summary = s.read()
+def parse_summary(summary):
     summary = summary.replace(".md", ".html") \
         .replace("(contents", "(/contents") \
         .replace('* ', '') \
@@ -111,20 +105,22 @@ def render_chapter(chapter, renderer, template, summary, book_json):
 
     try:
         # dirty hack but it works
-        shutil.copyfile(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg") 
+        shutil.copyfile(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg",
+                        f"{O_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg")
     except FileNotFoundError:
         pass
     try:
-        shutil.copytree(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
+        shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
     except FileNotFoundError:
         pass
     try:
-        shutil.copytree(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
+        shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
     except FileNotFoundError:
         pass
 
     try:
-        md_file: str = next(filter(lambda a: a.endswith(".md"), os.listdir(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}")))
+        md_file: str = next(filter(lambda a: a.endswith(".md"),
+                                   os.listdir(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}")))
     except StopIteration:
         return
     out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.replace('.md', '.html')}"
@@ -134,13 +130,13 @@ def render_chapter(chapter, renderer, template, summary, book_json):
                                           [(i, a[1]) for i, a in enumerate(summary)])][0]
         except IndexError:
             return
-        contents: str = render_one(r, f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}", index, renderer, template, summary, book_json)
+        contents: str = render_one(r.read(), f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}",
+                                   index, renderer, template, summary, book_json)
     with open(out_file, 'w') as f:
         f.write(contents)
 
 
-def render_one(file_handle, code_dir, index, renderer, template, summary, book_json) -> str:
-    text = file_handle.read()
+def render_one(text, code_dir, index, renderer, template, summary, book_json) -> str:
     finalized = renderer(text, code_dir)
     rendered = template.render(md_text=finalized, summary=summary, index=index, enumerate=enumerate,
                                bjs=json.dumps(book_json))
