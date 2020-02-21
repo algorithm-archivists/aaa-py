@@ -35,7 +35,10 @@ def bibtex(code, bib_database, path, use_path=False):
             entry = bib_database.entries[i]
             author = entry.persons['author']
             title = entry.fields['title']
-            publisher = entry.fields['publisher']
+            try:
+                publisher = entry.fields['publisher']
+            except:
+                publisher = "No Publisher Specified"
             year = entry.fields['year']
             jumper = f"<a name=\"ref-{count}\" class=bib-link></a>"
             string = f"{author}: {title}, <i>{publisher}</i>, {year}"
