@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel=stylesheet href="/pygments.css" type="text/css">
+    <link rel=stylesheet href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title id="ttl"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        var bjs = {"gitbook": "3.x.x", "plugins": ["fontsettings", "mathjax@https://github.com/algorithm-archivists/plugin-mathjax", "bibtex-cite", "wordcount", "api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git", "include-codeblock", "ga", "bulk-redirect", "prism", "-highlight"], "lunr": {"maxIndexSize": 1000000000}, "pluginsConfig": {"mathjax": {"version": "2.6.1"}, "include-codeblock": {"fixlang": true, "unindent": true}, "bulk-redirect": {"basepath": "/", "redirectsFile": "redirects.json"}, "ga": {"token": "UA-118252470-1"}, "prism": {"lang": {"asm-x64": "nasm"}, "ignore": ["emojicode", "text"], "css": ["prismjs/themes/prism-tomorrow.css"]}, "api-language-selector": {"languages": [{"lang": "jl", "name": "Julia", "default": true}, {"lang": "bash", "name": "Bash"}, {"lang": "cs", "name": "C#"}, {"lang": "cpp", "name": "C++"}, {"lang": "c", "name": "C"}, {"lang": "c8", "name": "chip-8"}, {"lang": "py", "name": "Python"}, {"lang": "js", "name": "JavaScript"}, {"lang": "scratch", "name": "Scratch"}, {"lang": "hs", "name": "Haskell"}, {"lang": "rs", "name": "Rust"}, {"lang": "ml", "name": "OCaml"}, {"lang": "java", "name": "Java"}, {"lang": "clj", "name": "Clojure"}, {"lang": "elm", "name": "Elm"}, {"lang": "LabVIEW", "name": "LabVIEW"}, {"lang": "d", "name": "D"}, {"lang": "go", "name": "Go"}, {"lang": "swift", "name": "Swift"}, {"lang": "racket", "name": "Racket"}, {"lang": "m", "name": "Matlab"}, {"lang": "r", "name": "R"}, {"lang": "ti83b", "name": "TI-83 Basic"}, {"lang": "lua", "name": "Lua"}, {"lang": "crystal", "name": "Crystal"}, {"lang": "php", "name": "PHP"}, {"lang": "lisp", "name": "Common Lisp"}, {"lang": "nim", "name": "Nim"}, {"lang": "asm-x64", "name": "X86-64 Assembly"}, {"lang": "f90", "name": "Fortran90"}, {"lang": "factor", "name": "Factor"}, {"lang": "ws", "name": "Whitespace"}, {"lang": "scala", "name": "Scala"}, {"lang": "emojic", "name": "Emojicode"}, {"lang": "lolcode", "name": "LOLCODE"}, {"lang": "piet", "name": "Piet"}, {"lang": "ss", "name": "Scheme"}, {"lang": "ps1", "name": "PowerShell"}, {"lang": "v", "name": "Vlang"}, {"lang": "coffee", "name": "CoffeeScript"}, {"lang": "kotlin", "name": "Kotlin"}]}}};		    
+        var lang = "jl";
+        var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash",
+            "haskell": "Haskell",
+            "matlab": "Matlab",
+            "javascript": "JavaScript"
+        };
+	
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+	    langs = Object.keys(langs);
+	    if (langs.length == 1) {
+		lang = langs[0];
+	    }
+            langNames.forEach(function(element) { translations[element.lang] = element.name });
+        }
+        function reload() {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    if (element.className == lang) {
+                        element.style.display = 'block';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+        };
+        window.onload = () => {
+            initLangs();
+            reload();
+            document.getElementById("name").innerText = pages[index];
+            document.getElementById("ttl").innerText = pages[index];
+            initLs();
+        };
+        var index = 21;
+        var pages = [];
+	var lsed = false;
+				
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+
+	var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                var h1 = 0;
+                var h2 = 0;
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+		    console.log(language);
+		    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs[\"" + language + "\"]()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    if (i % 2) {
+                        h2 += 1
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        h1 += 1
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (h1 > h2) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
+                }
+                document.getElementById("ls").style.display = "none";
+                document.getElementById("ls2").style.display = "none";
+            }
+        }
+        function toggleSidenav () {
+            $("#sidebar").toggleClass("hide");
+            $("#content").toggleClass("on-sidebar");
+            $("#navbar").toggleClass("no-sidebar");
+        }
+    </script>
+    <div class="sidebar-wrapper" id="sidebar">
+        
+            <p>
+                
+                <a name="Algorithm Archive"></a>
+                <a href="/index.html#Algorithm Archive">Algorithm Archive</a>
+                <script>pages[0] = "Algorithm Archive"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Introduction"></a>
+                <a href="/contents/introduction/introduction.html#Introduction">Introduction</a>
+                <script>pages[1] = "Introduction"</script>
+            </p>
+        
+            <p>
+                
+                <a name="How To Contribute"></a>
+                <a href="/contents/how_to_contribute/how_to_contribute.html#How To Contribute">How To Contribute</a>
+                <script>pages[2] = "How To Contribute"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Plotting"></a>
+                <a href="/contents/plotting/plotting.html#Plotting">Plotting</a>
+                <script>pages[3] = "Plotting"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Structures"></a>
+                <a href="/contents/data_structures/data_structures.html#Data Structures">Data Structures</a>
+                <script>pages[4] = "Data Structures"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stacks and Queues"></a>
+                <a href="/contents/stacks_and_queues/stacks_and_queues.html#Stacks and Queues">Stacks and Queues</a>
+                <script>pages[5] = "Stacks and Queues"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Mathematical Background"></a>
+                <a href="/contents/mathematical_background/mathematical_background.html#Mathematical Background">Mathematical Background</a>
+                <script>pages[6] = "Mathematical Background"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Complexity Notation"></a>
+                <a href="/contents/notation/notation.html#Complexity Notation">Complexity Notation</a>
+                <script>pages[7] = "Complexity Notation"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bit Logic"></a>
+                <a href="/contents/bitlogic/bitlogic.html#Bit Logic">Bit Logic</a>
+                <script>pages[8] = "Bit Logic"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Taylor Series"></a>
+                <a href="/contents/taylor_series_expansion/taylor_series_expansion.html#Taylor Series">Taylor Series</a>
+                <script>pages[9] = "Taylor Series"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Sorting and Searching"></a>
+                <a href="/contents/sorting_and_searching/sorting_and_searching.html#Sorting and Searching">Sorting and Searching</a>
+                <script>pages[10] = "Sorting and Searching"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bubble Sort"></a>
+                <a href="/contents/bubble_sort/bubble_sort.html#Bubble Sort">Bubble Sort</a>
+                <script>pages[11] = "Bubble Sort"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bogo Sort"></a>
+                <a href="/contents/bogo_sort/bogo_sort.html#Bogo Sort">Bogo Sort</a>
+                <script>pages[12] = "Bogo Sort"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Tree Traversal"></a>
+                <a href="/contents/tree_traversal/tree_traversal.html#Tree Traversal">Tree Traversal</a>
+                <script>pages[13] = "Tree Traversal"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Euclidean Algorithm"></a>
+                <a href="/contents/euclidean_algorithm/euclidean_algorithm.html#Euclidean Algorithm">Euclidean Algorithm</a>
+                <script>pages[14] = "Euclidean Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Monte Carlo"></a>
+                <a href="/contents/monte_carlo_integration/monte_carlo_integration.html#Monte Carlo">Monte Carlo</a>
+                <script>pages[15] = "Monte Carlo"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Matrix Methods"></a>
+                <a href="/contents/matrix_methods/matrix_methods.html#Matrix Methods">Matrix Methods</a>
+                <script>pages[16] = "Matrix Methods"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gaussian Elimination"></a>
+                <a href="/contents/gaussian_elimination/gaussian_elimination.html#Gaussian Elimination">Gaussian Elimination</a>
+                <script>pages[17] = "Gaussian Elimination"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Thomas Algorithm"></a>
+                <a href="/contents/thomas_algorithm/thomas_algorithm.html#Thomas Algorithm">Thomas Algorithm</a>
+                <script>pages[18] = "Thomas Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Computational Geometry"></a>
+                <a href="/contents/computational_geometry/computational_geometry.html#Computational Geometry">Computational Geometry</a>
+                <script>pages[19] = "Computational Geometry"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gift Wrapping"></a>
+                <a href="/contents/gift_wrapping/gift_wrapping.html#Gift Wrapping">Gift Wrapping</a>
+                <script>pages[20] = "Gift Wrapping"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Jarvis March"></a>
+                <a href="/contents/jarvis_march/jarvis_march.html#Jarvis March">Jarvis March</a>
+                <script>pages[21] = "Jarvis March"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Graham Scan"></a>
+                <a href="/contents/graham_scan/graham_scan.html#Graham Scan">Graham Scan</a>
+                <script>pages[22] = "Graham Scan"</script>
+            </p>
+        
+            <p>
+                
+                <a name="FFT"></a>
+                <a href="/contents/cooley_tukey/cooley_tukey.html#FFT">FFT</a>
+                <script>pages[23] = "FFT"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Decision Problems"></a>
+                <a href="/contents/decision_problems/decision_problems.html#Decision Problems">Decision Problems</a>
+                <script>pages[24] = "Decision Problems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stable Marriage Problem"></a>
+                <a href="/contents/stable_marriage_problem/stable_marriage_problem.html#Stable Marriage Problem">Stable Marriage Problem</a>
+                <script>pages[25] = "Stable Marriage Problem"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Differential Equation Solvers"></a>
+                <a href="/contents/differential_equations/differential_equations.html#Differential Equation Solvers">Differential Equation Solvers</a>
+                <script>pages[26] = "Differential Equation Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Forward Euler Method"></a>
+                <a href="/contents/forward_euler_method/forward_euler_method.html#Forward Euler Method">Forward Euler Method</a>
+                <script>pages[27] = "Forward Euler Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Physics Solvers"></a>
+                <a href="/contents/physics_solvers/physics_solvers.html#Physics Solvers">Physics Solvers</a>
+                <script>pages[28] = "Physics Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Verlet Integration"></a>
+                <a href="/contents/verlet_integration/verlet_integration.html#Verlet Integration">Verlet Integration</a>
+                <script>pages[29] = "Verlet Integration"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Quantum Systems"></a>
+                <a href="/contents/quantum_systems/quantum_systems.html#Quantum Systems">Quantum Systems</a>
+                <script>pages[30] = "Quantum Systems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Split-Operator Method"></a>
+                <a href="/contents/split-operator_method/split-operator_method.html#Split-Operator Method">Split-Operator Method</a>
+                <script>pages[31] = "Split-Operator Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Compression"></a>
+                <a href="/contents/data_compression/data_compression.html#Data Compression">Data Compression</a>
+                <script>pages[32] = "Data Compression"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Huffman Encoding"></a>
+                <a href="/contents/huffman_encoding/huffman_encoding.html#Huffman Encoding">Huffman Encoding</a>
+                <script>pages[33] = "Huffman Encoding"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Quantum Information"></a>
+                <a href="/contents/quantum_information/quantum_information.html#Quantum Information">Quantum Information</a>
+                <script>pages[34] = "Quantum Information"</script>
+            </p>
+        
+        <hr>
+    </div>
+    <nav class="navbarrio" id=navbar>
+        <ul class="navbarro">
+            <li>
+                <span onclick="toggleSidenav()">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </li>
+            <li>
+                <span onclick="flipLs()" id=flipper>
+                    <i class="fas fa-code"></i>
+                    <div class=ls id=ls></div>
+                    <div class=ls2 id=ls2></div>
+                </span>
+            </li>
+            <li>
+                <span id=name></span>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid on-sidebar" id="content">
+        <h1>Jarvis March</h1>
+<p>The first two-dimensional convex hull algorithm was originally developed by R. A. Jarvis in 1973 <a href="#ref-1">[1]</a>.
+Though other convex hull algorithms exist, this algorithm is often called <em>the</em> gift-wrapping algorithm.</p>
+<p>The idea behind this algorithm is simple.
+If we start with a random distribution of points, we can find the convex hull by first starting with the left-most point and using the origin to calculate an angle between every other point in the simulation.
+As a note, the "angle" can be roughly approximated with a cross-product or a dot product, which is common for some implementations here.
+Whichever point has the largest interior angle is chosen as the next point in the convex hull and we draw a line between the two points.
+From there, we use the two known points to again calculate the angle between all other points in the simulation.
+We then choose the point with the largest interior angle and move the simulation forward.
+We keep repeating this process until we have returned to our original point.
+The set of points chosen in this simulation will be the convex hull.</p>
+<p>As we might expect, this algorithm is not incredibly efficient and has a runtime of <script type='math/tex'>\mathcal{O}(nh)</script>, where <script type='math/tex'>n</script> is the number of points and <script type='math/tex'>h</script> is the size of the hull.
+As a note, the Jarvis March can be generalized to higher dimensions.
+Since this algorithm, there have been many other algorithms that have advanced the field of two-dimensional gift-wrapping forward, including the Graham Scan and Chan's Algorithm, which will be discussed in due time.</p>
+<h3>Bibliography</h3>
+<p><a name="ref-1" class=bib-link></a>[Person('Jarvis, Ray A')]: On the identification of the convex hull of a finite set of points in the plane, <i>Elsevier</i>, 1973</p>
+<h2>Example Code</h2>
+<div class=code-section>
+<div class="cs">
+<h5>JarvisMarch.cs</h5>
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
+<span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Linq</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">JarvisMarch</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">struct</span> <span class="nc">Vector</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+        <span class="k">public</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+
+        <span class="k">public</span> <span class="nf">Vector</span><span class="p">(</span><span class="kt">int</span> <span class="n">xValue</span><span class="p">,</span> <span class="kt">int</span> <span class="n">yValue</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">xValue</span><span class="p">;</span>
+            <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="n">yValue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="nf">Equals</span><span class="p">(</span><span class="kt">object</span> <span class="n">obj</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">obj</span> <span class="k">is</span> <span class="n">Vector</span> <span class="n">v</span> <span class="p">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">==</span> <span class="n">v</span><span class="p">.</span><span class="n">x</span> <span class="p">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="p">==</span> <span class="n">v</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+        <span class="k">public</span> <span class="k">override</span> <span class="kt">int</span> <span class="nf">GetHashCode</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="m">17</span> <span class="p">*</span> <span class="m">23</span> <span class="p">+</span> <span class="k">this</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">*</span> <span class="m">23</span> <span class="p">+</span> <span class="k">this</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+
+        <span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="k">operator</span><span class="p">==(</span><span class="n">Vector</span> <span class="n">a</span><span class="p">,</span> <span class="n">Vector</span> <span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+        <span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="k">operator</span><span class="p">!=(</span><span class="n">Vector</span> <span class="n">a</span><span class="p">,</span> <span class="n">Vector</span> <span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">!(</span><span class="n">a</span> <span class="p">==</span> <span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">JarvisMarch</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector</span><span class="p">&gt;</span> <span class="n">Run</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Vector</span><span class="p">&gt;</span> <span class="n">points</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">var</span> <span class="n">convexHull</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector</span><span class="p">&gt;();</span>
+
+            <span class="c1">// Set the intial pointOnHull to the point of the list, where the x-position is the lowest.</span>
+            <span class="kt">var</span> <span class="n">pointOnHull</span> <span class="p">=</span> <span class="n">points</span><span class="p">.</span><span class="n">Aggregate</span><span class="p">((</span><span class="n">leftmost</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">leftmost</span><span class="p">.</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">current</span><span class="p">.</span><span class="n">x</span> <span class="p">?</span> <span class="n">leftmost</span> <span class="p">:</span> <span class="n">current</span><span class="p">);</span>
+
+            <span class="c1">// Continue searching for the next pointOnHull until the next pointOnHull is equal to the first point of the convex hull.</span>
+            <span class="k">do</span>
+            <span class="p">{</span>
+                <span class="n">convexHull</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">pointOnHull</span><span class="p">);</span>
+
+                <span class="c1">// Search for the next pointOnHull by looking which of the points is the next most outer point.</span>
+                <span class="n">pointOnHull</span> <span class="p">=</span> <span class="n">points</span><span class="p">.</span><span class="n">Aggregate</span><span class="p">((</span><span class="n">potentialNextPointOnHull</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span> <span class="p">=&gt;</span>
+                <span class="p">{</span>
+                    <span class="c1">// Returns true, if potentialNextPointOnHull is equal to the current pointOnHull or if the current point is left of the line defined by pointOnHull and potentialNextPointOnHull.</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">potentialNextPointOnHull</span> <span class="p">==</span> <span class="n">pointOnHull</span> <span class="p">||</span> <span class="n">IsLeftOf</span><span class="p">(</span><span class="n">pointOnHull</span><span class="p">,</span> <span class="n">potentialNextPointOnHull</span><span class="p">,</span> <span class="n">current</span><span class="p">))</span>
+                        <span class="k">return</span> <span class="n">current</span><span class="p">;</span>
+                    <span class="k">return</span> <span class="n">potentialNextPointOnHull</span><span class="p">;</span>
+                <span class="p">});</span>
+
+                <span class="c1">// Check if the gift wrap is completed.</span>
+            <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">pointOnHull</span> <span class="p">!=</span> <span class="n">convexHull</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
+
+            <span class="k">return</span> <span class="n">convexHull</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Returns true, if p is left of the line defined by a and b.</span>
+        <span class="k">private</span> <span class="kt">bool</span> <span class="nf">IsLeftOf</span><span class="p">(</span><span class="n">Vector</span> <span class="n">a</span><span class="p">,</span> <span class="n">Vector</span> <span class="n">b</span><span class="p">,</span> <span class="n">Vector</span> <span class="n">p</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">a</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">*</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">a</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="p">&gt;</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">a</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">*</span> <span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">a</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+<h5>Program.cs</h5>
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
+<span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">JarvisMarch</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;JarvisMarch&quot;</span><span class="p">);</span>
+            <span class="c1">// Example list of points.</span>
+            <span class="c1">// The points are represented by vectors here, but that doesn&#39;t really matter.</span>
+            <span class="kt">var</span> <span class="n">points</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector</span><span class="p">&gt;()</span>
+            <span class="p">{</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">4</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Vector</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span>
+            <span class="p">};</span>
+            <span class="kt">var</span> <span class="n">jarvisMarch</span> <span class="p">=</span> <span class="k">new</span> <span class="n">JarvisMarch</span><span class="p">();</span>
+            <span class="kt">var</span> <span class="n">giftWrap</span> <span class="p">=</span> <span class="n">jarvisMarch</span><span class="p">.</span><span class="n">Run</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
+
+            <span class="c1">// Print the points of the gift wrap.</span>
+            <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">point</span> <span class="k">in</span> <span class="n">giftWrap</span><span class="p">)</span>
+                <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">&quot;{point.x}, {point.y}&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="jl">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">Pos</span>
+    <span class="n">x</span><span class="p">::</span><span class="n">Float64</span>
+    <span class="n">y</span><span class="p">::</span><span class="n">Float64</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">jarvis_cross</span><span class="p">(</span><span class="n">point1</span><span class="p">::</span><span class="n">Pos</span><span class="p">,</span> <span class="n">point2</span><span class="p">::</span><span class="n">Pos</span><span class="p">,</span> <span class="n">point3</span><span class="p">::</span><span class="n">Pos</span><span class="p">)</span>
+    <span class="n">vec1</span> <span class="o">=</span> <span class="n">Pos</span><span class="p">(</span><span class="n">point2</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">point1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point2</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">point1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">vec2</span> <span class="o">=</span> <span class="n">Pos</span><span class="p">(</span><span class="n">point3</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">point2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point3</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">point2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">ret_cross</span> <span class="o">=</span> <span class="n">vec1</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">vec2</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">vec1</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">vec2</span><span class="o">.</span><span class="n">x</span>
+    <span class="k">return</span> <span class="n">ret_cross</span><span class="o">*</span><span class="n">ret_cross</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">points</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pos</span><span class="p">})</span>
+    <span class="n">hull</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Pos</span><span class="p">}()</span>
+
+    <span class="c1"># sorting array based on leftmost point</span>
+    <span class="n">sort</span><span class="err">!</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">item</span> <span class="o">-&gt;</span> <span class="n">item</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">push</span><span class="err">!</span><span class="p">(</span><span class="n">hull</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">curr_point</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># Find cross product between points</span>
+    <span class="n">curr_product</span> <span class="o">=</span> <span class="n">jarvis_cross</span><span class="p">(</span><span class="n">Pos</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">hull</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">curr_point</span><span class="p">)</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">curr_point</span> <span class="o">!=</span> <span class="n">hull</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span>
+                <span class="n">product</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">hull</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">point</span><span class="p">)</span>
+                    <span class="n">product</span> <span class="o">=</span> <span class="n">jarvis_cross</span><span class="p">(</span><span class="n">Pos</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">hull</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">point</span><span class="p">)</span>
+                <span class="n">end</span>
+            <span class="k">else</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">hull</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">point</span> <span class="o">&amp;&amp;</span> <span class="n">hull</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">point</span><span class="p">)</span>
+                    <span class="n">product</span> <span class="o">=</span> <span class="n">jarvis_cross</span><span class="p">(</span><span class="n">hull</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hull</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">point</span><span class="p">)</span>
+                <span class="n">end</span>
+            <span class="n">end</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">product</span> <span class="o">&gt;</span> <span class="n">curr_product</span><span class="p">)</span>
+                <span class="n">curr_point</span> <span class="o">=</span> <span class="n">point</span>
+                <span class="n">curr_product</span> <span class="o">=</span> <span class="n">product</span>
+            <span class="n">end</span>
+        <span class="n">end</span>
+        <span class="n">push</span><span class="err">!</span><span class="p">(</span><span class="n">hull</span><span class="p">,</span> <span class="n">curr_point</span><span class="p">)</span>
+        <span class="n">curr_product</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">end</span>
+
+    <span class="k">return</span> <span class="n">hull</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">main</span><span class="p">()</span>
+
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pos</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mf">1.5</span><span class="p">),</span> <span class="n">Pos</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Pos</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">Pos</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">hull</span> <span class="o">=</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">hull</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="hs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Data.List</span> <span class="p">(</span><span class="n">sort</span><span class="p">,</span> <span class="n">maximumBy</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Data.Function</span> <span class="p">(</span><span class="n">on</span><span class="p">)</span>
+
+<span class="nb">type</span> <span class="n">Point</span> <span class="o">=</span> <span class="p">(</span><span class="n">Double</span><span class="p">,</span> <span class="n">Double</span><span class="p">)</span>
+
+<span class="n">angle</span> <span class="p">::</span> <span class="n">Point</span> <span class="o">-&gt;</span> <span class="n">Point</span> <span class="o">-&gt;</span> <span class="n">Point</span> <span class="o">-&gt;</span> <span class="n">Double</span>
+<span class="n">angle</span> <span class="n">a</span><span class="err">@</span><span class="p">(</span><span class="n">xa</span><span class="p">,</span> <span class="n">ya</span><span class="p">)</span> <span class="n">b</span><span class="err">@</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span> <span class="n">c</span><span class="err">@</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">a</span><span class="o">==</span><span class="n">b</span> <span class="o">||</span> <span class="n">c</span><span class="o">==</span><span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="o">|</span> <span class="n">theta</span><span class="o">&lt;</span><span class="mi">0</span>      <span class="o">=</span> <span class="n">theta</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span>
+  <span class="o">|</span> <span class="n">otherwise</span>    <span class="o">=</span> <span class="n">theta</span>
+  <span class="n">where</span> <span class="n">thetaA</span> <span class="o">=</span> <span class="n">atan2</span> <span class="p">(</span><span class="n">ya</span><span class="o">-</span><span class="n">yb</span><span class="p">)</span> <span class="p">(</span><span class="n">xa</span><span class="o">-</span><span class="n">xb</span><span class="p">)</span>
+        <span class="n">thetaC</span> <span class="o">=</span> <span class="n">atan2</span> <span class="p">(</span><span class="n">yc</span><span class="o">-</span><span class="n">yb</span><span class="p">)</span> <span class="p">(</span><span class="n">xc</span><span class="o">-</span><span class="n">xb</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">thetaC</span> <span class="o">-</span> <span class="n">thetaA</span>
+
+<span class="n">jarvisMarch</span> <span class="p">::</span> <span class="p">[</span><span class="n">Point</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Point</span><span class="p">]</span>
+<span class="n">jarvisMarch</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">jarvisMarch</span> <span class="n">pts</span> <span class="o">=</span> <span class="n">p0</span> <span class="p">:</span> <span class="n">wrap</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">p0</span>
+  <span class="n">where</span> <span class="n">p0</span><span class="err">@</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">=</span> <span class="n">minimum</span> <span class="n">pts</span>
+        <span class="n">wrap</span> <span class="n">p1</span> <span class="n">p2</span>
+          <span class="o">|</span> <span class="n">pm</span> <span class="o">==</span> <span class="n">p0</span>  <span class="o">=</span> <span class="p">[]</span>
+          <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">pm</span> <span class="p">:</span> <span class="n">wrap</span> <span class="n">p2</span> <span class="n">pm</span>
+          <span class="n">where</span> <span class="n">pm</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">compare</span> <span class="sb">`on`</span> <span class="n">angle</span> <span class="n">p1</span> <span class="n">p2</span><span class="p">)</span> <span class="n">pts</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="n">do</span>
+  <span class="n">let</span> <span class="n">pts</span> <span class="o">=</span> <span class="nb">filter</span> <span class="p">(</span>\<span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">&lt;=</span><span class="mi">5</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">|</span><span class="n">x</span><span class="o">&lt;-</span><span class="p">[</span><span class="o">-</span><span class="mf">5.</span><span class="o">.</span><span class="mi">5</span><span class="p">],</span> <span class="n">y</span><span class="o">&lt;-</span><span class="p">[</span><span class="o">-</span><span class="mf">5.</span><span class="o">.</span><span class="mi">5</span><span class="p">]]</span>
+  <span class="k">print</span> <span class="err">$</span> <span class="n">jarvisMarch</span> <span class="n">pts</span>
+</pre></div>
+
+</div></p>
+</div><div class="c">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &lt;stddef.h&gt;</span>
+<span class="c1">#include &lt;stdbool.h&gt;</span>
+
+<span class="n">struct</span> <span class="n">point</span> <span class="p">{</span>
+    <span class="n">double</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">struct</span> <span class="n">point</span> <span class="n">left_most_point</span><span class="p">(</span><span class="n">struct</span> <span class="n">point</span> <span class="o">*</span><span class="n">points</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">num_points</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">struct</span> <span class="n">point</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_points</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">ret</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">bool</span> <span class="n">equal</span><span class="p">(</span><span class="n">struct</span> <span class="n">point</span> <span class="n">a</span><span class="p">,</span> <span class="n">struct</span> <span class="n">point</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">double</span> <span class="n">winding</span><span class="p">(</span><span class="n">struct</span> <span class="n">point</span> <span class="n">p</span><span class="p">,</span> <span class="n">struct</span> <span class="n">point</span> <span class="n">q</span><span class="p">,</span> <span class="n">struct</span> <span class="n">point</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">size_t</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">struct</span> <span class="n">point</span> <span class="o">*</span><span class="n">points</span><span class="p">,</span> <span class="n">struct</span> <span class="n">point</span> <span class="o">*</span><span class="n">hull_points</span><span class="p">,</span>
+                    <span class="n">size_t</span> <span class="n">num_points</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">struct</span> <span class="n">point</span> <span class="n">hull_point</span> <span class="o">=</span> <span class="n">left_most_point</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">num_points</span><span class="p">);</span>
+    <span class="n">struct</span> <span class="n">point</span> <span class="n">end_point</span><span class="p">;</span>
+
+    <span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">do</span> <span class="p">{</span>
+        <span class="n">hull_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">hull_point</span><span class="p">;</span>
+        <span class="n">end_point</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_points</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">end_point</span><span class="p">,</span> <span class="n">hull_point</span><span class="p">)</span> <span class="o">||</span>
+                    <span class="n">winding</span><span class="p">(</span><span class="n">hull_points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">end_point</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">end_point</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">hull_point</span> <span class="o">=</span> <span class="n">end_point</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">equal</span><span class="p">(</span><span class="n">end_point</span><span class="p">,</span> <span class="n">hull_points</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+
+    <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">struct</span> <span class="n">point</span> <span class="n">points</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">},</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">},</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">},</span>
+                                <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">},</span> <span class="p">{</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">}};</span>
+    <span class="n">struct</span> <span class="n">point</span> <span class="n">hull_points</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+
+    <span class="n">size_t</span> <span class="n">num_hull_points</span> <span class="o">=</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">hull_points</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;The Hull points are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_hull_points</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;x=</span><span class="si">%f</span><span class="s2"> y=</span><span class="si">%f</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">hull_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">hull_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="js">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">jarvisMarch</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">const</span> <span class="n">hull</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="n">let</span> <span class="n">pointOnHull</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">reduce</span><span class="p">((</span><span class="n">leftmost</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">leftmost</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">current</span><span class="o">.</span><span class="n">x</span> <span class="err">?</span> <span class="n">leftmost</span> <span class="p">:</span> <span class="n">current</span><span class="p">);</span>
+  <span class="n">do</span> <span class="p">{</span>
+    <span class="n">hull</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">pointOnHull</span><span class="p">);</span>
+    <span class="n">pointOnHull</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">chooseNextPointOnHull</span><span class="p">(</span><span class="n">pointOnHull</span><span class="p">));</span>
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">pointOnHull</span> <span class="o">!==</span> <span class="n">hull</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+  <span class="k">return</span> <span class="n">hull</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">chooseNextPointOnHull</span><span class="p">(</span><span class="n">currentPoint</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">function</span> <span class="p">(</span><span class="n">nextPoint</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">nextPoint</span> <span class="o">===</span> <span class="n">currentPoint</span> <span class="o">||</span> <span class="n">isLeftOf</span><span class="p">({</span> <span class="n">a</span><span class="p">:</span> <span class="n">currentPoint</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">nextPoint</span> <span class="p">},</span> <span class="n">candidate</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">candidate</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="n">nextPoint</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">isLeftOf</span><span class="p">({</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="p">},</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">const</span> <span class="n">points</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">3</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">4</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">2</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">2</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">4</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span>
+<span class="p">];</span>
+
+<span class="n">const</span> <span class="n">convexHull</span> <span class="o">=</span> <span class="n">jarvisMarch</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
+<span class="n">convexHull</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sb">`(${p.x}, ${p.y})`</span><span class="p">));</span>
+</pre></div>
+
+</div></p>
+</div><div class="py">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1"># Is the turn counter clockwise?</span>
+<span class="k">def</span> <span class="nf">ccw</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p3</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> \
+        <span class="o">&gt;=</span> <span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">p3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">jarvis_march</span><span class="p">(</span><span class="n">gift</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gift</span><span class="p">)</span>  <span class="c1"># Number of points in list</span>
+    <span class="n">point_on_hull</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">gift</span><span class="p">)</span>  <span class="c1"># leftmost point in gift</span>
+    <span class="n">hull</span> <span class="o">=</span> <span class="p">[</span><span class="n">point_on_hull</span><span class="p">]</span>  <span class="c1"># leftmost point guaranteed to be in hull</span>
+
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c1"># Candidate for next point in hull</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="n">gift</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">endpoint</span> <span class="o">==</span> <span class="n">point_on_hull</span> \
+               <span class="ow">or</span> <span class="ow">not</span> <span class="n">ccw</span><span class="p">(</span><span class="n">gift</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">hull</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">endpoint</span><span class="p">):</span>
+                <span class="n">endpoint</span> <span class="o">=</span> <span class="n">gift</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="n">point_on_hull</span> <span class="o">=</span> <span class="n">endpoint</span>
+
+        <span class="c1"># Check if we have completely wrapped gift</span>
+        <span class="k">if</span> <span class="n">hull</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">endpoint</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hull</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point_on_hull</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hull</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">test_gift</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">hull</span> <span class="o">=</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">test_gift</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;The points in the hull are:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">hull</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="cpp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;vector&gt;</span>
+<span class="c1">#include &lt;iostream&gt;</span>
+<span class="c1">#include &lt;algorithm&gt;</span>
+
+<span class="n">struct</span> <span class="n">Point</span>
+<span class="p">{</span>
+    <span class="n">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+
+    <span class="nb">bool</span> <span class="n">operator</span><span class="o">==</span><span class="p">(</span><span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="n">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nb">bool</span> <span class="n">operator</span><span class="o">!=</span><span class="p">(</span><span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="n">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="err">!</span><span class="p">(</span><span class="o">*</span><span class="n">this</span> <span class="o">==</span> <span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">const</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">hull_points</span><span class="p">;</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">empty</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">hull_points</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Left</span> <span class="n">most</span> <span class="n">point</span>
+    <span class="n">auto</span> <span class="n">first_point_it</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">min_element</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">points</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">){</span> <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span><span class="p">;</span> <span class="p">});</span>
+
+    <span class="n">auto</span> <span class="n">next_point_it</span> <span class="o">=</span> <span class="n">first_point_it</span><span class="p">;</span>
+    <span class="n">do</span>
+    <span class="p">{</span>
+        <span class="n">hull_points</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="o">*</span><span class="n">next_point_it</span><span class="p">);</span>
+
+        <span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">hull_points</span><span class="o">.</span><span class="n">back</span><span class="p">();</span>
+
+        <span class="o">//</span> <span class="n">Largest</span> <span class="n">internal</span> <span class="n">angle</span>
+        <span class="n">next_point_it</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">max_element</span><span class="p">(</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span>
+            <span class="p">[</span><span class="n">p1</span><span class="p">](</span><span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">p2</span><span class="p">,</span> <span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">p3</span><span class="p">){</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">*</span><span class="n">next_point_it</span> <span class="o">!=</span> <span class="o">*</span><span class="n">first_point_it</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">hull_points</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">{</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">},</span>
+    <span class="p">};</span>
+
+    <span class="n">auto</span> <span class="n">hull_points</span> <span class="o">=</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;Hull points are:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="n">const</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">point</span> <span class="p">:</span> <span class="n">hull_points</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;(&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">point</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;)&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="lisp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="p">;;;;</span> <span class="n">Jarvis</span> <span class="n">March</span> <span class="n">implementation</span>
+
+<span class="p">(</span><span class="n">defstruct</span> <span class="p">(</span><span class="n">point</span> <span class="p">(:</span><span class="n">constructor</span> <span class="n">make</span><span class="o">-</span><span class="n">point</span> <span class="p">(</span><span class="n">x</span> <span class="n">y</span><span class="p">)))</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="ow">is</span><span class="o">-</span><span class="n">left</span><span class="o">-</span><span class="n">p</span> <span class="p">(</span><span class="n">p1</span> <span class="n">p2</span> <span class="n">p3</span><span class="p">)</span>
+  <span class="s2">&quot;Checks if the point p3 is to the left of the line p1 -&gt; p2&quot;</span>
+  <span class="p">(</span><span class="o">&gt;</span>
+    <span class="p">(</span><span class="o">*</span>
+      <span class="p">(</span><span class="o">-</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">y</span> <span class="n">p3</span><span class="p">)</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">y</span> <span class="n">p1</span><span class="p">))</span>
+      <span class="p">(</span><span class="o">-</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">p2</span><span class="p">)</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">p1</span><span class="p">)))</span>
+    <span class="p">(</span><span class="o">*</span>
+      <span class="p">(</span><span class="o">-</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">y</span> <span class="n">p2</span><span class="p">)</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">y</span> <span class="n">p1</span><span class="p">))</span>
+      <span class="p">(</span><span class="o">-</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">p3</span><span class="p">)</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">p1</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="nb">next</span><span class="o">-</span><span class="n">point</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">hull</span> <span class="p">(</span><span class="n">p1</span> <span class="n">p2</span> <span class="n">gift</span><span class="p">)</span>
+  <span class="s2">&quot;Finds the next point on the convex hull of a gift&quot;</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">null</span> <span class="n">gift</span><span class="p">)</span>
+      <span class="n">p2</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">-</span><span class="n">left</span><span class="o">-</span><span class="n">p</span> <span class="n">p1</span> <span class="n">p2</span> <span class="p">(</span><span class="n">first</span> <span class="n">gift</span><span class="p">))</span>
+          <span class="p">(</span><span class="nb">next</span><span class="o">-</span><span class="n">point</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">hull</span> <span class="n">p1</span> <span class="p">(</span><span class="n">first</span> <span class="n">gift</span><span class="p">)</span> <span class="p">(</span><span class="n">rest</span> <span class="n">gift</span><span class="p">))</span>
+          <span class="p">(</span><span class="nb">next</span><span class="o">-</span><span class="n">point</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">hull</span> <span class="n">p1</span> <span class="n">p2</span> <span class="p">(</span><span class="n">rest</span> <span class="n">gift</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="n">leftmost</span><span class="o">-</span><span class="n">point</span> <span class="p">(</span><span class="n">gift</span><span class="p">)</span>
+  <span class="s2">&quot;Returns the lefmost point of a gift&quot;</span>
+  <span class="p">(</span><span class="nb">reduce</span> 
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">p1</span> <span class="n">p2</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">p1</span><span class="p">)</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">p2</span><span class="p">))</span> <span class="n">p1</span> <span class="n">p2</span><span class="p">))</span>
+    <span class="n">gift</span><span class="p">))</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="n">jarvis</span><span class="o">-</span><span class="n">march</span> <span class="p">(</span><span class="n">gift</span><span class="p">)</span>
+  <span class="s2">&quot;finds the convex hull of any distribution of points&quot;</span>
+  <span class="p">;</span><span class="n">deals</span> <span class="k">with</span> <span class="n">the</span> <span class="n">edge</span> <span class="n">cases</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span> <span class="p">(</span><span class="n">length</span> <span class="n">gift</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">gift</span>
+    <span class="p">(</span><span class="n">loop</span>
+      <span class="k">with</span> <span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="n">leftmost</span><span class="o">-</span><span class="n">point</span> <span class="n">gift</span><span class="p">)</span>
+      <span class="k">with</span> <span class="n">hull</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span> <span class="n">start</span> <span class="p">(</span><span class="n">make</span><span class="o">-</span><span class="n">point</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">x</span> <span class="n">start</span><span class="p">)</span> <span class="p">(</span><span class="o">-</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">y</span> <span class="n">start</span><span class="p">)</span> <span class="mi">1</span><span class="p">)))</span>
+      <span class="n">do</span> 
+        <span class="p">(</span><span class="n">setq</span> <span class="n">hull</span>
+          <span class="p">(</span><span class="n">cons</span> 
+            <span class="p">(</span><span class="nb">next</span><span class="o">-</span><span class="n">point</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">hull</span> <span class="p">(</span><span class="n">first</span> <span class="n">hull</span><span class="p">)</span> <span class="p">(</span><span class="n">second</span> <span class="n">hull</span><span class="p">)</span> <span class="n">gift</span><span class="p">)</span>
+            <span class="n">hull</span><span class="p">))</span>
+      <span class="n">until</span> <span class="p">(</span><span class="n">equalp</span> <span class="p">(</span><span class="n">first</span> <span class="n">hull</span><span class="p">)</span> <span class="n">start</span><span class="p">)</span>
+      <span class="p">;</span><span class="n">deletes</span> <span class="n">extra</span> <span class="n">points</span>
+      <span class="k">finally</span> <span class="p">(</span><span class="k">return</span> <span class="p">(</span><span class="n">rest</span> <span class="p">(</span><span class="n">butlast</span> <span class="n">hull</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="n">defvar</span> <span class="n">gift</span>
+  <span class="p">(</span><span class="nb">map</span> 
+    <span class="s1">&#39;list</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">(</span><span class="nb">apply</span> <span class="c1">#&#39;make-point e))</span>
+    <span class="s1">&#39;((2 1.5) (1 1) (2 4) (3 1))))</span>
+
+<span class="p">(</span><span class="k">print</span> <span class="p">(</span><span class="n">jarvis</span><span class="o">-</span><span class="n">march</span> <span class="n">gift</span><span class="p">))</span>
+</pre></div>
+
+</div></p>
+</div><div class="java">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.util.</span><span class="o">*</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="nc">JarvisMarch</span> <span class="p">{</span>
+    
+    <span class="n">static</span> <span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+        <span class="n">private</span> <span class="n">double</span> <span class="n">x</span><span class="p">;</span>
+        <span class="n">private</span> <span class="n">double</span> <span class="n">y</span><span class="p">;</span>
+        
+        <span class="n">public</span> <span class="n">Point</span><span class="p">(</span><span class="n">double</span> <span class="n">a</span><span class="p">,</span> <span class="n">double</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="n">public</span> <span class="n">double</span> <span class="n">getX</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">public</span> <span class="n">double</span> <span class="n">getY</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="n">public</span> <span class="n">boolean</span> <span class="n">equals</span><span class="p">(</span><span class="n">Point</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">==</span> <span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">public</span> <span class="n">double</span> <span class="n">magnitude</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="o">//</span><span class="n">find</span> <span class="n">the</span> <span class="n">angle</span> <span class="n">by</span> <span class="n">creating</span> <span class="n">two</span> <span class="n">vectors</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">using</span> <span class="n">a</span> <span class="nb">property</span> <span class="n">of</span> <span class="n">dot</span> <span class="n">products</span>
+    <span class="n">private</span> <span class="n">static</span> <span class="n">double</span> <span class="n">angle</span><span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">,</span> <span class="n">Point</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Point</span> <span class="n">ab</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">getX</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">getY</span><span class="p">());</span>
+        <span class="n">Point</span> <span class="n">bc</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">getX</span><span class="p">(),</span> <span class="n">c</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">getY</span><span class="p">());</span>
+        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">((</span><span class="n">ab</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">*</span> <span class="n">bc</span><span class="o">.</span><span class="n">getX</span><span class="p">())</span> <span class="o">+</span> <span class="p">(</span><span class="n">ab</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">*</span> <span class="n">bc</span><span class="o">.</span><span class="n">getY</span><span class="p">()))</span> <span class="o">/</span>
+                               <span class="p">(</span><span class="n">ab</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span> <span class="o">*</span> <span class="n">bc</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()));</span>
+    <span class="p">}</span>
+    
+    <span class="n">public</span> <span class="n">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">jarvisMarch</span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">hull</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span><span class="p">();</span>
+        <span class="n">Point</span> <span class="n">pointOnHull</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="n">Double</span><span class="o">.</span><span class="n">MAX_VALUE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        
+        <span class="o">//</span><span class="n">find</span> <span class="n">leftmost</span> <span class="n">point</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">Point</span> <span class="n">p</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">pointOnHull</span><span class="o">.</span><span class="n">getX</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">pointOnHull</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">hull</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pointOnHull</span><span class="p">);</span>
+        
+        <span class="o">//</span><span class="n">look</span> <span class="k">for</span> <span class="n">the</span> <span class="n">rest</span> <span class="n">of</span> <span class="n">the</span> <span class="n">points</span> <span class="n">on</span> <span class="n">the</span> <span class="n">hull</span>
+        <span class="n">Point</span> <span class="n">ref</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">hull</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">ref</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="n">pointOnHull</span><span class="o">.</span><span class="n">getX</span><span class="p">(),</span> <span class="n">pointOnHull</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="o">//</span><span class="n">finds</span> <span class="n">a</span> <span class="n">third</span> <span class="n">point</span> <span class="n">to</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">calculating</span> <span class="n">the</span> <span class="n">angle</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">ref</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">hull</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">Point</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="o">//</span><span class="n">initial</span> <span class="n">canidate</span> <span class="k">for</span> <span class="nb">next</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">hull</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">Point</span> <span class="n">p</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">angle</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pointOnHull</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">angle</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">pointOnHull</span><span class="p">,</span> <span class="n">ref</span><span class="p">))</span> <span class="p">{</span> <span class="o">//</span><span class="n">found</span> <span class="n">a</span> <span class="n">point</span> <span class="n">that</span> <span class="n">makes</span> <span class="n">a</span> <span class="n">greater</span> <span class="n">angle</span>
+                    <span class="n">endpoint</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">pointOnHull</span> <span class="o">=</span> <span class="n">endpoint</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pointOnHull</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">hull</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="p">{</span> <span class="o">//</span><span class="n">add</span> <span class="nb">next</span> <span class="n">point</span> <span class="n">to</span> <span class="n">hull</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">equal</span> <span class="n">to</span> <span class="n">the</span> <span class="n">leftmost</span> <span class="n">point</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">hull</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pointOnHull</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">hull</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="o">//</span><span class="n">test</span> <span class="n">array</span> <span class="n">setup</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">gift</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span><span class="p">();</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">));</span>
+        <span class="n">gift</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">));</span>
+        
+        <span class="o">//</span><span class="k">print</span> <span class="n">initial</span> <span class="n">array</span> <span class="n">of</span> <span class="n">points</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Gift:&quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">Point</span> <span class="n">p</span><span class="p">:</span> <span class="n">gift</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="o">//</span><span class="n">find</span> <span class="ow">and</span> <span class="k">print</span> <span class="n">the</span> <span class="n">array</span> <span class="n">of</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">hull</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">hull</span> <span class="o">=</span> <span class="n">jarvisMarch</span><span class="p">(</span><span class="n">gift</span><span class="p">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Wrapping:&quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">Point</span> <span class="n">p</span><span class="p">:</span> <span class="n">hull</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="go">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s2">&quot;fmt&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">type</span> <span class="n">point</span> <span class="n">struct</span> <span class="p">{</span>
+	<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="n">float64</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">leftMostPoint</span><span class="p">(</span><span class="n">points</span> <span class="p">[]</span><span class="n">point</span><span class="p">)</span> <span class="n">point</span> <span class="p">{</span>
+	<span class="n">ret</span> <span class="p">:</span><span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+	<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="nb">range</span> <span class="n">points</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">ret</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">p</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">ret</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="p">(</span><span class="n">p</span> <span class="n">point</span><span class="p">)</span> <span class="n">equal</span><span class="p">(</span><span class="n">o</span> <span class="n">point</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">y</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">counterClockWise</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span> <span class="n">point</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">jarvisMarch</span><span class="p">(</span><span class="n">points</span> <span class="p">[]</span><span class="n">point</span><span class="p">)</span> <span class="p">[]</span><span class="n">point</span> <span class="p">{</span>
+	<span class="n">hullPoints</span> <span class="p">:</span><span class="o">=</span> <span class="n">make</span><span class="p">([]</span><span class="n">point</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="n">hullPoint</span> <span class="p">:</span><span class="o">=</span> <span class="n">leftMostPoint</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+	<span class="n">hullPoints</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">hullPoints</span><span class="p">,</span> <span class="n">hullPoint</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="n">endPoint</span> <span class="p">:</span><span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+		<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="nb">range</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="n">endPoint</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">hullPoint</span><span class="p">)</span> <span class="o">||</span> <span class="err">!</span><span class="n">counterClockWise</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">hullPoints</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hullPoints</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">endPoint</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">endPoint</span> <span class="o">=</span> <span class="n">p</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="n">hullPoint</span> <span class="o">=</span> <span class="n">endPoint</span>
+
+		<span class="k">if</span> <span class="n">endPoint</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">hullPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+			<span class="k">break</span>
+		<span class="p">}</span>
+
+		<span class="n">hullPoints</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">hullPoints</span><span class="p">,</span> <span class="n">hullPoint</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">hullPoints</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">points</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="n">point</span><span class="p">{{</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">},</span> <span class="p">{</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">},</span>
+		<span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">},</span> <span class="p">{</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">},</span>
+		<span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">},</span> <span class="p">{</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">},</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">},</span>
+	<span class="p">}</span>
+
+	<span class="n">hullPoints</span> <span class="p">:</span><span class="o">=</span> <span class="n">jarvisMarch</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;The hull points are:&quot;</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="nb">range</span> <span class="n">hullPoints</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">&quot;x=</span><span class="si">%f</span><span class="s2"> y=</span><span class="si">%f</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="v">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">Point</span> <span class="p">{</span>
+	<span class="n">x</span> <span class="nb">int</span>
+	<span class="n">y</span> <span class="nb">int</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">left_most_point</span><span class="p">(</span><span class="n">points</span> <span class="p">[]</span><span class="n">Point</span><span class="p">)</span> <span class="n">Point</span> <span class="p">{</span>
+	<span class="n">mut</span> <span class="n">ret</span> <span class="p">:</span><span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+	<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">ret</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">p</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">ret</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="p">(</span><span class="n">p</span> <span class="n">Point</span><span class="p">)</span> <span class="n">equal</span><span class="p">(</span><span class="n">o</span> <span class="n">Point</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">x</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">counter_clock_wise</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span> <span class="n">Point</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">points</span> <span class="p">[]</span><span class="n">Point</span><span class="p">)</span> <span class="p">[]</span><span class="n">Point</span> <span class="p">{</span>
+	<span class="n">mut</span> <span class="n">hull_point</span> <span class="p">:</span><span class="o">=</span> <span class="n">left_most_point</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+	<span class="n">mut</span> <span class="n">hull_points</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">hull_point</span><span class="p">]</span>
+
+
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="n">mut</span> <span class="n">end_point</span> <span class="p">:</span><span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+		<span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">points</span><span class="o">.</span><span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="n">end_point</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">||</span> <span class="err">!</span><span class="n">counter_clock_wise</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hull_points</span><span class="p">[</span><span class="n">hull_points</span><span class="o">.</span><span class="n">len</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">end_point</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">end_point</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="n">hull_point</span> <span class="o">=</span> <span class="n">end_point</span>
+		<span class="k">if</span> <span class="n">end_point</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">hull_points</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+			<span class="k">break</span>
+		<span class="p">}</span>
+
+		<span class="n">hull_points</span> <span class="o">&lt;&lt;</span> <span class="n">hull_point</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">hull_points</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">points</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span>
+		<span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">},</span>
+		<span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">},</span>
+		<span class="n">Point</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">},</span> <span class="n">Point</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+	<span class="p">]</span>
+
+	<span class="n">hull_points</span> <span class="p">:</span><span class="o">=</span> <span class="n">jarvis_march</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+	<span class="n">println</span><span class="p">(</span><span class="s1">&#39;The hull points are:&#39;</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">hull_points</span> <span class="p">{</span>
+		<span class="n">println</span><span class="p">(</span><span class="s1">&#39;x=$p.x y=$p.y&#39;</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div>
+</div>
+
+<script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+
+<h2>License</h2>
+<h5>Code Examples</h5>
+<p>The code examples are licensed under the MIT license (found in <a href="https://github.com/algorithm-archivists/algorithm-archive/blob/master/LICENSE.md">LICENSE.md</a>).</p>
+<h5>Text</h5>
+<p>The text of this chapter was written by <a href="https://github.com/leios">James Schloss</a> and is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+<p><a href="https://creativecommons.org/licenses/by-sa/4.0/"><p><img  class="center" src="../cc/CC-BY-SA_icon.svg" /></p></a></p>
+<h5>Pull Requests</h5>
+<p>After initial licensing (<a href="https://github.com/algorithm-archivists/algorithm-archive/pull/560">#560</a>), the following pull requests have modified the text or graphics of this chapter:
+- none</p>
+        <hr>
+    </div>
+</body>
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel=stylesheet href="/pygments.css" type="text/css">
+    <link rel=stylesheet href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title id="ttl"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        var bjs = {"gitbook": "3.x.x", "plugins": ["fontsettings", "mathjax@https://github.com/algorithm-archivists/plugin-mathjax", "bibtex-cite", "wordcount", "api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git", "include-codeblock", "ga", "bulk-redirect", "prism", "-highlight"], "lunr": {"maxIndexSize": 1000000000}, "pluginsConfig": {"mathjax": {"version": "2.6.1"}, "include-codeblock": {"fixlang": true, "unindent": true}, "bulk-redirect": {"basepath": "/", "redirectsFile": "redirects.json"}, "ga": {"token": "UA-118252470-1"}, "prism": {"lang": {"asm-x64": "nasm"}, "ignore": ["emojicode", "text"], "css": ["prismjs/themes/prism-tomorrow.css"]}, "api-language-selector": {"languages": [{"lang": "jl", "name": "Julia", "default": true}, {"lang": "bash", "name": "Bash"}, {"lang": "cs", "name": "C#"}, {"lang": "cpp", "name": "C++"}, {"lang": "c", "name": "C"}, {"lang": "c8", "name": "chip-8"}, {"lang": "py", "name": "Python"}, {"lang": "js", "name": "JavaScript"}, {"lang": "scratch", "name": "Scratch"}, {"lang": "hs", "name": "Haskell"}, {"lang": "rs", "name": "Rust"}, {"lang": "ml", "name": "OCaml"}, {"lang": "java", "name": "Java"}, {"lang": "clj", "name": "Clojure"}, {"lang": "elm", "name": "Elm"}, {"lang": "LabVIEW", "name": "LabVIEW"}, {"lang": "d", "name": "D"}, {"lang": "go", "name": "Go"}, {"lang": "swift", "name": "Swift"}, {"lang": "racket", "name": "Racket"}, {"lang": "m", "name": "Matlab"}, {"lang": "r", "name": "R"}, {"lang": "ti83b", "name": "TI-83 Basic"}, {"lang": "lua", "name": "Lua"}, {"lang": "crystal", "name": "Crystal"}, {"lang": "php", "name": "PHP"}, {"lang": "lisp", "name": "Common Lisp"}, {"lang": "nim", "name": "Nim"}, {"lang": "asm-x64", "name": "X86-64 Assembly"}, {"lang": "f90", "name": "Fortran90"}, {"lang": "factor", "name": "Factor"}, {"lang": "ws", "name": "Whitespace"}, {"lang": "scala", "name": "Scala"}, {"lang": "emojic", "name": "Emojicode"}, {"lang": "lolcode", "name": "LOLCODE"}, {"lang": "piet", "name": "Piet"}, {"lang": "ss", "name": "Scheme"}, {"lang": "ps1", "name": "PowerShell"}, {"lang": "v", "name": "Vlang"}, {"lang": "coffee", "name": "CoffeeScript"}, {"lang": "kotlin", "name": "Kotlin"}]}}};		    
+        var lang = "jl";
+        var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash",
+            "haskell": "Haskell",
+            "matlab": "Matlab",
+            "javascript": "JavaScript"
+        };
+	
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+	    langs = Object.keys(langs);
+	    if (langs.length == 1) {
+		lang = langs[0];
+	    }
+            langNames.forEach(function(element) { translations[element.lang] = element.name });
+        }
+        function reload() {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    if (element.className == lang) {
+                        element.style.display = 'block';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+        };
+        window.onload = () => {
+            initLangs();
+            reload();
+            document.getElementById("name").innerText = pages[index];
+            document.getElementById("ttl").innerText = pages[index];
+            initLs();
+        };
+        var index = 30;
+        var pages = [];
+	var lsed = false;
+				
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+
+	var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                var h1 = 0;
+                var h2 = 0;
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+		    console.log(language);
+		    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs[\"" + language + "\"]()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    if (i % 2) {
+                        h2 += 1
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        h1 += 1
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (h1 > h2) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
+                }
+                document.getElementById("ls").style.display = "none";
+                document.getElementById("ls2").style.display = "none";
+            }
+        }
+        function toggleSidenav () {
+            $("#sidebar").toggleClass("hide");
+            $("#content").toggleClass("on-sidebar");
+            $("#navbar").toggleClass("no-sidebar");
+        }
+    </script>
+    <div class="sidebar-wrapper" id="sidebar">
+        
+            <p>
+                
+                <a name="Algorithm Archive"></a>
+                <a href="/index.html#Algorithm Archive">Algorithm Archive</a>
+                <script>pages[0] = "Algorithm Archive"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Introduction"></a>
+                <a href="/contents/introduction/introduction.html#Introduction">Introduction</a>
+                <script>pages[1] = "Introduction"</script>
+            </p>
+        
+            <p>
+                
+                <a name="How To Contribute"></a>
+                <a href="/contents/how_to_contribute/how_to_contribute.html#How To Contribute">How To Contribute</a>
+                <script>pages[2] = "How To Contribute"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Plotting"></a>
+                <a href="/contents/plotting/plotting.html#Plotting">Plotting</a>
+                <script>pages[3] = "Plotting"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Structures"></a>
+                <a href="/contents/data_structures/data_structures.html#Data Structures">Data Structures</a>
+                <script>pages[4] = "Data Structures"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stacks and Queues"></a>
+                <a href="/contents/stacks_and_queues/stacks_and_queues.html#Stacks and Queues">Stacks and Queues</a>
+                <script>pages[5] = "Stacks and Queues"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Mathematical Background"></a>
+                <a href="/contents/mathematical_background/mathematical_background.html#Mathematical Background">Mathematical Background</a>
+                <script>pages[6] = "Mathematical Background"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Complexity Notation"></a>
+                <a href="/contents/notation/notation.html#Complexity Notation">Complexity Notation</a>
+                <script>pages[7] = "Complexity Notation"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bit Logic"></a>
+                <a href="/contents/bitlogic/bitlogic.html#Bit Logic">Bit Logic</a>
+                <script>pages[8] = "Bit Logic"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Taylor Series"></a>
+                <a href="/contents/taylor_series_expansion/taylor_series_expansion.html#Taylor Series">Taylor Series</a>
+                <script>pages[9] = "Taylor Series"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Sorting and Searching"></a>
+                <a href="/contents/sorting_and_searching/sorting_and_searching.html#Sorting and Searching">Sorting and Searching</a>
+                <script>pages[10] = "Sorting and Searching"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bubble Sort"></a>
+                <a href="/contents/bubble_sort/bubble_sort.html#Bubble Sort">Bubble Sort</a>
+                <script>pages[11] = "Bubble Sort"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bogo Sort"></a>
+                <a href="/contents/bogo_sort/bogo_sort.html#Bogo Sort">Bogo Sort</a>
+                <script>pages[12] = "Bogo Sort"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Tree Traversal"></a>
+                <a href="/contents/tree_traversal/tree_traversal.html#Tree Traversal">Tree Traversal</a>
+                <script>pages[13] = "Tree Traversal"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Euclidean Algorithm"></a>
+                <a href="/contents/euclidean_algorithm/euclidean_algorithm.html#Euclidean Algorithm">Euclidean Algorithm</a>
+                <script>pages[14] = "Euclidean Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Monte Carlo"></a>
+                <a href="/contents/monte_carlo_integration/monte_carlo_integration.html#Monte Carlo">Monte Carlo</a>
+                <script>pages[15] = "Monte Carlo"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Matrix Methods"></a>
+                <a href="/contents/matrix_methods/matrix_methods.html#Matrix Methods">Matrix Methods</a>
+                <script>pages[16] = "Matrix Methods"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gaussian Elimination"></a>
+                <a href="/contents/gaussian_elimination/gaussian_elimination.html#Gaussian Elimination">Gaussian Elimination</a>
+                <script>pages[17] = "Gaussian Elimination"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Thomas Algorithm"></a>
+                <a href="/contents/thomas_algorithm/thomas_algorithm.html#Thomas Algorithm">Thomas Algorithm</a>
+                <script>pages[18] = "Thomas Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Computational Geometry"></a>
+                <a href="/contents/computational_geometry/computational_geometry.html#Computational Geometry">Computational Geometry</a>
+                <script>pages[19] = "Computational Geometry"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gift Wrapping"></a>
+                <a href="/contents/gift_wrapping/gift_wrapping.html#Gift Wrapping">Gift Wrapping</a>
+                <script>pages[20] = "Gift Wrapping"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Jarvis March"></a>
+                <a href="/contents/jarvis_march/jarvis_march.html#Jarvis March">Jarvis March</a>
+                <script>pages[21] = "Jarvis March"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Graham Scan"></a>
+                <a href="/contents/graham_scan/graham_scan.html#Graham Scan">Graham Scan</a>
+                <script>pages[22] = "Graham Scan"</script>
+            </p>
+        
+            <p>
+                
+                <a name="FFT"></a>
+                <a href="/contents/cooley_tukey/cooley_tukey.html#FFT">FFT</a>
+                <script>pages[23] = "FFT"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Decision Problems"></a>
+                <a href="/contents/decision_problems/decision_problems.html#Decision Problems">Decision Problems</a>
+                <script>pages[24] = "Decision Problems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stable Marriage Problem"></a>
+                <a href="/contents/stable_marriage_problem/stable_marriage_problem.html#Stable Marriage Problem">Stable Marriage Problem</a>
+                <script>pages[25] = "Stable Marriage Problem"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Differential Equation Solvers"></a>
+                <a href="/contents/differential_equations/differential_equations.html#Differential Equation Solvers">Differential Equation Solvers</a>
+                <script>pages[26] = "Differential Equation Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Forward Euler Method"></a>
+                <a href="/contents/forward_euler_method/forward_euler_method.html#Forward Euler Method">Forward Euler Method</a>
+                <script>pages[27] = "Forward Euler Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Physics Solvers"></a>
+                <a href="/contents/physics_solvers/physics_solvers.html#Physics Solvers">Physics Solvers</a>
+                <script>pages[28] = "Physics Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Verlet Integration"></a>
+                <a href="/contents/verlet_integration/verlet_integration.html#Verlet Integration">Verlet Integration</a>
+                <script>pages[29] = "Verlet Integration"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Quantum Systems"></a>
+                <a href="/contents/quantum_systems/quantum_systems.html#Quantum Systems">Quantum Systems</a>
+                <script>pages[30] = "Quantum Systems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Split-Operator Method"></a>
+                <a href="/contents/split-operator_method/split-operator_method.html#Split-Operator Method">Split-Operator Method</a>
+                <script>pages[31] = "Split-Operator Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Compression"></a>
+                <a href="/contents/data_compression/data_compression.html#Data Compression">Data Compression</a>
+                <script>pages[32] = "Data Compression"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Huffman Encoding"></a>
+                <a href="/contents/huffman_encoding/huffman_encoding.html#Huffman Encoding">Huffman Encoding</a>
+                <script>pages[33] = "Huffman Encoding"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Quantum Information"></a>
+                <a href="/contents/quantum_information/quantum_information.html#Quantum Information">Quantum Information</a>
+                <script>pages[34] = "Quantum Information"</script>
+            </p>
+        
+        <hr>
+    </div>
+    <nav class="navbarrio" id=navbar>
+        <ul class="navbarro">
+            <li>
+                <span onclick="toggleSidenav()">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </li>
+            <li>
+                <span onclick="flipLs()" id=flipper>
+                    <i class="fas fa-code"></i>
+                    <div class=ls id=ls></div>
+                    <div class=ls2 id=ls2></div>
+                </span>
+            </li>
+            <li>
+                <span id=name></span>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid on-sidebar" id="content">
+        <h1>Quantum Systems</h1>
+<p>As I am sure you have heard, the quantum world is weird.
+As you deal with progressively smaller and smaller systems, at some point, it becomes less accurate to describe objects as particles.
+Instead, it is better to describe objects as probability densities.
+These densities are easiest to understand in terms of <em>wavefunctions</em>, which are complex functions characterizing a quantum system's behaviour.</p>
+<p>Again, this is pretty common knowledge; however, there is a distinct lack of readable literature on how to simulate quantum systems, even though there are numerous methods for exactly that!
+This section will deal with the computation of quantum states with classical machines.
+Now, I know what you are thinking, "Wait. Why are we simulating quantum systems on classical computers? Why not simulate it with some sort of experiment or with quantum computers?"
+Well, here's where the notation get's really sticky.</p>
+<p>There is a clear difference between quantum computers and quantum simulators.
+A <em>quantum computer</em> is the quantum analog to a classical computer, replacing bits with qubits by using quantum information theory.
+Quantum computers are usually thought of as a way to use quantum mechanics to eventually solve real-world problems with new quantum algorithms.
+Both Grover's and Shor's algorithms are good examples of cases where quantum computation could greatly change the landscape of modern computation as we know it!</p>
+<p><em>Quantum simulators</em> on the other hand are quantum systems used to better understand quantum mechanics.
+These will often come in the form of experimental quantum systems that express quantum behaviour and allow us to better understand other areas of quantum systems.
+In other words, quantum simulators are general techniques to study quantum systems on quantum hardware; however, quantum computers are quantum hardware used for the explicit purpose of quantum computation with qubits.
+Because supercomputers are not great at performing quantum computations, certain quantum simulators exist as a building block for quantum computation.
+A <em>universal quantum simulator</em> is often called a quantum computer for this reason.</p>
+<p>The truth is that quantum simulators are hard to make in laboratories, so simulating quantum systems on classical hardware is as good as we can do in most cases.
+This section is devoted to all the different methods currently used to solve complex quantum systems, so let's start with the Schr&ouml;dinger Equation, which has many different formulations.
+Here is the easiest one to explain:</p>
+<p><script type='math/tex'>
+i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \left[-\frac{\hbar^2}{2m} \nabla^2 + V(\mathbf{r},t) \right] \Psi(\mathbf{r},t)
+</script></p>
+<p>Where <script type='math/tex'>\Psi(\mathbf{r},t)</script> is a quantum wavefunction, <script type='math/tex'>V(\mathbf{r},t)</script> is a <em>trapping potential</em>, <script type='math/tex'>\nabla^2</script> is a <em>laplacian</em>, <script type='math/tex'>\mathbf{r}</script> is some sort of spatial component, and <script type='math/tex'>t</script> is time.
+There is a lot to take in here; however, it's ultimately just some time derivative on the left-hand side and a spatial derivative (with some extra steps) on the right-hand side.
+In this way, it isn't too different from the diffusion (heat) equation:</p>
+<p><script type='math/tex'>
+\frac{\partial\phi(\mathbf{r},t)}{\partial t} = D \nabla^2 \phi(\mathbf{r},t)
+</script></p>
+<p>where <script type='math/tex'>D</script> is some positive definite matrix and <script type='math/tex'>\phi(\mathbf{r},t)</script> is the density (or temperature) of the system.
+In fact, this is why one of the most common types of quantum simulation is sometimes called  <em>diffusion Monte Carlo</em>.
+There really isn't that much of a difference between the two systems in terms of how they are simulated on classical hardware... but we are getting ahead of ourselves.
+For now, let's talk about how quantum mechanics differs from classical mechanics and how we can use this to our advantage.</p>
+<h2>Probability Density</h2>
+<p>Quantum mechanics works fundamentally differently than classical mechanics in physics.
+The wavefunction can be thought of as a set of all possible states for an object to be in, where there is some probability for the particle to be found in each state.
+This means that it is not possible to say that a particle is at a particular location, and instead we often say that it could be at any location with probability, as shown in the <em>probability density</em>:</p>
+<p><script type='math/tex'>
+P(\mathbf{r}, t) = |\Psi(\mathbf{r},t)|^2 = \Psi(\mathbf{r},t)^{*}\Psi(\mathbf{r},t)
+</script></p>
+<p>Here, there are 2 things to note:</p>
+<ol>
+<li>The absolute value squared of a complex parameter <script type='math/tex'>\Psi(\mathbf{r},t)</script> is a dot product (inner product) between a complex function and it's Hermitian conjugate. This means the value will always be real, while the wavefunction, itself, might not be.</li>
+<li>As you have probably heard, once a wavefunction is observed it collapses onto a single state. This can be simply interpreted as absolute knowledge of the particle's location. A probability density doesn't make sense if we know where the particle is!</li>
+</ol>
+<p>Now, to be clear: the probabilities must all sum to 1, or (more formally):</p>
+<p><script type='math/tex'>
+\int_{-\infty}^{+\infty}|\Psi(\mathbf{r},t)|^2 d\mathbf{r} = 1
+</script></p>
+<p>This simply means that the probability of finding our quantum particle <em>somewhere in real space</em> is 1.
+In other words, our particle must exist somewhere in the known universe.</p>
+<p>As another note: Just like position space can be parameterized by a position vector <script type='math/tex'>\textbf{x}</script>, wavefunctions can also be parameterized by a <em>wave</em> vector <script type='math/tex'>\textbf{k}</script> in frequency space.
+Any wavevector <script type='math/tex'>\textbf{k}</script> has the same units as reciprocal space and is thus analogous to angular frequency <script type='math/tex'>\omega</script>.
+Often times, the wavevector space is called <em>momentum</em> space, which makes sense when considering the de Broglie formula:</p>
+<p><script type='math/tex'>
+p = \frac{h}{\lambda} = \frac{2 \pi h}{2 \pi \lambda} = \hbar k
+</script></p>
+<p>where <script type='math/tex'>h</script> is Planck's constant and <script type='math/tex'>\lambda</script> is the wavelength.
+This means that we can ultimately move between position and momentum space by using <a href="../../algorithms/cooley_tukey/cooley_tukey.html">Fourier Transforms</a>, which is incredibly useful in a number of cases!</p>
+<p>Even though the relation between position and momentum space is an essential cornerstone of understanding modern quantum mechanics, it is difficult to understand at a fundamental level.
+Position space and momentum space are related by a Fourier transform; however, the rather hand-wavey argument above might not have been convincing enough and it does not offer any intuitive description of <em>why</em> the Fourier transform comes into this discussion at all.
+The easiest way to understand this might be to look at the <em>Heisenberg uncertainty principle</em>, which is a fundamental relation between position and momentum space.</p>
+<h2>Heisenberg Uncertainty Principle</h2>
+<p>Simply put, the Heisenberg uncertainty principle states that we cannot definitely know both the position and momentum of a quantum particle.
+In particular, it says:</p>
+<p><script type='math/tex'>
+\sigma_x \sigma_p \geq \frac{\hbar}{2}
+</script></p>
+<p>where <script type='math/tex'>\hbar</script> is Planck's constant and <script type='math/tex'>\sigma_q = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(q_i-\mu)^2}</script>.
+In this case, <script type='math/tex'>\sigma</script> is the standard deviation, <script type='math/tex'>\mu</script> is the statistical mean of your distribution, <script type='math/tex'>N</script> is the number of points sampled, <script type='math/tex'>q_i</script> is the value for each point <script type='math/tex'>i</script>, and <script type='math/tex'>q</script> stands for <script type='math/tex'>r</script> or <script type='math/tex'>p</script>.
+Ultimately, this means that if we have a higher precision in position space, we will have a lower precision in momentum space.
+The converse is also true: a higher precision in momentum space will lead to a lower precision in position space.</p>
+<p>This makes the most sense if we imagine having a gaussian-like probability density (<script type='math/tex'>|\Psi(x)|^2</script>) in position space, which will provide a gaussian-like density when in momentum space.
+Here, we see that if we have a broader distribution in one space, we must have a thinner distribution in the opposite space, as shown here:</p>
+<p>
+    <img  class="center" src="res/gaussian.gif" width="500" />
+</p>
+
+<p>Because the density can be interpreted as "the probability of finding a quantum particle at any provided location in position (<script type='math/tex'>x_i</script>) or momentum (<script type='math/tex'>k_i</script>) space, the interpretation is clear: the more we understand about a particle's position, the less we understand about it's momentum.
+This is a powerful statement and should be given some thought.</p>
+<p>To me, the most interesting part of this description is not the physical interpretation, but the fact that this act of transforming between larger and smaller gaussians is precisely what Fourier transforms do!
+This further strengthens our argument from before.
+Position and momentum space are related by the Fourier transform!</p>
+<p>This is the heart of several algorithms for simulating quantum systems, including the <a href="../../algorithms/split-operator_method/split-operator_method">Split-operator method</a>.</p>
+<p>At least for me, I found this description to be intuitive, but not complete.
+There is still something missing from the picture that should be described in more depth, and to do that, we need to dive deeper into the heart of quantum mechanics and into <em>Hamiltonians</em>.</p>
+<h2>Hamiltonian</h2>
+<p>Here is the Schr&ouml;dinger equation again:</p>
+<p><script type='math/tex'>
+i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \left[-\frac{\hbar^2}{2m} \nabla^2 + V(\mathbf{r},t) \right] \Psi(\mathbf{r},t)
+</script></p>
+<p>We described it in the initial section of this chapter.
+For the most part, when we are trying to solve this equation the left-hand side does not change.
+It's always <script type='math/tex'>i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t}</script>.
+On the other hand, the right-hand side can change a lot depending on the situation.
+That is to say that we can easily simplify the Schr&ouml;dinger equation by using a mathematical formalism known as the <em>Hamiltonian</em>.</p>
+<p>To be clear, Hamiltonian mechanics is not a quantum-specific idea.
+It's everywhere in statistical physics and is often taught in classical physics courses as an analogue to another notational form known as Lagrangian mechanics.
+For simplicity, we will restrict our discussion here to interpreting Hamiltonians physically.
+We can basically say that the Hamiltonian is a measure of the energy of our quantum system.
+More specifically, we can say that the Hamiltonian is a set of energy <em>operators</em> that act on our wavefunction.</p>
+<p>In the case of a 1D particle in a harmonic trap, we might use the following definitions:</p>
+<p><script type='math/tex'>
+\begin{align}
+\hat H &= \hat T + \hat V \\
+\hat T &= \frac{p^2}{2m} \\
+\hat V &= \frac{1}{2}\omega x^2
+\end{align}
+</script></p>
+<p>where <script type='math/tex'>p = -i\hbar \nabla</script> is the <em>momentum operator</em> and <script type='math/tex'>\omega</script> is the <em>trapping frequency</em> indicating how confined our quantum system will be.
+In this case, <script type='math/tex'>\hat T</script> is an operator that works on our wavefunction in momentum space, while <script type='math/tex'>\hat V</script> acts in position space.
+Both of these are operators.
+That is to say that they <em>operate</em> on our quantum system by transforming it in some way.
+Ultimately, this means that the operators are not meant to be interpreted on their own without acting on some other object, in this case, the wavefunction <script type='math/tex'>\Psi(x)</script>.</p>
+<p>In the end, we can update our Schr&ouml;dinger equation to be</p>
+<p><script type='math/tex'>
+i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \hat H \Psi(\mathbf{r},t)
+</script></p>
+<p>Which is a lot cleaner and more general.
+Now, the Schr&ouml;dinger equation can solve any quantum system so long as it can be written in terms of Hamiltonian mechanics!</p>
+<p>When looking at the operators, it is clear that the <script type='math/tex'>\hat V</script> operator is in position space.
+We can clearly see that it operates as a function of <script type='math/tex'>x</script>.
+That said, it is not immediately obvious why the <script type='math/tex'>\hat T</script> is in momentum space.
+This is not an easy question to answer, but it is definitely important and will be covered in more depth when we discuss spectral methods.</p>
+<p>For now, we will blanketly say</p>
+<p><script type='math/tex'>
+\frac{\partial f}{\partial x} = \mathcal{F}^{-1}\left( 2\pi i k \mathcal{F}\left( f \right)\right)
+</script></p>
+<p>In other words, we can derive a function by performing a Fourier transform on the function, multiplying by some momentum-space grid, and then inverse-transforming it back.
+Because this operation inherently involves a transform into momentum space before transformation, it is a momentum-space operator.</p>
+<p>This is the most intuitive reasoning I can find; however, I am sure there are more intuitive explanations of why the derivatives are always momentum-space operations.
+This section will be updated further when we discuss spectral methods, but if you have better descriptions, please let me know!</p>
+<h2>Bra Ket Notation</h2>
+<p>Unfortunately, the interpretation of quantum simulation is rather tricky and is sometimes easier to understand with slightly different notation.
+This notation is called <em>braket</em> notation, where a <em>ket</em> looks like this:</p>
+<p><script type='math/tex'>
+\lvert A \rangle
+</script></p>
+<p>and basically describes <script type='math/tex'>A</script> as a column vector.
+The <em>bra</em> represents the Hermitian conjugate of the ket and looks like this:</p>
+<p><script type='math/tex'>
+\langle B \rvert
+</script></p>
+<p>The ket is often represented as a row vector for <script type='math/tex'>B</script>.
+Because of this, <script type='math/tex'> \langle B \rvert A \rangle </script> represents the inner product of the two vectors and <script type='math/tex'> \lvert A \rangle \langle B \rvert </script> represents the outer product.
+Now, to this point, the braket notation does not have any particularly quantum-like features; however, it becomes useful when describing actual quantum phenomenon.
+For example, if we want to indicate the probability of a wavefunction <script type='math/tex'>\psi</script> collapsing onto state <script type='math/tex'>\phi</script>, we might write: <script type='math/tex'>\langle \phi \rvert \psi \rangle</script>, which is precisely the same as the probability density defined above.</p>
+<p>Now that we have a basic understanding of the notation, we should go through several other important quantum mechanical ideas and properties.</p>
+<h2>Eigenstates</h2>
+<p>As mentioned, the wavefunction <script type='math/tex'>\Psi(x)</script> is complex and has both real and imaginary parts; however, there are certain states that are exclusively real.
+These states are <em>eigenstates</em> of the system, and are often described as the constituent states that make up all other possible wavefunctions.
+In other words,</p>
+<p><script type='math/tex'>
+\lvert \Psi(x)\rangle = \sum_i c_i \lvert \Psi_i \rangle
+</script></p>
+<p>Where <script type='math/tex'>c_i</script> is some constant describing <em>how much</em> of a given eigenstate <script type='math/tex'>i</script> is in the full wavefunction.
+As you might expect, all of the <script type='math/tex'>c_i</script>'s should sum to 1.</p>
+<h2>Energy Calculations</h2>
+<p>When it comes to quantum systems, there is no quantity more important than energy.
+Basically, every eigenstate of the system has a different energy associated with it, and you can find this energy with a simple calculation:</p>
+<p><script type='math/tex'>
+E = \langle \Psi \lvert \hat H \lvert \Psi \rangle
+</script></p>
+<p>Which can be done rather trivially in code by finding the conjugate of the wavefunction and multiplying it with another wavefunction after operation in position and momentum space.
+This ultimately looks like this:</p>
+<div class=code-section>
+<div class="jl">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1"># We are calculating the energy to check &lt;Psi|H|Psi&gt;</span>
+<span class="n">function</span> <span class="n">calculate_energy</span><span class="p">(</span><span class="n">wfc</span><span class="p">,</span> <span class="n">H_k</span><span class="p">,</span> <span class="n">H_r</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+    <span class="c1"># Creating momentum and conjugate wavefunctions</span>
+    <span class="n">wfc_k</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">wfc</span><span class="p">)</span>
+    <span class="n">wfc_c</span> <span class="o">=</span> <span class="n">conj</span><span class="p">(</span><span class="n">wfc</span><span class="p">)</span>
+
+    <span class="c1"># Finding the momentum and real-space energy terms</span>
+    <span class="n">energy_k</span> <span class="o">=</span> <span class="n">wfc_c</span><span class="o">.*</span><span class="n">ifft</span><span class="p">((</span><span class="n">H_k</span><span class="p">)</span> <span class="o">.*</span> <span class="n">wfc_k</span><span class="p">)</span>
+    <span class="n">energy_r</span> <span class="o">=</span> <span class="n">wfc_c</span><span class="o">.*</span> <span class="n">H_r</span> <span class="o">.*</span> <span class="n">wfc</span>
+
+    <span class="c1"># Integrating over all space</span>
+    <span class="n">energy_final</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">energy_k</span><span class="p">)</span>
+        <span class="n">energy_final</span> <span class="o">+=</span> <span class="n">real</span><span class="p">(</span><span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">energy_r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">end</span> 
+
+    <span class="k">return</span> <span class="n">energy_final</span><span class="o">*</span><span class="n">dx</span>
+<span class="n">end</span>
+</pre></div>
+
+</div></p>
+</div><div class="hs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Data.Array.CArray</span>
+<span class="kn">import</span> <span class="nn">Data.Complex</span>
+<span class="kn">import</span> <span class="nn">Math.FFT</span> <span class="p">(</span><span class="n">dft</span><span class="p">,</span> <span class="n">idft</span><span class="p">)</span> <span class="o">--</span> <span class="n">Binding</span> <span class="n">to</span> <span class="n">fftw</span>
+
+<span class="nb">type</span> <span class="n">Vector</span> <span class="o">=</span> <span class="n">CArray</span> <span class="n">Int</span> <span class="p">(</span><span class="n">Complex</span> <span class="n">Double</span><span class="p">)</span>
+
+<span class="n">calculateEnergy</span> <span class="p">::</span> <span class="n">Double</span> <span class="o">-&gt;</span> <span class="n">Vector</span> <span class="o">-&gt;</span> <span class="n">Vector</span> <span class="o">-&gt;</span> <span class="n">Vector</span> <span class="o">-&gt;</span> <span class="n">Double</span>
+<span class="n">calculateEnergy</span> <span class="n">dx</span> <span class="n">kin</span> <span class="n">pot</span> <span class="n">wfc</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span> <span class="n">dx</span><span class="p">)</span> <span class="o">.</span> <span class="nb">sum</span> <span class="o">.</span> <span class="nb">map</span> <span class="n">realPart</span> <span class="err">$</span> <span class="n">elems</span> <span class="n">total</span>
+  <span class="n">where</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">liftArray2</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="n">kineticE</span> <span class="n">potentialE</span>
+    <span class="n">potentialE</span> <span class="o">=</span> <span class="n">wfcConj</span> <span class="o">.*</span> <span class="n">pot</span> <span class="o">.*</span> <span class="n">wfc</span>
+    <span class="n">kineticE</span> <span class="o">=</span> <span class="n">wfcConj</span> <span class="o">.*</span> <span class="n">idft</span> <span class="p">(</span><span class="n">kin</span> <span class="o">.*</span> <span class="n">dft</span> <span class="n">wfc</span><span class="p">)</span>
+    <span class="n">wfcConj</span> <span class="o">=</span> <span class="n">liftArray</span> <span class="n">conjugate</span> <span class="n">wfc</span>
+    <span class="n">a</span> <span class="o">.*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">liftArray2</span> <span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">a</span> <span class="n">b</span>
+</pre></div>
+
+</div></p>
+</div><div class="c">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">double</span> <span class="n">calculate_energy</span><span class="p">(</span><span class="n">double</span> <span class="nb">complex</span> <span class="o">*</span><span class="n">wfc</span><span class="p">,</span> <span class="n">double</span> <span class="nb">complex</span> <span class="o">*</span><span class="n">h_r</span><span class="p">,</span>
+                        <span class="n">double</span> <span class="nb">complex</span> <span class="o">*</span><span class="n">h_k</span><span class="p">,</span> <span class="n">double</span> <span class="n">dx</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">double</span> <span class="nb">complex</span> <span class="n">wfc_k</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+    <span class="n">double</span> <span class="nb">complex</span> <span class="n">wfc_c</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">wfc_k</span><span class="p">,</span> <span class="n">wfc</span><span class="p">,</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">wfc_k</span><span class="p">));</span>
+    <span class="n">fft</span><span class="p">(</span><span class="n">wfc_k</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">wfc_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">conj</span><span class="p">(</span><span class="n">wfc</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="n">double</span> <span class="nb">complex</span> <span class="n">energy_k</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+    <span class="n">double</span> <span class="nb">complex</span> <span class="n">energy_r</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfc_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">h_k</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="n">fft</span><span class="p">(</span><span class="n">energy_k</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">wfc_c</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">energy_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfc_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">h_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">wfc</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="n">double</span> <span class="n">energy_final</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">energy_final</span> <span class="o">+=</span> <span class="n">creal</span><span class="p">(</span><span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">energy_r</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">energy_final</span> <span class="o">*</span> <span class="n">dx</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="cpp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">double</span> <span class="n">calculate_energy</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">wfc</span><span class="p">,</span>
+                        <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">h_r</span><span class="p">,</span>
+                        <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">h_k</span><span class="p">,</span>
+                        <span class="n">double</span> <span class="n">dx</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">wfc_k</span><span class="p">(</span><span class="n">wfc</span><span class="p">);</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">wfc_c</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">fft</span><span class="p">(</span><span class="n">wfc_k</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">wfc_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">conj</span><span class="p">(</span><span class="n">wfc</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">energy_k</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="nb">complex</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&gt;</span> <span class="n">energy_r</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfc_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">h_k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">fft</span><span class="p">(</span><span class="n">energy_k</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">wfc_c</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">energy_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfc_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">h_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">wfc</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="n">double</span> <span class="n">energy_final</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">energy_final</span> <span class="o">+=</span> <span class="n">real</span><span class="p">(</span><span class="n">energy_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">energy_r</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">energy_final</span> <span class="o">*</span> <span class="n">dx</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="py">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_energy</span><span class="p">(</span><span class="n">wfc</span><span class="p">,</span> <span class="n">H_k</span><span class="p">,</span> <span class="n">H_r</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the energy &lt;Psi|H|Psi&gt;.&quot;&quot;&quot;</span>
+    <span class="c1"># Creating momentum conjugate wavefunctions</span>
+    <span class="n">wfc_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">wfc</span><span class="p">)</span>
+    <span class="n">wfc_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">wfc</span><span class="p">)</span>
+
+    <span class="c1"># Finding the momentum and real-space energy terms</span>
+    <span class="n">energy_k</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">wfc_c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">((</span><span class="n">H_k</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">wfc_k</span><span class="p">)</span>
+    <span class="n">energy_r</span> <span class="o">=</span> <span class="n">wfc_c</span> <span class="o">*</span> <span class="n">H_r</span> <span class="o">*</span> <span class="n">wfc</span>
+
+    <span class="c1"># Integrating over all space</span>
+    <span class="n">energy_final</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">energy_k</span> <span class="o">+</span> <span class="n">energy_r</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+
+    <span class="k">return</span> <span class="n">energy_final</span> <span class="o">*</span> <span class="n">dx</span>
+</pre></div>
+
+</div></p>
+</div>
+</div>
+
+<p>This calculation will be used in many different simulations of quantum systems to check our results.
+In the end, many quantum simulations are focused on the <em>ground</em> state, which is the lowest energy state (<script type='math/tex'>\Psi_0</script>); however, sometimes higher energy states are desired.</p>
+<h2>The Future</h2>
+<p>As we proceed to add new algorithms to simulate quantum systems, I will add more and more notation to this section; however, there are already huge textbooks out there related to understanding and studying quantum systems.
+We don't want to re-invent the wheel here.
+Instead, we want to focus on an area that is often not considered with too much detail: algorithms and methods researchers use to ascertain new knowledge about quantum mechanics, like the split-operator method, DMRG, quantum Monte Carlo, exact diagonalization, and many more.</p>
+<p>Quantum mechanics is one of those areas of physics that really does push the boundary of human knowledge in a number of different areas and computing is one of those areas.
+In fact, <a href="../quantum_information/quantum_information.html">quantum information theory</a> is currently set to be the next innovation to radically change the landscape of modern computation as we know it!
+Of course, because of the large-scale effects that this will likely have on the industry, it deserved it's own section.</p>
+<p>As always, if there is something that you feel is missing from this section, please feel free to contact me or create an issue on GitHub and we'll get to it as soon as we can!</p>
+<script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+
+<h2>License</h2>
+<h5>Code Examples</h5>
+<p>The code examples are licensed under the MIT license (found in <a href="https://github.com/algorithm-archivists/algorithm-archive/blob/master/LICENSE.md">LICENSE.md</a>).</p>
+<h5>Text</h5>
+<p>The text of this chapter was written by <a href="https://github.com/leios">James Schloss</a> and is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+<p><a href="https://creativecommons.org/licenses/by-sa/4.0/"><p><img  class="center" src="../cc/CC-BY-SA_icon.svg" /></p></a></p>
+<h5>Images/Graphics</h5>
+<ul>
+<li>The animation "<a href="res/gaussian.gif">FTgaussian</a>" was created by <a href="https://github.com/leios">James Schloss</a> and is licenced under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</li>
+</ul>
+<h5>Pull Requests</h5>
+<p>After initial licensing (<a href="https://github.com/algorithm-archivists/algorithm-archive/pull/560">#560</a>), the following pull requests have modified the text or graphics of this chapter:
+- none</p>
+        <hr>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel=stylesheet href="/pygments.css" type="text/css">
+    <link rel=stylesheet href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title id="ttl"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        var bjs = {"gitbook": "3.x.x", "plugins": ["fontsettings", "mathjax@https://github.com/algorithm-archivists/plugin-mathjax", "bibtex-cite", "wordcount", "api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git", "include-codeblock", "ga", "bulk-redirect", "prism", "-highlight"], "lunr": {"maxIndexSize": 1000000000}, "pluginsConfig": {"mathjax": {"version": "2.6.1"}, "include-codeblock": {"fixlang": true, "unindent": true}, "bulk-redirect": {"basepath": "/", "redirectsFile": "redirects.json"}, "ga": {"token": "UA-118252470-1"}, "prism": {"lang": {"asm-x64": "nasm"}, "ignore": ["emojicode", "text"], "css": ["prismjs/themes/prism-tomorrow.css"]}, "api-language-selector": {"languages": [{"lang": "jl", "name": "Julia", "default": true}, {"lang": "bash", "name": "Bash"}, {"lang": "cs", "name": "C#"}, {"lang": "cpp", "name": "C++"}, {"lang": "c", "name": "C"}, {"lang": "c8", "name": "chip-8"}, {"lang": "py", "name": "Python"}, {"lang": "js", "name": "JavaScript"}, {"lang": "scratch", "name": "Scratch"}, {"lang": "hs", "name": "Haskell"}, {"lang": "rs", "name": "Rust"}, {"lang": "ml", "name": "OCaml"}, {"lang": "java", "name": "Java"}, {"lang": "clj", "name": "Clojure"}, {"lang": "elm", "name": "Elm"}, {"lang": "LabVIEW", "name": "LabVIEW"}, {"lang": "d", "name": "D"}, {"lang": "go", "name": "Go"}, {"lang": "swift", "name": "Swift"}, {"lang": "racket", "name": "Racket"}, {"lang": "m", "name": "Matlab"}, {"lang": "r", "name": "R"}, {"lang": "ti83b", "name": "TI-83 Basic"}, {"lang": "lua", "name": "Lua"}, {"lang": "crystal", "name": "Crystal"}, {"lang": "php", "name": "PHP"}, {"lang": "lisp", "name": "Common Lisp"}, {"lang": "nim", "name": "Nim"}, {"lang": "asm-x64", "name": "X86-64 Assembly"}, {"lang": "f90", "name": "Fortran90"}, {"lang": "factor", "name": "Factor"}, {"lang": "ws", "name": "Whitespace"}, {"lang": "scala", "name": "Scala"}, {"lang": "emojic", "name": "Emojicode"}, {"lang": "lolcode", "name": "LOLCODE"}, {"lang": "piet", "name": "Piet"}, {"lang": "ss", "name": "Scheme"}, {"lang": "ps1", "name": "PowerShell"}, {"lang": "v", "name": "Vlang"}, {"lang": "coffee", "name": "CoffeeScript"}, {"lang": "kotlin", "name": "Kotlin"}]}}};		    
+        var lang = "jl";
+        var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash",
+            "haskell": "Haskell",
+            "matlab": "Matlab",
+            "javascript": "JavaScript"
+        };
+	
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+	    langs = Object.keys(langs);
+	    if (langs.length == 1) {
+		lang = langs[0];
+	    }
+            langNames.forEach(function(element) { translations[element.lang] = element.name });
+        }
+        function reload() {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    if (element.className == lang) {
+                        element.style.display = 'block';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+        };
+        window.onload = () => {
+            initLangs();
+            reload();
+            document.getElementById("name").innerText = pages[index];
+            document.getElementById("ttl").innerText = pages[index];
+            initLs();
+        };
+        var index = 27;
+        var pages = [];
+	var lsed = false;
+				
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+
+	var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                var h1 = 0;
+                var h2 = 0;
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+		    console.log(language);
+		    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs[\"" + language + "\"]()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    if (i % 2) {
+                        h2 += 1
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        h1 += 1
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (h1 > h2) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
+                }
+                document.getElementById("ls").style.display = "none";
+                document.getElementById("ls2").style.display = "none";
+            }
+        }
+        function toggleSidenav () {
+            $("#sidebar").toggleClass("hide");
+            $("#content").toggleClass("on-sidebar");
+            $("#navbar").toggleClass("no-sidebar");
+        }
+    </script>
+    <div class="sidebar-wrapper" id="sidebar">
+        
+            <p>
+                
+                <a name="Algorithm Archive"></a>
+                <a href="/index.html#Algorithm Archive">Algorithm Archive</a>
+                <script>pages[0] = "Algorithm Archive"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Introduction"></a>
+                <a href="/contents/introduction/introduction.html#Introduction">Introduction</a>
+                <script>pages[1] = "Introduction"</script>
+            </p>
+        
+            <p>
+                
+                <a name="How To Contribute"></a>
+                <a href="/contents/how_to_contribute/how_to_contribute.html#How To Contribute">How To Contribute</a>
+                <script>pages[2] = "How To Contribute"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Plotting"></a>
+                <a href="/contents/plotting/plotting.html#Plotting">Plotting</a>
+                <script>pages[3] = "Plotting"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Structures"></a>
+                <a href="/contents/data_structures/data_structures.html#Data Structures">Data Structures</a>
+                <script>pages[4] = "Data Structures"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stacks and Queues"></a>
+                <a href="/contents/stacks_and_queues/stacks_and_queues.html#Stacks and Queues">Stacks and Queues</a>
+                <script>pages[5] = "Stacks and Queues"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Mathematical Background"></a>
+                <a href="/contents/mathematical_background/mathematical_background.html#Mathematical Background">Mathematical Background</a>
+                <script>pages[6] = "Mathematical Background"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Complexity Notation"></a>
+                <a href="/contents/notation/notation.html#Complexity Notation">Complexity Notation</a>
+                <script>pages[7] = "Complexity Notation"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bit Logic"></a>
+                <a href="/contents/bitlogic/bitlogic.html#Bit Logic">Bit Logic</a>
+                <script>pages[8] = "Bit Logic"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Taylor Series"></a>
+                <a href="/contents/taylor_series_expansion/taylor_series_expansion.html#Taylor Series">Taylor Series</a>
+                <script>pages[9] = "Taylor Series"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Sorting and Searching"></a>
+                <a href="/contents/sorting_and_searching/sorting_and_searching.html#Sorting and Searching">Sorting and Searching</a>
+                <script>pages[10] = "Sorting and Searching"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bubble Sort"></a>
+                <a href="/contents/bubble_sort/bubble_sort.html#Bubble Sort">Bubble Sort</a>
+                <script>pages[11] = "Bubble Sort"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bogo Sort"></a>
+                <a href="/contents/bogo_sort/bogo_sort.html#Bogo Sort">Bogo Sort</a>
+                <script>pages[12] = "Bogo Sort"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Tree Traversal"></a>
+                <a href="/contents/tree_traversal/tree_traversal.html#Tree Traversal">Tree Traversal</a>
+                <script>pages[13] = "Tree Traversal"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Euclidean Algorithm"></a>
+                <a href="/contents/euclidean_algorithm/euclidean_algorithm.html#Euclidean Algorithm">Euclidean Algorithm</a>
+                <script>pages[14] = "Euclidean Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Monte Carlo"></a>
+                <a href="/contents/monte_carlo_integration/monte_carlo_integration.html#Monte Carlo">Monte Carlo</a>
+                <script>pages[15] = "Monte Carlo"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Matrix Methods"></a>
+                <a href="/contents/matrix_methods/matrix_methods.html#Matrix Methods">Matrix Methods</a>
+                <script>pages[16] = "Matrix Methods"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gaussian Elimination"></a>
+                <a href="/contents/gaussian_elimination/gaussian_elimination.html#Gaussian Elimination">Gaussian Elimination</a>
+                <script>pages[17] = "Gaussian Elimination"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Thomas Algorithm"></a>
+                <a href="/contents/thomas_algorithm/thomas_algorithm.html#Thomas Algorithm">Thomas Algorithm</a>
+                <script>pages[18] = "Thomas Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Computational Geometry"></a>
+                <a href="/contents/computational_geometry/computational_geometry.html#Computational Geometry">Computational Geometry</a>
+                <script>pages[19] = "Computational Geometry"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gift Wrapping"></a>
+                <a href="/contents/gift_wrapping/gift_wrapping.html#Gift Wrapping">Gift Wrapping</a>
+                <script>pages[20] = "Gift Wrapping"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Jarvis March"></a>
+                <a href="/contents/jarvis_march/jarvis_march.html#Jarvis March">Jarvis March</a>
+                <script>pages[21] = "Jarvis March"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Graham Scan"></a>
+                <a href="/contents/graham_scan/graham_scan.html#Graham Scan">Graham Scan</a>
+                <script>pages[22] = "Graham Scan"</script>
+            </p>
+        
+            <p>
+                
+                <a name="FFT"></a>
+                <a href="/contents/cooley_tukey/cooley_tukey.html#FFT">FFT</a>
+                <script>pages[23] = "FFT"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Decision Problems"></a>
+                <a href="/contents/decision_problems/decision_problems.html#Decision Problems">Decision Problems</a>
+                <script>pages[24] = "Decision Problems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stable Marriage Problem"></a>
+                <a href="/contents/stable_marriage_problem/stable_marriage_problem.html#Stable Marriage Problem">Stable Marriage Problem</a>
+                <script>pages[25] = "Stable Marriage Problem"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Differential Equation Solvers"></a>
+                <a href="/contents/differential_equations/differential_equations.html#Differential Equation Solvers">Differential Equation Solvers</a>
+                <script>pages[26] = "Differential Equation Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Forward Euler Method"></a>
+                <a href="/contents/forward_euler_method/forward_euler_method.html#Forward Euler Method">Forward Euler Method</a>
+                <script>pages[27] = "Forward Euler Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Physics Solvers"></a>
+                <a href="/contents/physics_solvers/physics_solvers.html#Physics Solvers">Physics Solvers</a>
+                <script>pages[28] = "Physics Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Verlet Integration"></a>
+                <a href="/contents/verlet_integration/verlet_integration.html#Verlet Integration">Verlet Integration</a>
+                <script>pages[29] = "Verlet Integration"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Quantum Systems"></a>
+                <a href="/contents/quantum_systems/quantum_systems.html#Quantum Systems">Quantum Systems</a>
+                <script>pages[30] = "Quantum Systems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Split-Operator Method"></a>
+                <a href="/contents/split-operator_method/split-operator_method.html#Split-Operator Method">Split-Operator Method</a>
+                <script>pages[31] = "Split-Operator Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Compression"></a>
+                <a href="/contents/data_compression/data_compression.html#Data Compression">Data Compression</a>
+                <script>pages[32] = "Data Compression"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Huffman Encoding"></a>
+                <a href="/contents/huffman_encoding/huffman_encoding.html#Huffman Encoding">Huffman Encoding</a>
+                <script>pages[33] = "Huffman Encoding"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Quantum Information"></a>
+                <a href="/contents/quantum_information/quantum_information.html#Quantum Information">Quantum Information</a>
+                <script>pages[34] = "Quantum Information"</script>
+            </p>
+        
+        <hr>
+    </div>
+    <nav class="navbarrio" id=navbar>
+        <ul class="navbarro">
+            <li>
+                <span onclick="toggleSidenav()">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </li>
+            <li>
+                <span onclick="flipLs()" id=flipper>
+                    <i class="fas fa-code"></i>
+                    <div class=ls id=ls></div>
+                    <div class=ls2 id=ls2></div>
+                </span>
+            </li>
+            <li>
+                <span id=name></span>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid on-sidebar" id="content">
+        <h1>The Forward Euler Method</h1>
+<p>The Euler methods are some of the simplest methods to solve ordinary differential equations numerically.
+They introduce a new set of methods called the Runge Kutta methods, which will be discussed in the near future!</p>
+<p>As a physicist, I tend to understand things through methods that I have learned before.
+In this case, it makes sense for me to see Euler methods as extensions of the <a href="../taylor_series_expansion/taylor_series_expansion.html">Taylor Series Expansion</a>.
+These expansions basically approximate functions based on their derivatives, like so:</p>
+<p><script type='math/tex'>
+f(x) \approx f(a) + \frac{1}{1!}\frac{df(a)}{da}(x-a)
+    + \frac{1}{2!}\frac{d^2f(a)}{da^2}(x-a)^2
+    + \frac{1}{3!}\frac{d^3f(a)}{da^3}(x-a)^3 + \cdots
+</script></p>
+<p>Like before,  <script type='math/tex'>f(x)</script> is some function along real or complex space, <script type='math/tex'>a</script> is the point that we are expanding from, and <script type='math/tex'>f^{(n)}(x)</script> denotes the <script type='math/tex'>n^{\text{th}}</script> derivative of <script type='math/tex'>f(x)</script>.</p>
+<p>So, what does this mean? Well, as mentioned, we can think of this similarly to the kinematic equation:
+<script type='math/tex'>
+x = x_0 + vt + \frac{1}{2}at^2
+</script>
+where <script type='math/tex'>x</script> is position, <script type='math/tex'>v</script> is velocity, and <script type='math/tex'>a</script> is acceleration.
+This equation allows us to find the position of an object based on it's previous position (<script type='math/tex'>x_0</script>), the derivative of it's position with respect to time (<script type='math/tex'>\frac{dx}{dt} = v_0</script>) and one derivative on top of that (<script type='math/tex'>\frac{d^2x}{dx^2} = a</script>).
+As stated in the Tayor Series Expansion, the acceleration term must also have <script type='math/tex'>\frac{1}{2!}</script> in front of it.</p>
+<p>Now, how does this relate to the Euler methods?
+Well, with these methods, we assume that we are looking for a position in some space, usually denoted as <script type='math/tex'>y(t)</script>, but we can use any variable.
+The methods assume that we have some function to evaluate the derivative of <script type='math/tex'>y(t)</script>. In other words, we know that <script type='math/tex'>\frac{dy(t)}{dt} = f(t,y(t))</script>.
+For the kinematic equation, we know what this is!</p>
+<p><script type='math/tex'>
+\frac{dy(t)}{dt} = v = f(t,y(t)) = v_0 + a(t)
+</script></p>
+<p>So, we can iteratively solve for position by first solving for velocity. By following the kinematic equation (or Taylor Series Expansion), we find that</p>
+<p><script type='math/tex'>
+y_{n+1} = y_n + f(t_n, y_n) dt
+</script></p>
+<p>For any timestep <script type='math/tex'>dt</script>. This means that if we are solving the kinematic equation, we simply have the following equations:</p>
+<p><script type='math/tex'>
+\begin{align}
+    x_{n+1} &= x_n + v dt \\
+    v_{n+1} &= a (t_n)
+\end{align}
+</script></p>
+<p>Now, solving this set of equations in this way is known as the <em>forward</em> Euler Method.
+In fact, there is another method known as the <em>backward</em> Euler Method, which we will get to soon enough.
+For now, it is important to note that the error of these methods depend on the timestep chosen.</p>
+<p>
+    <img  class="center" src="res/error.png" />
+</p>
+
+<p>For example, here we see dramatically different results for different timesteps for solving the ODE <script type='math/tex'>y' = \frac{x^3}{6}</script>, whose solution is <script type='math/tex'>y = \frac{x^2}{2}</script>.
+The blue line is the analytical solution, the green is with a timestep of 0.5 and the red is with a timestep of 1.
+To be clear: the larger the timestep, the worse the error becomes; however, there is at least one more problem with using the forward Euler method on real problems: instabilities.</p>
+<p>As we mentioned, the forward Euler method approximates the solution to an Ordinary Differential Equation (ODE) by using only the first derivative.
+This is (rather expectedly) a poor approximation.
+In fact, the approximation is so poor that the error associated with running this algorithm can add up and result in incredibly incorrect results.
+As you might imagine, the only solution to this is decreasing the timestep and hoping for the best or using a similar method with different stability regions, like the backward Euler method.</p>
+<p>Let's assume we are solving a simple ODE: <script type='math/tex'>y' = -3y, y(0) = 1</script>.
+The solution here is <script type='math/tex'>y(t) = e^{-3t}</script> and we can find this solution somewhat easily with the forward Euler method shown below.
+That said, by choosing a larger timestep, we see the Euler method's solution oscillate above and below 0, which should <em>never</em> happen.
+If we were to take the Euler method's solution as valid, we would incorrectly assume that <script type='math/tex'>e^{-3t}</script> will become negative!</p>
+<p>
+    <img  class="center" src="res/instability.png" />
+</p>
+
+<p>Like above, the blue line is the analytical solution, the green is with a timestep of 0.5 and the red is with a timestep of 1.
+Here, it's interesting that we see 2 different instability patterns.
+The green is initially unstable, but converges onto the correct solution, but the red is wrong from the get-go and only gets more wrong as time goes on.</p>
+<p>In truth, the stability region of the forward Euler method for the case where <script type='math/tex'>y' = ky</script> can be found with the following inequality:
+<script type='math/tex'>
+|kdt + 1 | \leq 1
+</script>
+Which means that the forward Euler method is actually unstable for most values!
+If we want to stick to using the forward Euler method exclusively, the only solution is to decrease the timestep until it is within this stability region, and that's not necessarily easy for all cases.
+So now it might be obvious that another, more stable method should be used instead; however, many other stable methods are <em>implicit</em>, which means that in order to find the solution, we need to solve a system of equations via the <a href="../thomas_algorithm/thomas_algorithm.html">Thomas Algorithm</a> or <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination</a>.
+Which is an entire layer of complexity that most people don't want to mess with!</p>
+<p>Now, here is where we might want to relate the method to another algorithm that is sometimes used for a similar use-case: <a href="../verlet_integration/verlet_integration.html">Verlet Integration</a>.
+Verlet integration has a distinct advantage over the forward Euler method in both error and stability with more coarse-grained timesteps; however, Euler methods are powerful in that they may be used for cases other than simple kinematics.
+That said, in practice, due to the instability of the forward Euler method and the error with larger timesteps, this method is rarely used in practice.
+That said, variations of this method <em>are</em> certainly used (for example Crank-Nicolson and <a href="../runge_kutta_methods/runge_kutta_methods.html">Runge-Kutta</a>, so the time spent reading this chapter is not a total waste!</p>
+<h2>Video Explanation</h2>
+<p>Here is a video describing the forward Euler method:</p>
+<div style="text-align:center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wG7h8g6VLBo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+<h2>Example Code</h2>
+<p>Like in the case of <a href="../verlet_integration/verlet_integration.html">Verlet Integration</a>, the easiest way to test to see if this method works is to test it against a simple test-case.
+Here, the most obvious test-case would be dropping a ball from 5 meters, which is my favorite example, but proved itself to be slightly less enlightening than I would have thought.
+So, this time, let's remove ourselves from any physics and instead solve the following ODE: <script type='math/tex'>y(t)' = -3t</script> with the initial condition that <script type='math/tex'>y(0) = 1</script>.
+Note that in this case, the velocity is directly given by the ODE and the acceleration is not part of the model.</p>
+<div class=code-section>
+<div class="jl">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">solve_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">::</span><span class="n">Float64</span><span class="p">,</span> <span class="n">n</span><span class="p">::</span><span class="n">Int64</span><span class="p">)</span>
+    <span class="n">euler_result</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">}(</span><span class="n">undef</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Setting the initial condition</span>
+    <span class="n">euler_result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">euler_result</span><span class="p">)</span>
+        <span class="n">euler_result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">euler_result</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">euler_result</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">timestep</span>
+    <span class="n">end</span>
+    <span class="k">return</span> <span class="n">euler_result</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">check_result</span><span class="p">(</span><span class="n">euler_result</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">threshold</span><span class="p">::</span><span class="n">Float64</span><span class="p">,</span>
+                      <span class="n">timestep</span><span class="p">::</span><span class="n">Float64</span><span class="p">)</span>
+    <span class="n">is_approx</span> <span class="o">=</span> <span class="n">true</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">euler_result</span><span class="p">)</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">timestep</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">time</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">euler_result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span>
+            <span class="n">println</span><span class="p">(</span><span class="n">euler_result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">solution</span><span class="p">)</span>
+            <span class="n">is_approx</span> <span class="o">=</span> <span class="n">false</span>
+        <span class="n">end</span>
+    <span class="n">end</span>
+
+    <span class="k">return</span> <span class="n">is_approx</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">main</span><span class="p">()</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="n">euler_result</span> <span class="o">=</span> <span class="n">solve_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">is_approx</span> <span class="o">=</span> <span class="n">check_result</span><span class="p">(</span><span class="n">euler_result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+
+    <span class="n">println</span><span class="p">(</span><span class="n">is_approx</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="c">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &lt;math.h&gt;</span>
+
+<span class="n">void</span> <span class="n">solve_euler</span><span class="p">(</span><span class="n">double</span> <span class="n">timestep</span><span class="p">,</span> <span class="n">double</span> <span class="o">*</span><span class="n">result</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">check_result</span><span class="p">(</span><span class="n">double</span> <span class="o">*</span><span class="n">result</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">,</span> <span class="n">double</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">double</span> <span class="n">timestep</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">int</span> <span class="n">is_approx</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">i</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">    </span><span class="si">%f</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">solution</span><span class="p">);</span>
+            <span class="n">is_approx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">is_approx</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">double</span> <span class="n">result</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+    <span class="n">double</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+    <span class="n">double</span> <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+
+    <span class="n">solve_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">check_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="cpp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;algorithm&gt;</span>
+<span class="c1">#include &lt;cmath&gt;</span>
+<span class="c1">#include &lt;cstddef&gt;</span>
+<span class="c1">#include &lt;iostream&gt;</span>
+<span class="c1">#include &lt;iterator&gt;</span>
+<span class="c1">#include &lt;utility&gt;</span>
+<span class="c1">#include &lt;vector&gt;</span>
+
+<span class="n">using</span> <span class="n">std</span><span class="p">::</span><span class="n">begin</span><span class="p">;</span>
+<span class="n">using</span> <span class="n">std</span><span class="p">::</span><span class="n">end</span><span class="p">;</span>
+
+<span class="n">using</span> <span class="n">std</span><span class="p">::</span><span class="n">size_t</span><span class="p">;</span>
+
+<span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">solve_euler</span><span class="p">(</span><span class="n">double</span> <span class="n">timestep</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">;</span>
+  <span class="n">double</span> <span class="n">current</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+    <span class="n">current</span> <span class="o">-=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">current</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="n">check_result</span> <span class="n">takes</span> <span class="n">an</span> <span class="n">iterator</span> <span class="n">over</span> <span class="n">doubles</span><span class="p">,</span>
+<span class="o">//</span> <span class="ow">and</span> <span class="n">returns</span> <span class="n">whether</span> <span class="nb">any</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">outside</span> <span class="n">the</span> <span class="n">passed</span> <span class="n">threshold</span><span class="o">.</span>
+<span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">Iter</span><span class="o">&gt;</span>
+<span class="nb">bool</span> <span class="n">check_result</span><span class="p">(</span><span class="n">Iter</span> <span class="n">first</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">last</span><span class="p">,</span> <span class="n">double</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">double</span> <span class="n">timestep</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">last</span><span class="p">;</span> <span class="o">++</span><span class="n">idx</span><span class="p">,</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">double</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">idx</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="nb">abs</span><span class="p">(</span><span class="o">*</span><span class="n">it</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;We found a value outside the threshold; the &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">idx</span>
+                <span class="o">&lt;&lt;</span> <span class="s2">&quot;-th value was &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">it</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;, but the expected solution was &quot;</span>
+                <span class="o">&lt;&lt;</span> <span class="n">solution</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">;</span>
+      <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;(the threshold was &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">threshold</span>
+                <span class="o">&lt;&lt;</span> <span class="s2">&quot; and the difference was &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="nb">abs</span><span class="p">(</span><span class="o">*</span><span class="n">it</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span>
+                <span class="o">&lt;&lt;</span> <span class="s2">&quot;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">double</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+  <span class="n">double</span> <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+
+  <span class="n">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">solve_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+  <span class="n">auto</span> <span class="n">outside_threshold</span> <span class="o">=</span>
+      <span class="n">check_result</span><span class="p">(</span><span class="n">begin</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">end</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">);</span>
+  <span class="n">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">outside_threshold</span> <span class="err">?</span> <span class="s2">&quot;yes :(&quot;</span> <span class="p">:</span> <span class="s2">&quot;no :D&quot;</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;Were any of the values outside of the threshold (&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">threshold</span>
+            <span class="o">&lt;&lt;</span> <span class="s2">&quot;)? &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="rs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">mut</span> <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">;</span> <span class="mi">100</span><span class="p">];</span>
+    <span class="n">let</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+    <span class="n">let</span> <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+
+    <span class="n">solve_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mut</span> <span class="n">result</span><span class="p">);</span>
+    <span class="n">println</span><span class="err">!</span><span class="p">(</span><span class="s2">&quot;{}&quot;</span><span class="p">,</span> <span class="n">check_result</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">solve_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">:</span> <span class="n">f64</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">mut</span> <span class="p">[</span><span class="n">f64</span><span class="p">])</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">n</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">len</span><span class="p">();</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">n</span> <span class="p">{</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">check_result</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">f64</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">f64</span><span class="p">,</span> <span class="n">timestep</span><span class="p">:</span> <span class="n">f64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">mut</span> <span class="n">is_approx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span><span class="o">.</span><span class="n">enumerate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">let</span> <span class="n">solution</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">i</span> <span class="k">as</span> <span class="n">f64</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="p">{</span>
+            <span class="n">println</span><span class="err">!</span><span class="p">(</span><span class="s2">&quot;{}    {}&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">solution</span><span class="p">);</span>
+            <span class="n">is_approx</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">is_approx</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="elm">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="nb">type</span> <span class="n">alias</span> <span class="n">Position</span> <span class="o">=</span>
+    <span class="n">Float</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Velocity</span> <span class="o">=</span>
+    <span class="n">Float</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Particle</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">pos</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Position</span><span class="p">,</span> <span class="n">vel</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Velocity</span> <span class="p">}</span>
+</pre></div>
+
+</div>
+<div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span> <span class="n">Float</span>
+<span class="n">k</span> <span class="o">=</span>
+    <span class="o">-</span><span class="mi">2</span>
+
+
+<span class="n">diffEq</span> <span class="p">:</span> <span class="n">Position</span> <span class="o">-&gt;</span> <span class="n">Velocity</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">Position</span><span class="p">,</span> <span class="n">Velocity</span> <span class="p">)</span>
+<span class="n">diffEq</span> <span class="n">x</span> <span class="n">v</span> <span class="n">t</span> <span class="n">dt</span> <span class="o">=</span>
+    <span class="p">(</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="p">)</span>
+
+
+<span class="n">evolve</span> <span class="p">:</span> <span class="n">Particle</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">Particle</span>
+<span class="n">evolve</span> <span class="n">p</span> <span class="n">t</span> <span class="n">dt</span> <span class="o">=</span>
+    <span class="n">let</span>
+        <span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="p">)</span> <span class="o">=</span>
+            <span class="n">diffEq</span> <span class="p">(</span><span class="n">getX</span> <span class="n">p</span><span class="p">)</span> <span class="p">(</span><span class="n">getV</span> <span class="n">p</span><span class="p">)</span> <span class="n">t</span> <span class="n">dt</span>
+    <span class="ow">in</span>
+        <span class="p">{</span> <span class="n">p</span> <span class="o">|</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">x</span> <span class="p">::</span> <span class="n">p</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">vel</span> <span class="o">=</span> <span class="n">v</span> <span class="p">::</span> <span class="n">p</span><span class="o">.</span><span class="n">vel</span> <span class="p">}</span>
+</pre></div>
+
+</div></p>
+<p>Full code for the visualization follows:
+<div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">Euler</span> <span class="n">exposing</span> <span class="p">(</span><span class="o">..</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">Html</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">Html</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">h3</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Html.Attributes</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">style</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Html.Events</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">onClick</span><span class="p">,</span> <span class="n">on</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Time</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">Time</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Maybe</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">withDefault</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Window</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">Size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Svg</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">svg</span><span class="p">,</span> <span class="n">circle</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">polyline</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Svg.Attributes</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">stroke</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">fill</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Task</span> <span class="nn">exposing</span> <span class="p">(</span><span class="n">perform</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Slider</span> <span class="nn">exposing</span> <span class="p">(</span><span class="o">..</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Mouse</span>
+<span class="kn">import</span> <span class="nn">Json.Decode</span> <span class="kn">as</span> <span class="nn">Decode</span>
+<span class="kn">import</span> <span class="nn">Hex</span>
+
+
+<span class="n">main</span> <span class="o">=</span>
+    <span class="n">Html</span><span class="o">.</span><span class="n">program</span>
+        <span class="p">{</span> <span class="n">init</span> <span class="o">=</span> <span class="n">init</span>
+        <span class="p">,</span> <span class="n">view</span> <span class="o">=</span> <span class="n">view</span>
+        <span class="p">,</span> <span class="n">update</span> <span class="o">=</span> <span class="n">update</span>
+        <span class="p">,</span> <span class="n">subscriptions</span> <span class="o">=</span> <span class="n">subscriptions</span>
+        <span class="p">}</span>
+
+
+
+<span class="o">--</span> <span class="n">MODEL</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Model</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">part</span> <span class="p">:</span> <span class="n">Particle</span>
+    <span class="p">,</span> <span class="n">dt</span> <span class="p">:</span> <span class="n">Time</span>
+    <span class="p">,</span> <span class="n">dt0</span> <span class="p">:</span> <span class="n">Time</span>
+    <span class="p">,</span> <span class="n">t</span> <span class="p">:</span> <span class="n">Time</span>
+    <span class="p">,</span> <span class="n">status</span> <span class="p">:</span> <span class="n">Status</span>
+    <span class="p">,</span> <span class="n">wWidth</span> <span class="p">:</span> <span class="n">Int</span>
+    <span class="p">,</span> <span class="n">wHeight</span> <span class="p">:</span> <span class="n">Int</span>
+    <span class="p">,</span> <span class="n">history</span> <span class="p">:</span> <span class="n">List</span> <span class="p">(</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Particle</span> <span class="p">)</span>
+    <span class="p">,</span> <span class="n">drag</span> <span class="p">:</span> <span class="n">Maybe</span> <span class="n">Drag</span>
+    <span class="p">}</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Position</span> <span class="o">=</span>
+    <span class="n">Float</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Velocity</span> <span class="o">=</span>
+    <span class="n">Float</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Particle</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">pos</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Position</span><span class="p">,</span> <span class="n">vel</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Velocity</span> <span class="p">}</span>
+
+
+<span class="nb">type</span> <span class="n">Status</span>
+    <span class="o">=</span> <span class="n">Idle</span>
+    <span class="o">|</span> <span class="n">Running</span>
+
+
+<span class="nb">type</span> <span class="n">alias</span> <span class="n">Drag</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">start</span> <span class="p">:</span> <span class="n">Position</span>
+    <span class="p">,</span> <span class="n">current</span> <span class="p">:</span> <span class="n">Position</span>
+    <span class="p">}</span>
+
+
+<span class="n">getX</span> <span class="p">:</span> <span class="n">Particle</span> <span class="o">-&gt;</span> <span class="n">Position</span>
+<span class="n">getX</span> <span class="n">p</span> <span class="o">=</span>
+    <span class="n">withDefault</span> <span class="mi">0</span> <span class="o">&lt;|</span> <span class="n">List</span><span class="o">.</span><span class="n">head</span> <span class="o">&lt;|</span> <span class="o">.</span><span class="n">pos</span> <span class="n">p</span>
+
+
+<span class="n">getV</span> <span class="p">:</span> <span class="n">Particle</span> <span class="o">-&gt;</span> <span class="n">Velocity</span>
+<span class="n">getV</span> <span class="n">p</span> <span class="o">=</span>
+    <span class="n">withDefault</span> <span class="mi">0</span> <span class="o">&lt;|</span> <span class="n">List</span><span class="o">.</span><span class="n">head</span> <span class="o">&lt;|</span> <span class="o">.</span><span class="n">vel</span> <span class="n">p</span>
+
+
+<span class="n">getX0</span> <span class="p">:</span> <span class="n">Model</span> <span class="o">-&gt;</span> <span class="n">Position</span>
+<span class="n">getX0</span> <span class="n">m</span> <span class="o">=</span>
+    <span class="n">let</span>
+        <span class="n">scale</span> <span class="n">x</span> <span class="o">=</span>
+            <span class="mi">3</span> <span class="o">-</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">toFloat</span> <span class="n">m</span><span class="o">.</span><span class="n">wHeight</span><span class="p">)</span>
+    <span class="ow">in</span>
+        <span class="n">case</span> <span class="n">m</span><span class="o">.</span><span class="n">drag</span> <span class="n">of</span>
+            <span class="n">Nothing</span> <span class="o">-&gt;</span>
+                <span class="n">getX</span> <span class="n">m</span><span class="o">.</span><span class="n">part</span>
+
+            <span class="n">Just</span> <span class="p">{</span> <span class="n">start</span><span class="p">,</span> <span class="n">current</span> <span class="p">}</span> <span class="o">-&gt;</span>
+                <span class="n">getX</span> <span class="n">m</span><span class="o">.</span><span class="n">part</span> <span class="o">+</span> <span class="n">scale</span> <span class="n">current</span> <span class="o">-</span> <span class="n">scale</span> <span class="n">start</span>
+
+
+
+<span class="o">--</span> <span class="n">INIT</span>
+
+
+<span class="n">init</span> <span class="p">:</span> <span class="p">(</span> <span class="n">Model</span><span class="p">,</span> <span class="n">Cmd</span> <span class="n">Msg</span> <span class="p">)</span>
+<span class="n">init</span> <span class="o">=</span>
+    <span class="p">(</span> <span class="n">Model</span> <span class="p">(</span><span class="n">Particle</span> <span class="p">[</span> <span class="n">x0</span> <span class="p">]</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">])</span> <span class="mf">0.5</span> <span class="mf">0.5</span> <span class="mi">0</span> <span class="n">Idle</span> <span class="mi">0</span> <span class="mi">0</span> <span class="p">[]</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">perform</span> <span class="n">GetSize</span> <span class="n">size</span> <span class="p">)</span>
+
+
+<span class="n">x0</span> <span class="p">:</span> <span class="n">Position</span>
+<span class="n">x0</span> <span class="o">=</span>
+    <span class="mf">2.5</span>
+
+
+
+<span class="o">--</span> <span class="n">UPDATE</span>
+
+
+<span class="nb">type</span> <span class="n">Msg</span>
+    <span class="o">=</span> <span class="n">Start</span>
+    <span class="o">|</span> <span class="n">Stop</span>
+    <span class="o">|</span> <span class="n">Tick</span> <span class="n">Time</span>
+    <span class="o">|</span> <span class="n">GetSize</span> <span class="n">Size</span>
+    <span class="o">|</span> <span class="n">SliderUpdate</span> <span class="n">Float</span>
+    <span class="o">|</span> <span class="n">DragStart</span> <span class="n">Mouse</span><span class="o">.</span><span class="n">Position</span>
+    <span class="o">|</span> <span class="n">DragAt</span> <span class="n">Mouse</span><span class="o">.</span><span class="n">Position</span>
+    <span class="o">|</span> <span class="n">DragEnd</span> <span class="n">Mouse</span><span class="o">.</span><span class="n">Position</span>
+
+
+<span class="n">update</span> <span class="p">:</span> <span class="n">Msg</span> <span class="o">-&gt;</span> <span class="n">Model</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">Model</span><span class="p">,</span> <span class="n">Cmd</span> <span class="n">Msg</span> <span class="p">)</span>
+<span class="n">update</span> <span class="n">msg</span> <span class="n">model</span> <span class="o">=</span>
+    <span class="n">case</span> <span class="n">msg</span> <span class="n">of</span>
+        <span class="n">Start</span> <span class="o">-&gt;</span>
+            <span class="p">(</span> <span class="p">{</span> <span class="n">model</span>
+                <span class="o">|</span> <span class="n">status</span> <span class="o">=</span> <span class="n">Running</span>
+                <span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">dt0</span>
+                <span class="p">,</span> <span class="n">drag</span> <span class="o">=</span> <span class="n">Nothing</span>
+              <span class="p">}</span>
+            <span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span>
+            <span class="p">)</span>
+
+        <span class="n">Stop</span> <span class="o">-&gt;</span>
+            <span class="p">(</span> <span class="p">{</span> <span class="n">model</span>
+                <span class="o">|</span> <span class="n">status</span> <span class="o">=</span> <span class="n">Idle</span>
+                <span class="p">,</span> <span class="n">part</span> <span class="o">=</span> <span class="n">Particle</span> <span class="p">[</span> <span class="n">x0</span> <span class="p">]</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span>
+                <span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+              <span class="p">}</span>
+            <span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span>
+            <span class="p">)</span>
+
+        <span class="n">Tick</span> <span class="n">_</span> <span class="o">-&gt;</span>
+            <span class="n">case</span> <span class="n">model</span><span class="o">.</span><span class="n">status</span> <span class="n">of</span>
+                <span class="n">Idle</span> <span class="o">-&gt;</span>
+                    <span class="p">(</span> <span class="n">model</span><span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span> <span class="p">)</span>
+
+                <span class="n">Running</span> <span class="o">-&gt;</span>
+                    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">dt</span> <span class="n">then</span>
+                        <span class="p">(</span> <span class="p">{</span> <span class="n">model</span>
+                            <span class="o">|</span> <span class="n">status</span> <span class="o">=</span> <span class="n">Idle</span>
+                            <span class="p">,</span> <span class="n">part</span> <span class="o">=</span> <span class="n">Particle</span> <span class="p">[</span> <span class="n">x0</span> <span class="p">]</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span>
+                            <span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="p">(</span> <span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">part</span> <span class="p">)</span> <span class="p">::</span> <span class="n">model</span><span class="o">.</span><span class="n">history</span>
+                            <span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+                          <span class="p">}</span>
+                        <span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span>
+                        <span class="p">(</span> <span class="p">{</span> <span class="n">model</span>
+                            <span class="o">|</span> <span class="n">part</span> <span class="o">=</span> <span class="n">evolve</span> <span class="n">model</span><span class="o">.</span><span class="n">part</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="n">model</span><span class="o">.</span><span class="n">dt</span>
+                            <span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">dt</span>
+                          <span class="p">}</span>
+                        <span class="p">,</span> <span class="n">perform</span> <span class="n">GetSize</span> <span class="n">size</span>
+                        <span class="p">)</span>
+
+        <span class="n">GetSize</span> <span class="n">s</span> <span class="o">-&gt;</span>
+            <span class="p">(</span> <span class="p">{</span> <span class="n">model</span> <span class="o">|</span> <span class="n">wWidth</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">wHeight</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">//</span> <span class="mi">10</span> <span class="p">},</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span> <span class="p">)</span>
+
+        <span class="n">SliderUpdate</span> <span class="n">dt</span> <span class="o">-&gt;</span>
+            <span class="p">(</span> <span class="p">{</span> <span class="n">model</span> <span class="o">|</span> <span class="n">dt0</span> <span class="o">=</span> <span class="n">dt</span> <span class="p">},</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span> <span class="p">)</span>
+
+        <span class="n">DragStart</span> <span class="p">{</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">}</span> <span class="o">-&gt;</span>
+            <span class="n">case</span> <span class="n">model</span><span class="o">.</span><span class="n">status</span> <span class="n">of</span>
+                <span class="n">Idle</span> <span class="o">-&gt;</span>
+                    <span class="p">(</span> <span class="p">{</span> <span class="n">model</span> <span class="o">|</span> <span class="n">drag</span> <span class="o">=</span> <span class="n">Just</span> <span class="p">(</span><span class="n">Drag</span> <span class="p">(</span><span class="n">toFloat</span> <span class="n">y</span><span class="p">)</span> <span class="p">(</span><span class="n">toFloat</span> <span class="n">y</span><span class="p">))</span> <span class="p">},</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span> <span class="p">)</span>
+
+                <span class="n">Running</span> <span class="o">-&gt;</span>
+                    <span class="p">(</span> <span class="n">model</span><span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span> <span class="p">)</span>
+
+        <span class="n">DragAt</span> <span class="p">{</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">}</span> <span class="o">-&gt;</span>
+            <span class="p">(</span> <span class="p">{</span> <span class="n">model</span> <span class="o">|</span> <span class="n">drag</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="n">map</span> <span class="p">(</span>\<span class="p">{</span> <span class="n">start</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="n">Drag</span> <span class="n">start</span> <span class="p">(</span><span class="n">toFloat</span> <span class="n">y</span><span class="p">))</span> <span class="n">model</span><span class="o">.</span><span class="n">drag</span> <span class="p">}</span>
+            <span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span>
+            <span class="p">)</span>
+
+        <span class="n">DragEnd</span> <span class="n">_</span> <span class="o">-&gt;</span>
+            <span class="p">(</span> <span class="p">{</span> <span class="n">model</span>
+                <span class="o">|</span> <span class="n">drag</span> <span class="o">=</span> <span class="n">Nothing</span>
+                <span class="p">,</span> <span class="n">part</span> <span class="o">=</span> <span class="n">Particle</span> <span class="p">[</span> <span class="n">getX0</span> <span class="n">model</span> <span class="p">]</span> <span class="p">[</span> <span class="n">k</span> <span class="o">*</span> <span class="n">getX0</span> <span class="n">model</span> <span class="p">]</span>
+              <span class="p">}</span>
+            <span class="p">,</span> <span class="n">Cmd</span><span class="o">.</span><span class="n">none</span>
+            <span class="p">)</span>
+
+
+<span class="n">k</span> <span class="p">:</span> <span class="n">Float</span>
+<span class="n">k</span> <span class="o">=</span>
+    <span class="o">-</span><span class="mi">2</span>
+
+
+<span class="n">diffEq</span> <span class="p">:</span> <span class="n">Position</span> <span class="o">-&gt;</span> <span class="n">Velocity</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">Position</span><span class="p">,</span> <span class="n">Velocity</span> <span class="p">)</span>
+<span class="n">diffEq</span> <span class="n">x</span> <span class="n">v</span> <span class="n">t</span> <span class="n">dt</span> <span class="o">=</span>
+    <span class="p">(</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="p">)</span>
+
+
+<span class="n">evolve</span> <span class="p">:</span> <span class="n">Particle</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">Particle</span>
+<span class="n">evolve</span> <span class="n">p</span> <span class="n">t</span> <span class="n">dt</span> <span class="o">=</span>
+    <span class="n">let</span>
+        <span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="p">)</span> <span class="o">=</span>
+            <span class="n">diffEq</span> <span class="p">(</span><span class="n">getX</span> <span class="n">p</span><span class="p">)</span> <span class="p">(</span><span class="n">getV</span> <span class="n">p</span><span class="p">)</span> <span class="n">t</span> <span class="n">dt</span>
+    <span class="ow">in</span>
+        <span class="p">{</span> <span class="n">p</span> <span class="o">|</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">x</span> <span class="p">::</span> <span class="n">p</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">vel</span> <span class="o">=</span> <span class="n">v</span> <span class="p">::</span> <span class="n">p</span><span class="o">.</span><span class="n">vel</span> <span class="p">}</span>
+
+
+
+<span class="o">--</span> <span class="n">SUBSCRIPTIONS</span>
+
+
+<span class="n">subscriptions</span> <span class="p">:</span> <span class="n">Model</span> <span class="o">-&gt;</span> <span class="n">Sub</span> <span class="n">Msg</span>
+<span class="n">subscriptions</span> <span class="n">model</span> <span class="o">=</span>
+    <span class="n">case</span> <span class="n">model</span><span class="o">.</span><span class="n">drag</span> <span class="n">of</span>
+        <span class="n">Nothing</span> <span class="o">-&gt;</span>
+            <span class="n">Time</span><span class="o">.</span><span class="n">every</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">second</span><span class="p">)</span> <span class="n">Tick</span>
+
+        <span class="n">Just</span> <span class="n">_</span> <span class="o">-&gt;</span>
+            <span class="n">Sub</span><span class="o">.</span><span class="n">batch</span> <span class="p">[</span> <span class="n">Mouse</span><span class="o">.</span><span class="n">moves</span> <span class="n">DragAt</span><span class="p">,</span> <span class="n">Mouse</span><span class="o">.</span><span class="n">ups</span> <span class="n">DragEnd</span> <span class="p">]</span>
+
+
+
+<span class="o">--</span> <span class="n">VIEW</span>
+
+
+<span class="n">view</span> <span class="p">:</span> <span class="n">Model</span> <span class="o">-&gt;</span> <span class="n">Html</span> <span class="n">Msg</span>
+<span class="n">view</span> <span class="n">model</span> <span class="o">=</span>
+    <span class="n">div</span> <span class="p">[]</span>
+        <span class="p">[</span> <span class="n">h3</span> <span class="p">[]</span> <span class="p">[</span> <span class="n">text</span> <span class="s2">&quot;Drag the ball up or down, pick a dt and click Start&quot;</span> <span class="p">]</span>
+        <span class="p">,</span> <span class="n">h3</span> <span class="p">[</span> <span class="n">style</span> <span class="p">[</span> <span class="p">(</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="n">gradient</span> <span class="n">model</span><span class="o">.</span><span class="n">dt0</span> <span class="p">)</span> <span class="p">]</span> <span class="p">]</span>
+            <span class="p">[</span> <span class="n">viewSlider</span>
+            <span class="p">,</span> <span class="n">text</span> <span class="p">(</span><span class="s2">&quot;dt = &quot;</span> <span class="o">++</span> <span class="n">toString</span> <span class="n">model</span><span class="o">.</span><span class="n">dt0</span><span class="p">)</span>
+            <span class="p">,</span> <span class="n">button</span> <span class="p">[</span> <span class="n">onClick</span> <span class="n">Start</span> <span class="p">]</span> <span class="p">[</span> <span class="n">text</span> <span class="s2">&quot;Start&quot;</span> <span class="p">]</span>
+            <span class="p">,</span> <span class="n">button</span> <span class="p">[</span> <span class="n">onClick</span> <span class="n">Stop</span> <span class="p">]</span> <span class="p">[</span> <span class="n">text</span> <span class="s2">&quot;Stop&quot;</span> <span class="p">]</span>
+            <span class="p">]</span>
+        <span class="p">,</span> <span class="n">svg</span>
+            <span class="p">[</span> <span class="n">width</span> <span class="p">(</span><span class="n">toString</span> <span class="n">model</span><span class="o">.</span><span class="n">wWidth</span><span class="p">)</span>
+            <span class="p">,</span> <span class="n">height</span> <span class="p">(</span><span class="n">toString</span> <span class="n">model</span><span class="o">.</span><span class="n">wHeight</span><span class="p">)</span>
+            <span class="p">,</span> <span class="n">stroke</span> <span class="s2">&quot;black&quot;</span>
+            <span class="p">]</span>
+            <span class="p">([</span> <span class="n">line</span>
+                <span class="p">[</span> <span class="n">x1</span> <span class="s2">&quot;0&quot;</span>
+                <span class="p">,</span> <span class="n">x2</span> <span class="p">(</span><span class="n">toString</span> <span class="n">model</span><span class="o">.</span><span class="n">wWidth</span><span class="p">)</span>
+                <span class="p">,</span> <span class="n">y1</span> <span class="p">(</span><span class="n">toString</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wHeight</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+                <span class="p">,</span> <span class="n">y2</span> <span class="p">(</span><span class="n">toString</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wHeight</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+                <span class="p">]</span>
+                <span class="p">[]</span>
+             <span class="p">,</span> <span class="n">line</span>
+                <span class="p">[</span> <span class="n">x1</span> <span class="p">(</span><span class="n">toString</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wWidth</span> <span class="o">//</span> <span class="mi">20</span><span class="p">))</span>
+                <span class="p">,</span> <span class="n">x2</span> <span class="p">(</span><span class="n">toString</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wWidth</span> <span class="o">//</span> <span class="mi">20</span><span class="p">))</span>
+                <span class="p">,</span> <span class="n">y1</span> <span class="s2">&quot;0&quot;</span>
+                <span class="p">,</span> <span class="n">y2</span> <span class="p">(</span><span class="n">toString</span> <span class="n">model</span><span class="o">.</span><span class="n">wHeight</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="p">[]</span>
+             <span class="p">,</span> <span class="n">viewCircle</span> <span class="n">model</span>
+             <span class="p">]</span>
+                <span class="o">++</span> <span class="p">(</span><span class="n">plotHistory</span> <span class="n">model</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+
+<span class="n">viewSlider</span> <span class="p">:</span> <span class="n">Html</span> <span class="n">Msg</span>
+<span class="n">viewSlider</span> <span class="o">=</span>
+    <span class="n">props2view</span> <span class="p">[</span> <span class="n">MinVal</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MaxVal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Step</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">onChange</span> <span class="n">SliderUpdate</span> <span class="p">]</span>
+
+
+<span class="n">scaleX</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">Position</span> <span class="o">-&gt;</span> <span class="n">String</span>
+<span class="n">scaleX</span> <span class="n">h</span> <span class="n">x</span> <span class="o">=</span>
+    <span class="n">toString</span> <span class="p">(</span><span class="n">toFloat</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span>
+
+
+<span class="n">scaleT</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">String</span>
+<span class="n">scaleT</span> <span class="n">w</span> <span class="n">t</span> <span class="o">=</span>
+    <span class="n">toString</span> <span class="p">(</span><span class="n">toFloat</span> <span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.05</span> <span class="o">+</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">5</span><span class="p">))</span>
+
+
+<span class="n">viewCircle</span> <span class="p">:</span> <span class="n">Model</span> <span class="o">-&gt;</span> <span class="n">Html</span> <span class="n">Msg</span>
+<span class="n">viewCircle</span> <span class="n">m</span> <span class="o">=</span>
+    <span class="n">circle</span>
+        <span class="p">[</span> <span class="n">cy</span> <span class="p">(</span><span class="n">scaleX</span> <span class="n">m</span><span class="o">.</span><span class="n">wHeight</span> <span class="p">(</span><span class="n">getX0</span> <span class="n">m</span><span class="p">))</span>
+        <span class="p">,</span> <span class="n">cx</span> <span class="p">(</span><span class="n">scaleT</span> <span class="n">m</span><span class="o">.</span><span class="n">wWidth</span> <span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">r</span> <span class="s2">&quot;10&quot;</span>
+        <span class="p">,</span> <span class="n">on</span> <span class="s2">&quot;mousedown&quot;</span> <span class="p">(</span><span class="n">Decode</span><span class="o">.</span><span class="n">map</span> <span class="n">DragStart</span> <span class="n">Mouse</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="p">[]</span>
+
+
+<span class="n">plotPath</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Particle</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span>
+<span class="n">plotPath</span> <span class="n">w</span> <span class="n">h</span> <span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">particle</span> <span class="p">)</span> <span class="o">=</span>
+    <span class="n">let</span>
+        <span class="n">comb</span> <span class="n">x</span> <span class="p">(</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span> <span class="p">)</span> <span class="o">=</span>
+            <span class="p">(</span> <span class="n">t</span> <span class="o">-</span> <span class="n">dt</span><span class="p">,</span> <span class="n">s</span> <span class="o">++</span> <span class="p">(</span><span class="n">scaleT</span> <span class="n">w</span> <span class="n">t</span><span class="p">)</span> <span class="o">++</span> <span class="s2">&quot;,&quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">scaleX</span> <span class="n">h</span> <span class="n">x</span><span class="p">)</span> <span class="o">++</span> <span class="s2">&quot; &quot;</span> <span class="p">)</span>
+    <span class="ow">in</span>
+        <span class="n">Tuple</span><span class="o">.</span><span class="n">second</span> <span class="o">&lt;|</span> <span class="n">List</span><span class="o">.</span><span class="n">foldl</span> <span class="n">comb</span> <span class="p">(</span> <span class="n">tf</span><span class="p">,</span> <span class="s2">&quot;&quot;</span> <span class="p">)</span> <span class="n">particle</span><span class="o">.</span><span class="n">pos</span>
+
+
+<span class="n">plotHistory</span> <span class="p">:</span> <span class="n">Model</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="p">(</span><span class="n">Html</span> <span class="n">Msg</span><span class="p">)</span>
+<span class="n">plotHistory</span> <span class="n">m</span> <span class="o">=</span>
+    <span class="n">let</span>
+        <span class="p">(</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="p">)</span> <span class="o">=</span>
+            <span class="p">(</span> <span class="n">m</span><span class="o">.</span><span class="n">wWidth</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">wHeight</span> <span class="p">)</span>
+    <span class="ow">in</span>
+        <span class="n">List</span><span class="o">.</span><span class="n">map</span>
+            <span class="p">(</span>\<span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="p">)</span> <span class="o">-&gt;</span>
+                <span class="n">polyline</span>
+                    <span class="p">[</span> <span class="n">stroke</span> <span class="s2">&quot;black&quot;</span>
+                    <span class="p">,</span> <span class="n">fill</span> <span class="s2">&quot;none&quot;</span>
+                    <span class="p">,</span> <span class="n">stroke</span> <span class="p">(</span><span class="n">gradient</span> <span class="n">dt</span><span class="p">)</span>
+                    <span class="p">,</span> <span class="n">points</span> <span class="p">(</span><span class="n">plotPath</span> <span class="n">w</span> <span class="n">h</span> <span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="p">))</span>
+                    <span class="p">]</span>
+                    <span class="p">[]</span>
+            <span class="p">)</span>
+            <span class="p">((</span> <span class="n">m</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">part</span> <span class="p">)</span> <span class="p">::</span> <span class="n">m</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+
+
+<span class="n">gradient</span> <span class="p">:</span> <span class="n">Time</span> <span class="o">-&gt;</span> <span class="n">String</span>
+<span class="n">gradient</span> <span class="n">dt</span> <span class="o">=</span>
+    <span class="n">let</span>
+        <span class="p">(</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="p">)</span> <span class="o">=</span>
+            <span class="p">(</span> <span class="nb">round</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">dt</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">round</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dt</span><span class="p">))</span> <span class="p">)</span>
+
+        <span class="n">col</span> <span class="o">=</span>
+            <span class="n">Hex</span><span class="o">.</span><span class="n">toString</span> <span class="p">(</span><span class="mi">256</span> <span class="o">*</span> <span class="p">(</span><span class="mi">256</span> <span class="o">*</span> <span class="n">r</span> <span class="o">+</span> <span class="n">g</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+    <span class="ow">in</span>
+        <span class="k">if</span> <span class="n">String</span><span class="o">.</span><span class="n">length</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="n">then</span>
+            <span class="s2">&quot;#&quot;</span> <span class="o">++</span> <span class="n">String</span><span class="o">.</span><span class="n">repeat</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="n">String</span><span class="o">.</span><span class="n">length</span> <span class="n">col</span><span class="p">)</span> <span class="s2">&quot;0&quot;</span> <span class="o">++</span> <span class="n">col</span>
+        <span class="k">else</span>
+            <span class="s2">&quot;#&quot;</span> <span class="o">++</span> <span class="n">col</span>
+</pre></div>
+
+</div></p>
+</div><div class="py">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+
+<span class="k">def</span> <span class="nf">forward_euler</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+    <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">time_step</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">time_step</span><span class="p">):</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)):</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">i</span> <span class="o">*</span> <span class="n">time_step</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">solution</span><span class="p">)</span>
+            <span class="n">approx</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">approx</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">time_step</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">forward_euler</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;All values within threshold&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">approx</span> <span class="k">else</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Value(s) not in threshold&quot;</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="hs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">solveEuler</span> <span class="p">::</span> <span class="n">Num</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">solveEuler</span> <span class="n">f</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">iterate</span> <span class="p">(</span>\<span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">f</span> <span class="n">x</span> <span class="o">*</span> <span class="n">ts</span><span class="p">)</span>
+
+<span class="n">checkResult</span> <span class="p">::</span> <span class="p">(</span><span class="n">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="n">Num</span> <span class="n">a</span><span class="p">,</span> <span class="n">Num</span> <span class="n">t</span><span class="p">,</span> <span class="n">Enum</span> <span class="n">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+<span class="n">checkResult</span> <span class="n">thresh</span> <span class="n">check</span> <span class="o">=</span>
+    <span class="ow">and</span> <span class="o">.</span> <span class="n">zipWith</span> <span class="p">(</span>\<span class="n">i</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="nb">abs</span> <span class="p">(</span><span class="n">check</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">)</span> <span class="p">[</span><span class="mf">0.</span><span class="o">.</span><span class="p">]</span>
+
+<span class="n">kinematics</span> <span class="p">::</span> <span class="n">Double</span> <span class="o">-&gt;</span> <span class="n">Double</span>
+<span class="n">kinematics</span> <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="n">main</span> <span class="p">::</span> <span class="n">IO</span> <span class="p">()</span>
+<span class="n">main</span> <span class="o">=</span>
+    <span class="n">let</span> <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">checkResult</span><span class="s1">&#39; = checkResult threshold $ exp . (\x -&gt; -3 * x * timestep)</span>
+    <span class="ow">in</span>  <span class="n">putStrLn</span> <span class="err">$</span>
+        <span class="k">if</span> <span class="n">checkResult</span><span class="s1">&#39; (take n $ solveEuler kinematics timestep 1)</span>
+        <span class="n">then</span> <span class="s2">&quot;All values within threshold&quot;</span>
+        <span class="k">else</span> <span class="s2">&quot;Value(s) not in threshold&quot;</span>
+</pre></div>
+
+</div></p>
+</div><div class="m">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">clc</span><span class="p">;</span><span class="n">clear</span><span class="p">;</span><span class="n">close</span> <span class="nb">all</span>
+
+<span class="o">%==========================================================================</span>
+<span class="o">%</span> <span class="n">Define</span> <span class="n">Function</span>
+<span class="n">f</span> <span class="o">=</span><span class="err">@</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">;</span>
+
+<span class="o">%</span> <span class="n">Define</span> <span class="n">Initial</span> <span class="ow">and</span> <span class="n">Final</span> <span class="n">time</span>
+<span class="n">tInit</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">tLast</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="o">%</span> <span class="n">Define</span> <span class="n">number</span> <span class="n">of</span> <span class="n">points</span>
+<span class="n">N</span><span class="o">=</span><span class="mf">1e2</span><span class="p">;</span>
+
+<span class="o">%</span> <span class="n">Set</span> <span class="n">Initial</span> <span class="n">Conditions</span>
+<span class="n">yInit</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="o">%==========================================================================</span>
+
+<span class="n">dt</span><span class="o">=</span><span class="p">(</span><span class="n">tLast</span><span class="o">-</span><span class="n">tInit</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span> <span class="o">%</span> <span class="n">Calculate</span> <span class="n">dt</span>
+<span class="n">t</span><span class="o">=</span><span class="p">[</span><span class="n">tInit</span><span class="p">:</span><span class="n">dt</span><span class="p">:</span><span class="n">tLast</span><span class="p">];</span>     <span class="o">%</span> <span class="n">Preallocate</span> <span class="n">time</span> <span class="n">array</span>
+<span class="n">y</span><span class="o">=</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">t</span><span class="p">));</span>   <span class="o">%</span> <span class="n">Preallocate</span> <span class="n">solution</span> <span class="n">array</span>
+<span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">yInit</span><span class="p">;</span>             <span class="o">%</span> <span class="n">Impose</span> <span class="n">Initial</span> <span class="n">Conditions</span>
+
+<span class="o">%</span> <span class="n">Loop</span> <span class="n">over</span> <span class="n">time</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+    
+    <span class="n">t</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">dt</span><span class="p">;</span>             <span class="o">%</span> <span class="n">Calculate</span> <span class="nb">next</span> <span class="n">time</span> 
+    <span class="n">y</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">f</span><span class="p">(</span> <span class="n">y</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="p">;</span>   <span class="o">%</span> <span class="n">Update</span> <span class="n">solution</span>
+    
+<span class="n">end</span>
+
+<span class="o">%</span> <span class="n">Plot</span> <span class="n">numerical</span> <span class="n">solution</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+
+<span class="o">%</span> <span class="n">Create</span> <span class="n">analytical</span> <span class="n">solution</span>
+<span class="n">g</span><span class="o">=</span><span class="err">@</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">);</span>
+<span class="n">z</span><span class="o">=</span><span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+
+<span class="o">%</span> <span class="n">Plot</span> <span class="n">analytical</span> <span class="n">solution</span> <span class="n">on</span> <span class="n">the</span> <span class="n">same</span> <span class="n">graph</span>
+<span class="n">hold</span> <span class="n">on</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="o">%</span> <span class="n">Set</span> <span class="n">axis</span><span class="p">,</span> <span class="n">title</span> <span class="ow">and</span> <span class="n">legend</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">);</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y(t)&#39;</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s1">&#39;Analytical VS Numerical Solution&#39;</span><span class="p">)</span>
+<span class="n">grid</span>
+<span class="n">legend</span><span class="p">(</span><span class="s1">&#39;Numerical&#39;</span><span class="p">,</span><span class="s1">&#39;Analytical&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div></p>
+</div><div class="swift">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Foundation</span>
+
+<span class="n">func</span> <span class="n">solveEuler</span><span class="p">(</span><span class="n">timeStep</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Double</span><span class="p">]</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">result</span> <span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">..</span><span class="n">n</span> <span class="p">{</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">timeStep</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">result</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">checkResult</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="n">timeStep</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">isApprox</span> <span class="o">=</span> <span class="n">true</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.&lt;</span><span class="n">result</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+        <span class="n">let</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">Double</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">timeStep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="p">{</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">solution</span><span class="p">)</span>
+            <span class="n">isApprox</span> <span class="o">=</span> <span class="n">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">isApprox</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">timeStep</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">let</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">let</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="n">let</span> <span class="n">result</span> <span class="o">=</span> <span class="n">solveEuler</span><span class="p">(</span><span class="n">timeStep</span><span class="p">:</span> <span class="n">timeStep</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">let</span> <span class="n">isApprox</span> <span class="o">=</span> <span class="n">checkResult</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timeStep</span><span class="p">:</span> <span class="n">timeStep</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">isApprox</span> <span class="p">{</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;All values within threshold&quot;</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Value(s) not in threshold&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="js">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">forwardEuler</span><span class="p">(</span><span class="n">timeStep</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">const</span> <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">timeStep</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">arr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">checkEuler</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">timeStep</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">let</span> <span class="n">isApprox</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+  <span class="n">arr</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">_value</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">timeStep</span> <span class="o">*</span> <span class="n">i</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">solution</span><span class="p">);</span>
+      <span class="n">isApprox</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="k">return</span> <span class="n">isApprox</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">const</span> <span class="n">timeStep</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+  <span class="n">const</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+  <span class="n">const</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+  <span class="n">const</span> <span class="n">eulerResult</span> <span class="o">=</span> <span class="n">forwardEuler</span><span class="p">(</span><span class="n">timeStep</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+  <span class="n">const</span> <span class="n">checkResult</span> <span class="o">=</span> <span class="n">checkEuler</span><span class="p">(</span><span class="n">eulerResult</span><span class="p">,</span> <span class="n">timeStep</span><span class="p">,</span> <span class="n">threshold</span><span class="p">);</span>
+  <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">checkResult</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">main</span><span class="p">();</span>
+</pre></div>
+
+</div></p>
+</div><div class="f90">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">euler</span>
+    
+    <span class="n">IMPLICIT</span> <span class="n">NONE</span>
+    <span class="n">LOGICAL</span>                            <span class="p">::</span> <span class="n">is_approx</span>
+    <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">ALLOCATABLE</span> <span class="p">::</span> <span class="n">vec</span>
+    <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>                            <span class="p">::</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">threshold</span>
+    <span class="n">INTEGER</span>                            <span class="p">::</span> <span class="n">n</span>
+
+    <span class="n">time_step</span> <span class="o">=</span> <span class="mf">0.01</span><span class="n">d0</span>
+    <span class="n">n</span>         <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="n">d0</span>
+    
+    <span class="n">ALLOCATE</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">CALL</span> <span class="n">forward_euler</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span>
+    <span class="n">is_approx</span> <span class="o">=</span> <span class="n">check_result</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+
+    <span class="n">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">is_approx</span>
+
+    <span class="n">DEALLOCATE</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+    
+<span class="n">CONTAINS</span>
+
+    <span class="n">SUBROUTINE</span> <span class="n">forward_euler</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span>
+        
+        <span class="n">IMPLICIT</span> <span class="n">NONE</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>   <span class="p">::</span> <span class="n">vec</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="p">::</span> <span class="n">time_step</span>
+        <span class="n">INTEGER</span><span class="p">,</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="p">::</span> <span class="n">n</span>
+        <span class="n">INTEGER</span>                              <span class="p">::</span> <span class="n">i</span>
+
+        <span class="n">vec</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="n">d0</span>
+
+        <span class="n">DO</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span>
+        
+            <span class="n">vec</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="n">d0</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_step</span>
+
+        <span class="n">END</span> <span class="n">DO</span>
+    <span class="n">END</span> <span class="n">SUBROUTINE</span>
+
+    <span class="n">LOGICAL</span> <span class="n">FUNCTION</span> <span class="n">check_result</span><span class="p">(</span><span class="n">euler_result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span> 
+    
+        <span class="n">IMPLICIT</span> <span class="n">NONE</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="p">::</span> <span class="n">euler_result</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>               <span class="p">::</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">time_step</span> 
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>                           <span class="p">::</span> <span class="n">time</span><span class="p">,</span> <span class="n">solution</span>
+        <span class="n">INTEGER</span>                           <span class="p">::</span> <span class="n">i</span>
+
+        <span class="n">check_result</span> <span class="o">=</span> <span class="o">.</span><span class="n">TRUE</span><span class="o">.</span>
+
+        <span class="n">DO</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">euler_result</span><span class="p">)</span>
+
+            <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_step</span>
+            <span class="n">solution</span> <span class="o">=</span> <span class="n">EXP</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="n">d0</span> <span class="o">*</span> <span class="n">time</span><span class="p">)</span>
+             
+            <span class="n">IF</span> <span class="p">(</span><span class="n">ABS</span><span class="p">(</span><span class="n">euler_result</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="n">THEN</span>
+                
+                <span class="n">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">euler_result</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">solution</span>
+                <span class="n">check_result</span> <span class="o">=</span> <span class="o">.</span><span class="n">FALSE</span><span class="o">.</span>
+
+            <span class="n">END</span> <span class="n">IF</span>
+        <span class="n">END</span> <span class="n">DO</span>
+    <span class="n">END</span> <span class="n">FUNCTION</span>
+<span class="n">END</span> <span class="n">PROGRAM</span> <span class="n">euler</span>
+</pre></div>
+
+</div></p>
+</div><div class="go">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s2">&quot;fmt&quot;</span>
+	<span class="s2">&quot;math&quot;</span>
+<span class="p">)</span>
+
+<span class="n">func</span> <span class="n">forwardEuler</span><span class="p">(</span><span class="n">timeStep</span> <span class="n">float64</span><span class="p">,</span> <span class="n">n</span> <span class="nb">int</span><span class="p">)</span> <span class="p">[]</span><span class="n">float64</span> <span class="p">{</span>
+	<span class="n">result</span> <span class="p">:</span><span class="o">=</span> <span class="n">make</span><span class="p">([]</span><span class="n">float64</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+	<span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="k">for</span> <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">x</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">timeStep</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">result</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">check</span><span class="p">(</span><span class="n">result</span> <span class="p">[]</span><span class="n">float64</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timeStep</span> <span class="n">float64</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+	<span class="n">approx</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span>
+	<span class="k">for</span> <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="mf">0.</span><span class="p">;</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">);</span> <span class="n">x</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">solution</span> <span class="p">:</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">Exp</span><span class="p">(</span><span class="o">-</span><span class="mf">3.</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">timeStep</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span><span class="o">-</span><span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="p">{</span>
+			<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span> <span class="n">solution</span><span class="p">)</span>
+			<span class="n">approx</span> <span class="o">=</span> <span class="n">false</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">approx</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">timeStep</span><span class="p">,</span> <span class="n">threshold</span> <span class="p">:</span><span class="o">=</span> <span class="o">.</span><span class="mo">01</span><span class="p">,</span> <span class="o">.</span><span class="mo">01</span>
+	<span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="mi">100</span>
+
+	<span class="n">result</span> <span class="p">:</span><span class="o">=</span> <span class="n">forwardEuler</span><span class="p">(</span><span class="n">timeStep</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">check</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timeStep</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;All values within threshold&quot;</span><span class="p">)</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;Value(s) not within threshold&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="v">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">fn</span> <span class="n">forward_euler</span><span class="p">(</span><span class="n">timestep</span> <span class="n">f64</span><span class="p">,</span> <span class="n">n</span> <span class="nb">int</span><span class="p">)</span> <span class="p">[]</span><span class="n">f64</span> <span class="p">{</span>
+	<span class="n">mut</span> <span class="n">res</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">f64</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+	<span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">f64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">x</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">timestep</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">res</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">check</span><span class="p">(</span><span class="n">result</span> <span class="p">[]</span><span class="n">f64</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span> <span class="n">f64</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+	<span class="n">mut</span> <span class="n">approx</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span>
+	<span class="k">for</span> <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">result</span><span class="o">.</span><span class="n">len</span><span class="p">;</span> <span class="n">x</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">solution</span> <span class="p">:</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">f64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">-</span><span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="p">{</span>
+			<span class="n">tmp</span> <span class="p">:</span><span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+			<span class="n">println</span><span class="p">(</span><span class="s2">&quot;There is a mismatch: abs($tmp-$solution) &gt; $threshold!&quot;</span><span class="p">)</span>
+			<span class="n">approx</span> <span class="o">=</span> <span class="n">false</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">approx</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">timestep</span> <span class="p">:</span><span class="o">=</span> <span class="o">.</span><span class="mo">01</span>
+	<span class="n">threshold</span> <span class="p">:</span><span class="o">=</span> <span class="o">.</span><span class="mo">01</span>
+	<span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="mi">100</span>
+
+	<span class="n">result</span> <span class="p">:</span><span class="o">=</span> <span class="n">forward_euler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="n">check</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">println</span><span class="p">(</span><span class="s2">&quot;All values within threshold&quot;</span><span class="p">)</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Value(s) not within threshold&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="asm-x64">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">.</span><span class="n">intel_syntax</span> <span class="n">noprefix</span>
+
+<span class="o">.</span><span class="n">section</span> <span class="o">.</span><span class="n">rodata</span>
+  <span class="n">three</span><span class="p">:</span>      <span class="o">.</span><span class="n">double</span> <span class="o">-</span><span class="mf">3.0</span>
+  <span class="n">fabs_const</span><span class="p">:</span>
+              <span class="o">.</span><span class="n">long</span>   <span class="mi">4294967295</span>
+              <span class="o">.</span><span class="n">long</span>   <span class="mi">2147483647</span>
+              <span class="o">.</span><span class="n">long</span>   <span class="mi">0</span>
+              <span class="o">.</span><span class="n">long</span>   <span class="mi">0</span>
+  <span class="n">inital_val</span><span class="p">:</span> <span class="o">.</span><span class="n">double</span> <span class="mf">1.0</span>
+  <span class="n">threshold</span><span class="p">:</span>  <span class="o">.</span><span class="n">double</span> <span class="mf">0.01</span>
+  <span class="n">timestep</span><span class="p">:</span>   <span class="o">.</span><span class="n">double</span> <span class="mf">0.01</span>
+  <span class="n">error_fmt</span><span class="p">:</span>  <span class="o">.</span><span class="n">string</span> <span class="s2">&quot;</span><span class="si">%f</span><span class="s2">    </span><span class="si">%f</span><span class="se">\n</span><span class="s2">&quot;</span>
+  <span class="n">fmt</span><span class="p">:</span>        <span class="o">.</span><span class="n">string</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+<span class="o">.</span><span class="n">section</span> <span class="o">.</span><span class="n">text</span>
+  <span class="o">.</span><span class="k">global</span> <span class="n">main</span>
+  <span class="o">.</span><span class="n">extern</span> <span class="n">printf</span>
+  <span class="o">.</span><span class="n">extern</span> <span class="n">exp</span>
+
+<span class="c1"># rdi  - array size</span>
+<span class="c1"># rsi  - array ptr</span>
+<span class="c1"># xmm0 - timestep</span>
+<span class="n">solve_euler</span><span class="p">:</span>
+  <span class="n">movsd</span>  <span class="n">xmm1</span><span class="p">,</span> <span class="n">inital_val</span>
+  <span class="n">lea</span>    <span class="n">rax</span><span class="p">,</span> <span class="p">[</span><span class="n">rsi</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">rdi</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span>    <span class="c1"># Set to end of the array</span>
+<span class="n">solve_euler_loop</span><span class="p">:</span>
+  <span class="n">movsd</span>  <span class="n">xmm3</span><span class="p">,</span> <span class="n">three</span>                 <span class="c1"># Set to -3.0</span>
+  <span class="n">mulsd</span>  <span class="n">xmm2</span><span class="p">,</span> <span class="n">xmm1</span>                  <span class="c1"># xmm2 = -3.0 * array[i-1] * timestep</span>
+  <span class="n">mulsd</span>  <span class="n">xmm2</span><span class="p">,</span> <span class="n">xmm0</span>
+  <span class="n">subsd</span>  <span class="n">xmm1</span><span class="p">,</span> <span class="n">xmm2</span>                  <span class="c1"># xmm1 = xmm1 - xmm2</span>
+  <span class="n">movsd</span>  <span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rsi</span><span class="p">],</span> <span class="n">xmm1</span>
+  <span class="n">add</span>    <span class="n">rsi</span><span class="p">,</span> <span class="mi">8</span>
+  <span class="nb">cmp</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">rax</span>                    <span class="c1"># Test if we have gone through the array</span>
+  <span class="n">jne</span>    <span class="n">solve_euler_loop</span>
+<span class="n">solve_euler_return</span><span class="p">:</span>
+  <span class="n">ret</span>
+
+<span class="c1"># rdi  - array size</span>
+<span class="c1"># rsi  - array ptr</span>
+<span class="c1"># xmm0 - timestep</span>
+<span class="c1"># xmm1 - threshold</span>
+<span class="c1"># RET rax - success code 0 if sucess else 1</span>
+<span class="n">check_result</span><span class="p">:</span>
+  <span class="n">push</span>   <span class="n">r12</span>
+  <span class="n">push</span>   <span class="n">r13</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>                    <span class="c1"># Return code is 0</span>
+  <span class="n">xor</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">r12</span>                    <span class="c1"># The index is set to 0</span>
+  <span class="n">mov</span>    <span class="n">r13</span><span class="p">,</span> <span class="n">rdi</span>                    <span class="c1"># Moving array size to free rdi for printf</span>
+  <span class="n">movsd</span>  <span class="n">xmm2</span><span class="p">,</span> <span class="n">xmm0</span>                  <span class="c1"># Moving timestep to free xmm0 for exp</span>
+  <span class="n">jmp</span>    <span class="n">loop_check</span>
+<span class="n">results_loop</span><span class="p">:</span>
+  <span class="n">cvtsi2sd</span> <span class="n">xmm0</span><span class="p">,</span> <span class="n">r12</span>                 <span class="c1"># Making int to a double</span>
+  <span class="n">movsd</span>  <span class="n">xmm3</span><span class="p">,</span> <span class="n">three</span>                 <span class="c1"># Calculating exp(-3.0 * i * timestep)</span>
+  <span class="n">mulsd</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">xmm3</span>
+  <span class="n">mulsd</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">xmm2</span>
+  <span class="n">call</span>   <span class="n">exp</span>
+  <span class="n">movsd</span>  <span class="n">xmm3</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rsi</span> <span class="o">+</span> <span class="n">r12</span> <span class="o">*</span> <span class="mi">8</span><span class="p">]</span> <span class="c1"># Calculating abs(array[i] - xmm0)</span>
+  <span class="n">subsd</span>  <span class="n">xmm2</span><span class="p">,</span> <span class="n">xmm3</span>
+  <span class="n">movq</span>   <span class="n">xmm3</span><span class="p">,</span> <span class="n">fabs_const</span>
+  <span class="n">andpd</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">xmm3</span>
+  <span class="n">comisd</span> <span class="n">xmm0</span><span class="p">,</span> <span class="n">xmm1</span>                  <span class="c1"># Check if abs(...) &gt; threshold</span>
+  <span class="n">jbe</span>    <span class="n">if_false</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">OFFSET</span> <span class="n">error_fmt</span>       <span class="c1"># If true print out array[i] and solution</span>
+  <span class="n">mov</span>    <span class="n">rax</span><span class="p">,</span> <span class="mi">1</span>
+  <span class="n">call</span>   <span class="n">printf</span>
+  <span class="n">mov</span>    <span class="n">rax</span><span class="p">,</span> <span class="mi">1</span>                      <span class="c1"># and set sucess code to failed (rax = 1)</span>
+<span class="n">if_false</span><span class="p">:</span>
+  <span class="n">add</span>    <span class="n">r12</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">loop_check</span><span class="p">:</span>
+  <span class="nb">cmp</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span>                    <span class="c1"># Check if index is less the array size</span>
+  <span class="n">jle</span>    <span class="n">results_loop</span>
+  <span class="n">pop</span>    <span class="n">r13</span>
+  <span class="n">pop</span>    <span class="n">r12</span>
+  <span class="n">ret</span>
+
+<span class="n">main</span><span class="p">:</span>
+  <span class="n">push</span>   <span class="n">rbp</span>
+  <span class="n">sub</span>    <span class="n">rsp</span><span class="p">,</span> <span class="mi">800</span>                    <span class="c1"># Making double array[100]</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="mi">100</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">movsd</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">timestep</span>
+  <span class="n">call</span>   <span class="n">solve_euler</span>                 <span class="c1"># Calling solve_euler</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="mi">100</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">movsd</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">timestep</span>
+  <span class="n">movsd</span>  <span class="n">xmm1</span><span class="p">,</span> <span class="n">threshold</span>
+  <span class="n">call</span>   <span class="n">check_result</span>                <span class="c1"># Check if results are correct</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">OFFSET</span> <span class="n">fmt</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">call</span>   <span class="n">printf</span>                      <span class="c1"># Print out success code</span>
+  <span class="n">add</span>    <span class="n">rsp</span><span class="p">,</span> <span class="mi">800</span>                    <span class="c1"># Deallocating array</span>
+  <span class="n">pop</span>    <span class="n">rbp</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">ret</span>
+</pre></div>
+
+</div></p>
+</div><div class="java">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">ForwardEuler</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">static</span> <span class="n">double</span><span class="p">[]</span> <span class="n">solveEuler</span><span class="p">(</span><span class="n">double</span> <span class="n">timestep</span><span class="p">,</span> <span class="nb">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">eulerResult</span> <span class="o">=</span> <span class="n">new</span> <span class="n">double</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+
+        <span class="o">//</span><span class="n">Setting</span> <span class="n">the</span> <span class="n">initial</span> <span class="n">condition</span>
+        <span class="n">eulerResult</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">eulerResult</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">eulerResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">eulerResult</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">eulerResult</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">eulerResult</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">private</span> <span class="n">static</span> <span class="n">boolean</span> <span class="n">checkResult</span><span class="p">(</span><span class="n">double</span><span class="p">[]</span> <span class="n">eulerResult</span><span class="p">,</span> <span class="n">double</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">double</span> <span class="n">timestep</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">boolean</span> <span class="n">isApprox</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">eulerResult</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">double</span> <span class="n">time</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">;</span>
+            <span class="n">double</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">time</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eulerResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">eulerResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">solution</span><span class="p">);</span>
+                <span class="n">isApprox</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">isApprox</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span> <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+        <span class="nb">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+        <span class="n">double</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+
+        <span class="n">double</span><span class="p">[]</span> <span class="n">eulerResult</span> <span class="o">=</span> <span class="n">solveEuler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+        <span class="n">boolean</span> <span class="n">isApprox</span> <span class="o">=</span> <span class="n">checkResult</span><span class="p">(</span><span class="n">eulerResult</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">);</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">isApprox</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="nim">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">proc</span> <span class="n">solveEuler</span><span class="p">(</span><span class="n">timestep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span> <span class="n">seq</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span>
+  <span class="n">var</span> <span class="n">res</span> <span class="o">=</span> <span class="n">newSeq</span><span class="p">[</span><span class="nb">float</span><span class="p">](</span><span class="n">n</span><span class="p">)</span>
+  
+  <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span> <span class="o">..</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">timestep</span>
+
+  <span class="k">return</span> <span class="n">res</span>
+
+<span class="n">proc</span> <span class="n">check</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">seq</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">timestep</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span> <span class="nb">bool</span> <span class="o">=</span>
+  <span class="n">var</span> <span class="n">approx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">0</span> <span class="o">..</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">let</span> <span class="n">solution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="n">solution</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+      <span class="n">echo</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="n">echo</span> <span class="n">solution</span>
+      <span class="n">approx</span> <span class="o">=</span> <span class="n">false</span>
+
+  <span class="k">return</span> <span class="n">approx</span>
+
+<span class="n">const</span>
+  <span class="n">timestep</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+  <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+  <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+  <span class="n">eulerResult</span><span class="p">:</span> <span class="n">seq</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">solveEuler</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+  <span class="n">approx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">eulerResult</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+
+<span class="n">echo</span> <span class="n">approx</span>
+</pre></div>
+
+</div></p>
+</div>
+</div>
+
+<script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+
+<h2>License</h2>
+<h5>Code Examples</h5>
+<p>The code examples are licensed under the MIT license (found in <a href="https://github.com/algorithm-archivists/algorithm-archive/blob/master/LICENSE.md">LICENSE.md</a>).</p>
+<h5>Text</h5>
+<p>The text of this chapter was written by <a href="https://github.com/leios">James Schloss</a> and is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+<p><a href="https://creativecommons.org/licenses/by-sa/4.0/"><p><img  class="center" src="../cc/CC-BY-SA_icon.svg" /></p></a></p>
+<h5>Images/Graphics</h5>
+<ul>
+<li>The image "<a href="res/error.png">FEerror</a>" was created by <a href="https://github.com/leios">James Schloss</a> and is licenced under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</li>
+<li>The image "<a href="res/instability.png">FEinstability</a>" was created by <a href="https://github.com/leios">James Schloss</a> and is licenced under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</li>
+</ul>
+<h5>Pull Requests</h5>
+<p>After initial licensing (<a href="https://github.com/algorithm-archivists/algorithm-archive/pull/560">#560</a>), the following pull requests have modified the text or graphics of this chapter:
+- none</p>
+        <hr>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel=stylesheet href="/pygments.css" type="text/css">
+    <link rel=stylesheet href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title id="ttl"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        var bjs = {"gitbook": "3.x.x", "plugins": ["fontsettings", "mathjax@https://github.com/algorithm-archivists/plugin-mathjax", "bibtex-cite", "wordcount", "api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git", "include-codeblock", "ga", "bulk-redirect", "prism", "-highlight"], "lunr": {"maxIndexSize": 1000000000}, "pluginsConfig": {"mathjax": {"version": "2.6.1"}, "include-codeblock": {"fixlang": true, "unindent": true}, "bulk-redirect": {"basepath": "/", "redirectsFile": "redirects.json"}, "ga": {"token": "UA-118252470-1"}, "prism": {"lang": {"asm-x64": "nasm"}, "ignore": ["emojicode", "text"], "css": ["prismjs/themes/prism-tomorrow.css"]}, "api-language-selector": {"languages": [{"lang": "jl", "name": "Julia", "default": true}, {"lang": "bash", "name": "Bash"}, {"lang": "cs", "name": "C#"}, {"lang": "cpp", "name": "C++"}, {"lang": "c", "name": "C"}, {"lang": "c8", "name": "chip-8"}, {"lang": "py", "name": "Python"}, {"lang": "js", "name": "JavaScript"}, {"lang": "scratch", "name": "Scratch"}, {"lang": "hs", "name": "Haskell"}, {"lang": "rs", "name": "Rust"}, {"lang": "ml", "name": "OCaml"}, {"lang": "java", "name": "Java"}, {"lang": "clj", "name": "Clojure"}, {"lang": "elm", "name": "Elm"}, {"lang": "LabVIEW", "name": "LabVIEW"}, {"lang": "d", "name": "D"}, {"lang": "go", "name": "Go"}, {"lang": "swift", "name": "Swift"}, {"lang": "racket", "name": "Racket"}, {"lang": "m", "name": "Matlab"}, {"lang": "r", "name": "R"}, {"lang": "ti83b", "name": "TI-83 Basic"}, {"lang": "lua", "name": "Lua"}, {"lang": "crystal", "name": "Crystal"}, {"lang": "php", "name": "PHP"}, {"lang": "lisp", "name": "Common Lisp"}, {"lang": "nim", "name": "Nim"}, {"lang": "asm-x64", "name": "X86-64 Assembly"}, {"lang": "f90", "name": "Fortran90"}, {"lang": "factor", "name": "Factor"}, {"lang": "ws", "name": "Whitespace"}, {"lang": "scala", "name": "Scala"}, {"lang": "emojic", "name": "Emojicode"}, {"lang": "lolcode", "name": "LOLCODE"}, {"lang": "piet", "name": "Piet"}, {"lang": "ss", "name": "Scheme"}, {"lang": "ps1", "name": "PowerShell"}, {"lang": "v", "name": "Vlang"}, {"lang": "coffee", "name": "CoffeeScript"}, {"lang": "kotlin", "name": "Kotlin"}]}}};		    
+        var lang = "jl";
+        var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash",
+            "haskell": "Haskell",
+            "matlab": "Matlab",
+            "javascript": "JavaScript"
+        };
+	
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+	    langs = Object.keys(langs);
+	    if (langs.length == 1) {
+		lang = langs[0];
+	    }
+            langNames.forEach(function(element) { translations[element.lang] = element.name });
+        }
+        function reload() {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    if (element.className == lang) {
+                        element.style.display = 'block';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+        };
+        window.onload = () => {
+            initLangs();
+            reload();
+            document.getElementById("name").innerText = pages[index];
+            document.getElementById("ttl").innerText = pages[index];
+            initLs();
+        };
+        var index = 12;
+        var pages = [];
+	var lsed = false;
+				
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+
+	var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                var h1 = 0;
+                var h2 = 0;
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+		    console.log(language);
+		    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs[\"" + language + "\"]()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    if (i % 2) {
+                        h2 += 1
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        h1 += 1
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (h1 > h2) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
+                }
+                document.getElementById("ls").style.display = "none";
+                document.getElementById("ls2").style.display = "none";
+            }
+        }
+        function toggleSidenav () {
+            $("#sidebar").toggleClass("hide");
+            $("#content").toggleClass("on-sidebar");
+            $("#navbar").toggleClass("no-sidebar");
+        }
+    </script>
+    <div class="sidebar-wrapper" id="sidebar">
+        
+            <p>
+                
+                <a name="Algorithm Archive"></a>
+                <a href="/index.html#Algorithm Archive">Algorithm Archive</a>
+                <script>pages[0] = "Algorithm Archive"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Introduction"></a>
+                <a href="/contents/introduction/introduction.html#Introduction">Introduction</a>
+                <script>pages[1] = "Introduction"</script>
+            </p>
+        
+            <p>
+                
+                <a name="How To Contribute"></a>
+                <a href="/contents/how_to_contribute/how_to_contribute.html#How To Contribute">How To Contribute</a>
+                <script>pages[2] = "How To Contribute"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Plotting"></a>
+                <a href="/contents/plotting/plotting.html#Plotting">Plotting</a>
+                <script>pages[3] = "Plotting"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Structures"></a>
+                <a href="/contents/data_structures/data_structures.html#Data Structures">Data Structures</a>
+                <script>pages[4] = "Data Structures"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stacks and Queues"></a>
+                <a href="/contents/stacks_and_queues/stacks_and_queues.html#Stacks and Queues">Stacks and Queues</a>
+                <script>pages[5] = "Stacks and Queues"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Mathematical Background"></a>
+                <a href="/contents/mathematical_background/mathematical_background.html#Mathematical Background">Mathematical Background</a>
+                <script>pages[6] = "Mathematical Background"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Complexity Notation"></a>
+                <a href="/contents/notation/notation.html#Complexity Notation">Complexity Notation</a>
+                <script>pages[7] = "Complexity Notation"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bit Logic"></a>
+                <a href="/contents/bitlogic/bitlogic.html#Bit Logic">Bit Logic</a>
+                <script>pages[8] = "Bit Logic"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Taylor Series"></a>
+                <a href="/contents/taylor_series_expansion/taylor_series_expansion.html#Taylor Series">Taylor Series</a>
+                <script>pages[9] = "Taylor Series"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Sorting and Searching"></a>
+                <a href="/contents/sorting_and_searching/sorting_and_searching.html#Sorting and Searching">Sorting and Searching</a>
+                <script>pages[10] = "Sorting and Searching"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bubble Sort"></a>
+                <a href="/contents/bubble_sort/bubble_sort.html#Bubble Sort">Bubble Sort</a>
+                <script>pages[11] = "Bubble Sort"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bogo Sort"></a>
+                <a href="/contents/bogo_sort/bogo_sort.html#Bogo Sort">Bogo Sort</a>
+                <script>pages[12] = "Bogo Sort"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Tree Traversal"></a>
+                <a href="/contents/tree_traversal/tree_traversal.html#Tree Traversal">Tree Traversal</a>
+                <script>pages[13] = "Tree Traversal"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Euclidean Algorithm"></a>
+                <a href="/contents/euclidean_algorithm/euclidean_algorithm.html#Euclidean Algorithm">Euclidean Algorithm</a>
+                <script>pages[14] = "Euclidean Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Monte Carlo"></a>
+                <a href="/contents/monte_carlo_integration/monte_carlo_integration.html#Monte Carlo">Monte Carlo</a>
+                <script>pages[15] = "Monte Carlo"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Matrix Methods"></a>
+                <a href="/contents/matrix_methods/matrix_methods.html#Matrix Methods">Matrix Methods</a>
+                <script>pages[16] = "Matrix Methods"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gaussian Elimination"></a>
+                <a href="/contents/gaussian_elimination/gaussian_elimination.html#Gaussian Elimination">Gaussian Elimination</a>
+                <script>pages[17] = "Gaussian Elimination"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Thomas Algorithm"></a>
+                <a href="/contents/thomas_algorithm/thomas_algorithm.html#Thomas Algorithm">Thomas Algorithm</a>
+                <script>pages[18] = "Thomas Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Computational Geometry"></a>
+                <a href="/contents/computational_geometry/computational_geometry.html#Computational Geometry">Computational Geometry</a>
+                <script>pages[19] = "Computational Geometry"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gift Wrapping"></a>
+                <a href="/contents/gift_wrapping/gift_wrapping.html#Gift Wrapping">Gift Wrapping</a>
+                <script>pages[20] = "Gift Wrapping"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Jarvis March"></a>
+                <a href="/contents/jarvis_march/jarvis_march.html#Jarvis March">Jarvis March</a>
+                <script>pages[21] = "Jarvis March"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Graham Scan"></a>
+                <a href="/contents/graham_scan/graham_scan.html#Graham Scan">Graham Scan</a>
+                <script>pages[22] = "Graham Scan"</script>
+            </p>
+        
+            <p>
+                
+                <a name="FFT"></a>
+                <a href="/contents/cooley_tukey/cooley_tukey.html#FFT">FFT</a>
+                <script>pages[23] = "FFT"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Decision Problems"></a>
+                <a href="/contents/decision_problems/decision_problems.html#Decision Problems">Decision Problems</a>
+                <script>pages[24] = "Decision Problems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stable Marriage Problem"></a>
+                <a href="/contents/stable_marriage_problem/stable_marriage_problem.html#Stable Marriage Problem">Stable Marriage Problem</a>
+                <script>pages[25] = "Stable Marriage Problem"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Differential Equation Solvers"></a>
+                <a href="/contents/differential_equations/differential_equations.html#Differential Equation Solvers">Differential Equation Solvers</a>
+                <script>pages[26] = "Differential Equation Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Forward Euler Method"></a>
+                <a href="/contents/forward_euler_method/forward_euler_method.html#Forward Euler Method">Forward Euler Method</a>
+                <script>pages[27] = "Forward Euler Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Physics Solvers"></a>
+                <a href="/contents/physics_solvers/physics_solvers.html#Physics Solvers">Physics Solvers</a>
+                <script>pages[28] = "Physics Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Verlet Integration"></a>
+                <a href="/contents/verlet_integration/verlet_integration.html#Verlet Integration">Verlet Integration</a>
+                <script>pages[29] = "Verlet Integration"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Quantum Systems"></a>
+                <a href="/contents/quantum_systems/quantum_systems.html#Quantum Systems">Quantum Systems</a>
+                <script>pages[30] = "Quantum Systems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Split-Operator Method"></a>
+                <a href="/contents/split-operator_method/split-operator_method.html#Split-Operator Method">Split-Operator Method</a>
+                <script>pages[31] = "Split-Operator Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Compression"></a>
+                <a href="/contents/data_compression/data_compression.html#Data Compression">Data Compression</a>
+                <script>pages[32] = "Data Compression"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Huffman Encoding"></a>
+                <a href="/contents/huffman_encoding/huffman_encoding.html#Huffman Encoding">Huffman Encoding</a>
+                <script>pages[33] = "Huffman Encoding"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Quantum Information"></a>
+                <a href="/contents/quantum_information/quantum_information.html#Quantum Information">Quantum Information</a>
+                <script>pages[34] = "Quantum Information"</script>
+            </p>
+        
+        <hr>
+    </div>
+    <nav class="navbarrio" id=navbar>
+        <ul class="navbarro">
+            <li>
+                <span onclick="toggleSidenav()">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </li>
+            <li>
+                <span onclick="flipLs()" id=flipper>
+                    <i class="fas fa-code"></i>
+                    <div class=ls id=ls></div>
+                    <div class=ls2 id=ls2></div>
+                </span>
+            </li>
+            <li>
+                <span id=name></span>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid on-sidebar" id="content">
+        <h1>Bogo Sort</h1>
+<p>Look, Bogo Sort doesn't really sort anything out.
+In fact, it should never be used in practice for any reason I can think of and really only serves as a joke in the programming community.
+As far as jokes go, though, this one's pretty good.</p>
+<p>So, here's how it goes:
+imagine you have an array of <script type='math/tex'>n</script> elements that you want sorted.
+One way to do it is to shuffle the array at random and hope that all the elements will be magically in order after shuffling.
+If they are not in order, just shuffle everything again.
+And then again. And again.
+In the best case, this algorithm runs with a complexity of <script type='math/tex'>\Omega(n)</script>, and in the worst, <script type='math/tex'>\mathcal{O}(\infty)</script>.</p>
+<p>In code, it looks something like this:</p>
+<div class=code-section>
+<div class="jl">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">bogo_sort</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">})</span>
+    <span class="k">while</span><span class="p">(</span><span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+        <span class="n">shuffle</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">end</span>
+<span class="n">end</span>
+</pre></div>
+
+</div></p>
+</div><div class="cs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span>        <span class="n">public</span> <span class="n">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">RunBogoSort</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nb">list</span><span class="p">)</span> <span class="n">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+            <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">IsSorted</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+                <span class="nb">list</span> <span class="o">=</span> <span class="n">Shuffle</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">new</span> <span class="n">Random</span><span class="p">());</span>
+
+            <span class="k">return</span> <span class="nb">list</span><span class="p">;</span>
+        <span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="clj">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">defn</span> <span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">[</span><span class="n">col</span> <span class="n">func</span><span class="p">]</span>
+  <span class="s2">&quot;shuffle the collection untill it is sorted&quot;</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">-</span><span class="nb">sorted</span> <span class="n">col</span> <span class="n">func</span><span class="p">)</span>
+    <span class="n">col</span>
+    <span class="p">(</span><span class="n">shuffle</span> <span class="n">col</span><span class="p">)))</span>
+</pre></div>
+
+</div></p>
+</div><div class="c">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="nb">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="java">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span>    <span class="n">static</span> <span class="n">void</span> <span class="n">bogoSort</span><span class="p">(</span><span class="nb">int</span><span class="p">[]</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="js">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="py">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bogo_sort</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+</div></p>
+</div><div class="hs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">bogoSort</span> <span class="p">::</span> <span class="p">(</span><span class="n">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="n">RandomGen</span> <span class="n">g</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">g</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">bogoSort</span> <span class="n">g</span> <span class="n">a</span> <span class="o">=</span> <span class="n">fst</span> <span class="err">$</span> <span class="n">head</span> <span class="err">$</span>
+               <span class="nb">filter</span> <span class="p">(</span><span class="n">isSorted</span> <span class="o">.</span> <span class="n">fst</span><span class="p">)</span> <span class="err">$</span>
+               <span class="n">iterate</span> <span class="p">(</span><span class="n">uncurry</span> <span class="n">fisherYates</span><span class="p">)</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+</pre></div>
+
+</div></p>
+</div><div class="m">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">sorted_array</span> <span class="o">=</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">while</span> <span class="o">~</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="o">%</span> <span class="n">create</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">random</span> <span class="n">permutation</span> <span class="n">indices</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">randperm</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">array</span><span class="p">));</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">end</span>
+    <span class="n">sorted_array</span> <span class="o">=</span> <span class="n">array</span><span class="p">;</span>
+<span class="n">end</span>
+</pre></div>
+
+</div></p>
+</div><div class="lua">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kd">local</span> <span class="kr">function</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">#</span><span class="n">arr</span><span class="o">-</span><span class="mi">1</span> <span class="kr">do</span>
+    <span class="kd">local</span> <span class="n">rand</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="o">#</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">rand</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">rand</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+  <span class="kr">end</span>
+<span class="kr">end</span>
+
+<span class="kd">local</span> <span class="kr">function</span> <span class="nf">issorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="o">#</span><span class="n">arr</span><span class="o">-</span><span class="mi">1</span> <span class="kr">do</span>
+    <span class="kr">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="kr">then</span>
+      <span class="kr">return</span> <span class="kc">false</span>
+    <span class="kr">end</span>
+  <span class="kr">end</span>
+  <span class="kr">return</span> <span class="kc">true</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nf">bogosort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">while</span> <span class="ow">not</span> <span class="n">issorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">end</span>
+<span class="kr">end</span>
+</pre></div>
+
+</div></p>
+</div><div class="cpp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iter</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Rng</span><span class="o">&gt;</span>
+<span class="n">void</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">Iter</span> <span class="n">const</span> <span class="n">first</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">const</span> <span class="n">last</span><span class="p">,</span> <span class="n">Rng</span><span class="o">&amp;</span> <span class="n">rng</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">std</span><span class="p">::</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">shuffle</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">rng</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="rs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">fn</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">mut</span> <span class="p">[</span><span class="n">i32</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">thread_rng</span><span class="p">()</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="swift">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">func</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">sortArray</span><span class="p">:</span> <span class="n">inout</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">inputArray</span><span class="p">:</span> <span class="n">sortArray</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">sortArray</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">sortArray</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="php">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span> <span class="err">$</span><span class="n">array</span><span class="p">):</span> <span class="n">array</span>
+<span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="err">$</span><span class="n">array</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="err">$</span><span class="n">array</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="err">$</span><span class="n">array</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="nim">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">proc</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">var</span> <span class="n">openArray</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">=</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+</div></p>
+</div><div class="ruby">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">puts</span> <span class="s2">&quot;Unsorted&quot;</span>
+<span class="n">p</span> <span class="n">a</span>
+
+<span class="n">bogo_sort</span> <span class="n">a</span>
+</pre></div>
+
+</div></p>
+</div><div class="emojic">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span>  <span class="err">🐇</span> <span class="err">❗️</span> <span class="err">🔀</span> <span class="n">numbers</span> <span class="err">🍨🐚💯🍆</span> <span class="err">🍇</span>
+    <span class="err">🔁</span> <span class="err">❎</span> <span class="err">📶🐇🥇</span> <span class="n">numbers</span><span class="err">❗️❗️</span> <span class="err">🍇</span>
+      <span class="err">🐹</span> <span class="n">numbers</span><span class="err">❗️</span>
+    <span class="err">🍉</span>
+  <span class="err">🍉</span>
+</pre></div>
+
+</div></p>
+</div><div class="factor">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">USING</span><span class="p">:</span> <span class="n">random</span> <span class="p">;</span>
+<span class="p">:</span> <span class="n">bogosort</span> <span class="p">(</span> <span class="n">seq</span> <span class="o">--</span> <span class="n">seq</span><span class="s1">&#39; )</span>
+  <span class="err">!</span> <span class="sb">`dup`</span> <span class="n">duplicates</span> <span class="n">the</span> <span class="n">array</span><span class="p">,</span> <span class="n">because</span> <span class="sb">`sorted?`</span> <span class="n">pops</span> <span class="n">its</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">it</span>
+</pre></div>
+
+</div></p>
+</div><div class="f90">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span>    <span class="n">SUBROUTINE</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="p">::</span> <span class="n">array</span>
+
+        <span class="n">DO</span> <span class="n">WHILE</span> <span class="p">(</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">.</span><span class="n">EQV</span><span class="o">.</span> <span class="o">.</span><span class="n">FALSE</span><span class="o">.</span><span class="p">)</span>
+
+            <span class="n">CALL</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+        <span class="n">END</span> <span class="n">DO</span>
+    <span class="n">END</span> <span class="n">SUBROUTINE</span> <span class="n">bogo_sort</span>
+</pre></div>
+
+</div></p>
+</div><div class="racket">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">define</span> <span class="p">(</span><span class="n">bogo_sort</span> <span class="n">l</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">is_sorted</span><span class="err">?</span> <span class="n">l</span><span class="p">)</span>
+      <span class="n">l</span>
+      <span class="p">(</span><span class="n">bogo_sort</span> <span class="p">(</span><span class="n">shuffle</span> <span class="n">l</span><span class="p">))</span>
+    <span class="p">)</span>
+ <span class="p">)</span>
+</pre></div>
+
+</div></p>
+</div><div class="st">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">SequenceableCollection</span><span class="o">&gt;&gt;</span><span class="n">bogoSort</span>
+    <span class="s2">&quot;A simple bogosort.&quot;</span>
+    <span class="p">[</span> <span class="bp">self</span> <span class="n">isSorted</span> <span class="p">]</span> <span class="n">whileFalse</span><span class="p">:</span> <span class="p">[</span> 
+        <span class="bp">self</span> <span class="n">shuffle</span><span class="o">.</span>
+    <span class="p">]</span>
+</pre></div>
+
+</div></p>
+</div><div class="bash">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">bogo_sort</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">local</span> <span class="n">arr</span>
+    <span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;$@&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="p">[[</span> <span class="err">$</span><span class="p">(</span><span class="n">is_sorted</span> <span class="s2">&quot;${arr[@]}&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">]];</span> <span class="n">do</span>
+        <span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">shuffle</span> <span class="s2">&quot;${arr[@]}&quot;</span><span class="p">))</span>
+    <span class="n">done</span>
+    <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">arr</span><span class="p">[</span><span class="o">*</span><span class="p">]}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="asm-x64">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1"># rdi - array ptr</span>
+<span class="c1"># rsi - array size</span>
+<span class="n">bogo_sort</span><span class="p">:</span>
+  <span class="n">push</span>   <span class="n">r12</span>
+  <span class="n">push</span>   <span class="n">r13</span>
+  <span class="n">mov</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">rdi</span>
+  <span class="n">mov</span>    <span class="n">r13</span><span class="p">,</span> <span class="n">rsi</span>
+<span class="n">bogo_sort_loop</span><span class="p">:</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">r12</span>                         <span class="c1"># Check if the array is sorted</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">r13</span>
+  <span class="n">call</span>   <span class="n">is_sorted</span>
+  <span class="n">test</span>   <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">jnz</span>    <span class="n">bogo_sort_done</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">r12</span>                         <span class="c1"># If not then shuffle</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">r13</span>
+  <span class="n">call</span>   <span class="n">shuffle</span>
+  <span class="n">jmp</span>    <span class="n">bogo_sort_loop</span>
+<span class="n">bogo_sort_done</span><span class="p">:</span>
+  <span class="n">pop</span>    <span class="n">r13</span>
+  <span class="n">pop</span>    <span class="n">r12</span>
+  <span class="n">ret</span>
+</pre></div>
+
+</div></p>
+</div><div class="lisp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">defun</span> <span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+  <span class="s2">&quot;Sorts a given list (eventually)&quot;</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">sortedp</span> <span class="nb">list</span><span class="p">)</span>
+      <span class="nb">list</span>
+      <span class="p">(</span><span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">(</span><span class="n">shuffle</span> <span class="nb">list</span><span class="p">))))</span>
+</pre></div>
+
+</div></p>
+</div><div class="crystal">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bogo_sort</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="k">while</span> <span class="err">!</span><span class="n">is_sorted</span><span class="err">?</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">shuffle</span><span class="err">!</span>
+  <span class="n">end</span>
+<span class="n">end</span>
+</pre></div>
+
+</div></p>
+</div><div class="r">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">bogo_sort</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">unsorted</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">a</span> <span class="o">&lt;-</span> <span class="n">sample</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="scala">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span>  <span class="k">def</span> <span class="nf">bogoSort</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Int</span><span class="p">]):</span> <span class="n">List</span><span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span>
+    <span class="n">isSorted</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
+      <span class="n">case</span> <span class="n">false</span> <span class="o">=&gt;</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">shuffle</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+      <span class="n">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="nb">list</span>
+    <span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="go">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">func</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">a</span> <span class="p">[]</span><span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div>
+</div>
+
+<p>That's it.
+Ship it!
+We are done here!</p>
+<h2>Example Code</h2>
+<div class=code-section>
+<div class="jl">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Random</span>
+
+<span class="n">function</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">false</span>
+        <span class="n">end</span>
+    <span class="n">end</span>
+    <span class="k">return</span> <span class="n">true</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">bogo_sort</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">})</span>
+    <span class="k">while</span><span class="p">(</span><span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+        <span class="n">shuffle</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">end</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">main</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span>
+    <span class="n">bogo_sort</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="cs">
+<h5>BogoSort.cs</h5>
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">submitted</span> <span class="n">by</span> <span class="n">Julian</span> <span class="n">Schacher</span> <span class="p">(</span><span class="n">jspp</span><span class="p">)</span>
+<span class="n">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="n">using</span> <span class="n">System</span><span class="o">.</span><span class="n">Collections</span><span class="o">.</span><span class="n">Generic</span><span class="p">;</span>
+
+<span class="n">namespace</span> <span class="n">BogoSort</span>
+<span class="p">{</span>
+    <span class="n">public</span> <span class="n">static</span> <span class="k">class</span> <span class="nc">BogoSort</span>
+    <span class="p">{</span>
+        <span class="n">public</span> <span class="n">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">RunBogoSort</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nb">list</span><span class="p">)</span> <span class="n">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+            <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">IsSorted</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+                <span class="nb">list</span> <span class="o">=</span> <span class="n">Shuffle</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">new</span> <span class="n">Random</span><span class="p">());</span>
+
+            <span class="k">return</span> <span class="nb">list</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">private</span> <span class="n">static</span> <span class="nb">bool</span> <span class="n">IsSorted</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nb">list</span><span class="p">)</span> <span class="n">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+        <span class="p">{</span>
+            <span class="n">var</span> <span class="nb">sorted</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">list</span><span class="o">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="p">(</span><span class="mi">0</span> <span class="o">&gt;=</span> <span class="nb">list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])))</span>
+                    <span class="nb">sorted</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="nb">sorted</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="nb">sorted</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">list</span><span class="o">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="nb">list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])))</span>
+                        <span class="nb">sorted</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="nb">sorted</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">private</span> <span class="n">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Shuffle</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nb">list</span><span class="p">,</span> <span class="n">Random</span> <span class="n">random</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">var</span> <span class="n">j</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Next</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+                <span class="n">var</span> <span class="n">temp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="nb">list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                <span class="nb">list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+<h5>Program.cs</h5>
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">submitted</span> <span class="n">by</span> <span class="n">Julian</span> <span class="n">Schacher</span> <span class="p">(</span><span class="n">jspp</span><span class="p">)</span>
+<span class="n">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="n">using</span> <span class="n">System</span><span class="o">.</span><span class="n">Collections</span><span class="o">.</span><span class="n">Generic</span><span class="p">;</span>
+
+<span class="n">namespace</span> <span class="n">BogoSort</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="n">static</span> <span class="n">void</span> <span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Console</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s2">&quot;BogoSort&quot;</span><span class="p">);</span>
+            <span class="n">var</span> <span class="n">listBogo</span> <span class="o">=</span> <span class="n">new</span> <span class="n">List</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span><span class="p">()</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">15</span> <span class="p">};</span>
+            <span class="n">Console</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="s2">&quot;unsorted: &quot;</span><span class="p">);</span>
+            <span class="n">foreach</span> <span class="p">(</span><span class="n">var</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">listBogo</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">);</span>
+            <span class="n">Console</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">();</span>
+            <span class="n">listBogo</span> <span class="o">=</span> <span class="n">BogoSort</span><span class="o">.</span><span class="n">RunBogoSort</span><span class="p">(</span><span class="n">listBogo</span><span class="p">);</span>
+            <span class="n">Console</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="s2">&quot;sorted: &quot;</span><span class="p">);</span>
+            <span class="n">foreach</span> <span class="p">(</span><span class="n">var</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">listBogo</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">);</span>
+            <span class="n">Console</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="clj">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="p">;;</span> <span class="n">earthfail</span>
+<span class="p">(</span><span class="n">defn</span> <span class="ow">is</span><span class="o">-</span><span class="nb">sorted</span> <span class="p">[</span><span class="n">col</span> <span class="n">func</span><span class="p">]</span>
+  <span class="s2">&quot;return true of col is sorted in respect to func role</span>
+   <span class="n">like</span> <span class="o">&lt;</span><span class="p">,</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;=</span><span class="p">,</span><span class="o">&gt;=</span><span class="s2">&quot;</span>
+  <span class="p">(</span><span class="nb">apply</span> <span class="n">func</span> <span class="n">col</span><span class="p">))</span>
+
+<span class="p">(</span><span class="n">defn</span> <span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">[</span><span class="n">col</span> <span class="n">func</span><span class="p">]</span>
+  <span class="s2">&quot;shuffle the collection untill it is sorted&quot;</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">-</span><span class="nb">sorted</span> <span class="n">col</span> <span class="n">func</span><span class="p">)</span>
+    <span class="n">col</span>
+    <span class="p">(</span><span class="n">shuffle</span> <span class="n">col</span><span class="p">)))</span>
+</pre></div>
+
+</div></p>
+</div><div class="c">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &lt;stdlib.h&gt;</span>
+<span class="c1">#include &lt;stdbool.h&gt;</span>
+<span class="c1">#include &lt;stddef.h&gt;</span>
+
+<span class="nb">bool</span> <span class="n">is_sorted</span><span class="p">(</span><span class="nb">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">--</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">shuffle</span><span class="p">(</span><span class="nb">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="nb">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">n</span><span class="p">;</span>
+        <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+        <span class="n">array</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="nb">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">int</span> <span class="n">array</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3654</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">};</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Unsorted array:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">);</span>
+
+    <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Sorted array:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="java">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">Bogo</span> <span class="p">{</span>
+    <span class="n">static</span> <span class="n">void</span> <span class="n">bogoSort</span><span class="p">(</span><span class="nb">int</span><span class="p">[]</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">static</span> <span class="n">boolean</span> <span class="n">isSorted</span><span class="p">(</span><span class="nb">int</span><span class="p">[]</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">static</span> <span class="n">void</span> <span class="n">shuffle</span><span class="p">(</span><span class="nb">int</span><span class="p">[]</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="n">Math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">r</span><span class="p">);</span>
+            <span class="nb">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">int</span><span class="p">[]</span> <span class="n">test</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">int</span><span class="p">[]{</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">59</span><span class="p">};</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Unsorted array :&quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">test</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="k">print</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+
+
+        <span class="n">bogoSort</span><span class="p">(</span><span class="n">test</span><span class="p">);</span>
+
+
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Sorted array :&quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">test</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="k">print</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+	<span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="js">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">isSorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">r</span><span class="p">);</span>
+    <span class="n">let</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">const</span> <span class="n">testArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">];</span>
+  <span class="n">bogoSort</span><span class="p">(</span><span class="n">testArray</span><span class="p">);</span>
+  <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">testArray</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">main</span><span class="p">();</span>
+</pre></div>
+
+</div></p>
+</div><div class="py">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+
+<span class="k">def</span> <span class="nf">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">def</span> <span class="nf">bogo_sort</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">bogo_sort</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="hs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span>           <span class="nn">System.Random</span>
+<span class="kn">import</span> <span class="nn">qualified</span> <span class="nn">Data.Map</span> <span class="kn">as</span> <span class="nn">M</span>
+<span class="kn">import</span>           <span class="nn">Data.Map</span> <span class="p">((</span><span class="err">!</span><span class="p">))</span>
+
+<span class="n">fisherYates</span> <span class="p">::</span> <span class="n">RandomGen</span> <span class="n">g</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">g</span> <span class="o">-&gt;</span> <span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="n">g</span><span class="p">)</span>
+<span class="n">fisherYates</span> <span class="n">a</span> <span class="n">gen</span> <span class="o">=</span> <span class="n">shuffle</span> <span class="mi">1</span> <span class="n">gen</span> <span class="n">m</span>
+  <span class="n">where</span> <span class="n">m</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">fromList</span> <span class="err">$</span> <span class="nb">zip</span> <span class="p">[</span><span class="mf">1.</span><span class="o">.</span><span class="p">]</span> <span class="n">a</span>
+        <span class="n">shuffle</span> <span class="n">i</span> <span class="n">g</span> <span class="n">k</span>
+          <span class="o">|</span> <span class="n">i</span> <span class="o">==</span> <span class="n">M</span><span class="o">.</span><span class="n">size</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">elems</span> <span class="n">k</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+          <span class="o">|</span> <span class="n">otherwise</span>     <span class="o">=</span> <span class="n">let</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">g</span><span class="s1">&#39;) = randomR (i, M.size m) g</span>
+                                <span class="n">k</span><span class="s1">&#39; = M.insert i (k!j) $ M.insert j (k!i) k</span>
+                            <span class="ow">in</span> <span class="n">shuffle</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">g</span><span class="s1">&#39; k&#39;</span>
+
+<span class="n">isSorted</span> <span class="p">::</span> <span class="n">Ord</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+<span class="n">isSorted</span> <span class="o">=</span> <span class="nb">all</span> <span class="p">(</span><span class="n">uncurry</span> <span class="p">(</span><span class="o">&lt;=</span><span class="p">))</span> <span class="o">.</span> <span class="p">(</span><span class="nb">zip</span> <span class="o">&lt;*&gt;</span> <span class="n">tail</span><span class="p">)</span>
+
+<span class="n">bogoSort</span> <span class="p">::</span> <span class="p">(</span><span class="n">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="n">RandomGen</span> <span class="n">g</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">g</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">bogoSort</span> <span class="n">g</span> <span class="n">a</span> <span class="o">=</span> <span class="n">fst</span> <span class="err">$</span> <span class="n">head</span> <span class="err">$</span>
+               <span class="nb">filter</span> <span class="p">(</span><span class="n">isSorted</span> <span class="o">.</span> <span class="n">fst</span><span class="p">)</span> <span class="err">$</span>
+               <span class="n">iterate</span> <span class="p">(</span><span class="n">uncurry</span> <span class="n">fisherYates</span><span class="p">)</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="n">do</span>
+  <span class="n">g</span> <span class="o">&lt;-</span> <span class="n">newStdGen</span>
+  <span class="k">print</span> <span class="err">$</span> <span class="n">bogoSort</span> <span class="n">g</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</pre></div>
+
+</div></p>
+</div><div class="m">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">main</span><span class="p">()</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span> <span class="p">);</span>
+    <span class="n">disp</span><span class="p">(</span><span class="s1">&#39;Before Sorting:&#39;</span><span class="p">)</span>
+    <span class="n">disp</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="n">array</span> <span class="o">=</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">);</span>
+    <span class="n">disp</span><span class="p">(</span><span class="s1">&#39;After Sorting&#39;</span><span class="p">)</span>
+    <span class="n">disp</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">retval</span> <span class="o">=</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">retval</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+            <span class="k">return</span>
+        <span class="n">end</span>
+    <span class="n">end</span>
+    <span class="n">retval</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">sorted_array</span> <span class="o">=</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">while</span> <span class="o">~</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="o">%</span> <span class="n">create</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">random</span> <span class="n">permutation</span> <span class="n">indices</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">randperm</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">array</span><span class="p">));</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">end</span>
+    <span class="n">sorted_array</span> <span class="o">=</span> <span class="n">array</span><span class="p">;</span>
+<span class="n">end</span>
+</pre></div>
+
+</div></p>
+</div><div class="lua">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kd">local</span> <span class="kr">function</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">#</span><span class="n">arr</span><span class="o">-</span><span class="mi">1</span> <span class="kr">do</span>
+    <span class="kd">local</span> <span class="n">rand</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="o">#</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">rand</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">rand</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+  <span class="kr">end</span>
+<span class="kr">end</span>
+
+<span class="kd">local</span> <span class="kr">function</span> <span class="nf">issorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="o">#</span><span class="n">arr</span><span class="o">-</span><span class="mi">1</span> <span class="kr">do</span>
+    <span class="kr">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="kr">then</span>
+      <span class="kr">return</span> <span class="kc">false</span>
+    <span class="kr">end</span>
+  <span class="kr">end</span>
+  <span class="kr">return</span> <span class="kc">true</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nf">bogosort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">while</span> <span class="ow">not</span> <span class="n">issorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="kr">end</span>
+<span class="kr">end</span>
+
+<span class="kd">local</span> <span class="n">arr</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">756</span><span class="p">,</span> <span class="mi">4569</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Unsorted array: {%s}&quot;</span><span class="p">):</span><span class="n">format</span><span class="p">(</span><span class="nb">table.concat</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="s2">&quot;, &quot;</span><span class="p">)))</span>
+
+<span class="n">bogosort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Sorted array: {%s}&quot;</span><span class="p">):</span><span class="n">format</span><span class="p">(</span><span class="nb">table.concat</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="s2">&quot;, &quot;</span><span class="p">)))</span>
+</pre></div>
+
+</div></p>
+</div><div class="cpp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;algorithm&gt;</span>
+<span class="c1">#include &lt;cstddef&gt;</span>
+<span class="c1">#include &lt;iostream&gt;</span>
+<span class="c1">#include &lt;iterator&gt;</span>
+<span class="c1">#include &lt;random&gt;</span>
+
+<span class="n">using</span> <span class="n">std</span><span class="p">::</span><span class="n">begin</span><span class="p">;</span>
+<span class="n">using</span> <span class="n">std</span><span class="p">::</span><span class="n">end</span><span class="p">;</span>
+
+<span class="n">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Rng</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="n">generate_input</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="n">Rng</span><span class="o">&amp;</span> <span class="n">rng</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">auto</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">uniform_real_distribution</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+
+  <span class="n">auto</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="n">std</span><span class="p">::</span><span class="n">generate_n</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">ret</span><span class="p">),</span> <span class="n">size</span><span class="p">,</span>
+    <span class="p">[</span><span class="o">&amp;</span><span class="n">rng</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dist</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="n">dist</span><span class="p">(</span><span class="n">rng</span><span class="p">);</span> <span class="p">});</span>
+
+  <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iter</span><span class="o">&gt;</span>
+<span class="n">void</span> <span class="n">print_range</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">os</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">const</span> <span class="n">first</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">const</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;{&#39;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">first</span> <span class="o">!=</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">first</span><span class="p">;</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">os</span><span class="p">]</span> <span class="p">(</span><span class="n">double</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span> <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span><span class="p">;</span> <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iter</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Rng</span><span class="o">&gt;</span>
+<span class="n">void</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">Iter</span> <span class="n">const</span> <span class="n">first</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">const</span> <span class="n">last</span><span class="p">,</span> <span class="n">Rng</span><span class="o">&amp;</span> <span class="n">rng</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">std</span><span class="p">::</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">shuffle</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">rng</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="p">::</span><span class="n">random_device</span> <span class="n">random_device</span><span class="p">;</span>
+  <span class="n">auto</span> <span class="n">rng</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">mt19937</span><span class="p">(</span><span class="n">random_device</span><span class="p">());</span>
+
+  <span class="n">auto</span> <span class="nb">input</span> <span class="o">=</span> <span class="n">generate_input</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">rng</span><span class="p">);</span>
+
+  <span class="n">print_range</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">cout</span><span class="p">,</span> <span class="n">begin</span><span class="p">(</span><span class="nb">input</span><span class="p">),</span> <span class="n">end</span><span class="p">(</span><span class="nb">input</span><span class="p">));</span>
+
+  <span class="n">bogo_sort</span><span class="p">(</span><span class="n">begin</span><span class="p">(</span><span class="nb">input</span><span class="p">),</span> <span class="n">end</span><span class="p">(</span><span class="nb">input</span><span class="p">),</span> <span class="n">rng</span><span class="p">);</span>
+
+  <span class="n">print_range</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">cout</span><span class="p">,</span> <span class="n">begin</span><span class="p">(</span><span class="nb">input</span><span class="p">),</span> <span class="n">end</span><span class="p">(</span><span class="nb">input</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="rs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Submitted</span> <span class="n">by</span> <span class="n">jess</span> <span class="mi">3j</span><span class="n">ane</span>
+
+<span class="n">extern</span> <span class="n">crate</span> <span class="n">rand</span><span class="p">;</span>
+
+<span class="n">use</span> <span class="n">rand</span><span class="p">::{</span><span class="n">thread_rng</span><span class="p">,</span> <span class="n">Rng</span><span class="p">};</span>
+
+<span class="n">fn</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">i32</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">true</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">mut</span> <span class="p">[</span><span class="n">i32</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">thread_rng</span><span class="p">()</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">mut</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vec</span><span class="err">!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">];</span>
+    <span class="n">thread_rng</span><span class="p">()</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mut</span> <span class="n">v</span><span class="p">);</span>
+    <span class="n">println</span><span class="err">!</span><span class="p">(</span><span class="s2">&quot;Original array: {:?}&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+    <span class="n">bogo_sort</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mut</span> <span class="n">v</span><span class="p">);</span>
+    <span class="n">println</span><span class="err">!</span><span class="p">(</span><span class="s2">&quot;Sorted array: {:?}&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="swift">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Foundation</span>
+
+<span class="n">func</span> <span class="n">isSorted</span><span class="p">(</span><span class="n">inputArray</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.&lt;</span><span class="n">inputArray</span><span class="o">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">inputArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">inputArray</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">true</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">sortArray</span><span class="p">:</span> <span class="n">inout</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">inputArray</span><span class="p">:</span> <span class="n">sortArray</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">sortArray</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">sortArray</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">testArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">123</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">bogoSort</span><span class="p">(</span><span class="n">sortArray</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">testArray</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="php">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<span class="n">declare</span><span class="p">(</span><span class="n">strict_types</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">function</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span> <span class="err">$</span><span class="n">array</span><span class="p">):</span> <span class="nb">bool</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="err">$</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="err">$</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="err">$</span><span class="n">array</span><span class="p">);</span> <span class="err">$</span><span class="n">i</span> <span class="o">&lt;</span> <span class="err">$</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="err">$</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="err">$</span><span class="n">array</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="err">$</span><span class="n">array</span><span class="p">[</span><span class="err">$</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span> <span class="err">$</span><span class="n">array</span><span class="p">):</span> <span class="n">array</span>
+<span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="err">!</span><span class="n">is_sorted</span><span class="p">(</span><span class="err">$</span><span class="n">array</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="err">$</span><span class="n">array</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="err">$</span><span class="n">array</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="err">$</span><span class="n">unsorted</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
+<span class="err">$</span><span class="n">bogo_sorted</span> <span class="o">=</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="err">$</span><span class="n">unsorted</span><span class="p">);</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;Unsorted: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">implode</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="err">$</span><span class="n">unsorted</span><span class="p">));</span>
+<span class="n">echo</span> <span class="n">PHP_EOL</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;Sorted: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">implode</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="err">$</span><span class="n">bogo_sorted</span><span class="p">));</span>
+<span class="n">echo</span> <span class="n">PHP_EOL</span><span class="p">;</span>
+</pre></div>
+
+</div></p>
+</div><div class="nim">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">randomize</span><span class="p">()</span>
+
+<span class="n">proc</span> <span class="n">print_array</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">openArray</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">=</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mi">0</span> <span class="o">..</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">echo</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+<span class="n">proc</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">openArray</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span> <span class="nb">bool</span> <span class="o">=</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mi">1</span> <span class="o">..</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">false</span>
+    
+    <span class="k">return</span> <span class="n">true</span>
+
+<span class="n">proc</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">var</span> <span class="n">openArray</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">=</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        
+
+<span class="n">var</span> <span class="n">x</span><span class="p">:</span> <span class="n">array</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">512</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">print_array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">bogo_sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">echo</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="n">print_array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+</div></p>
+</div><div class="ruby">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env ruby</span>
+
+<span class="k">def</span> <span class="nf">is_sorted</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="n">a</span><span class="o">.</span><span class="n">each_cons</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="err">?</span> <span class="p">{</span> <span class="o">|</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span><span class="o">|</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">r</span> <span class="p">}</span>
+<span class="n">end</span>
+
+<span class="k">def</span> <span class="nf">bogo_sort</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="n">a</span><span class="o">.</span><span class="n">shuffle</span><span class="err">!</span> <span class="n">until</span> <span class="n">is_sorted</span> <span class="n">a</span>
+<span class="n">end</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="n">puts</span> <span class="s2">&quot;Unsorted&quot;</span>
+<span class="n">p</span> <span class="n">a</span>
+
+<span class="n">bogo_sort</span> <span class="n">a</span>
+
+<span class="n">puts</span> <span class="s2">&quot;Sorted&quot;</span> 
+<span class="n">p</span> <span class="n">a</span> 
+</pre></div>
+
+</div></p>
+</div><div class="emojic">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="err">🐇</span> <span class="err">🥇</span> <span class="err">🍇</span>
+  <span class="err">🐇</span> <span class="err">❗️</span> <span class="err">🔀</span> <span class="n">numbers</span> <span class="err">🍨🐚💯🍆</span> <span class="err">🍇</span>
+    <span class="err">🔁</span> <span class="err">❎</span> <span class="err">📶🐇🥇</span> <span class="n">numbers</span><span class="err">❗️❗️</span> <span class="err">🍇</span>
+      <span class="err">🐹</span> <span class="n">numbers</span><span class="err">❗️</span>
+    <span class="err">🍉</span>
+  <span class="err">🍉</span>
+
+  <span class="err">🐇</span> <span class="err">❗️</span> <span class="err">📶</span> <span class="n">numbers</span> <span class="err">🍨🐚💯🍆</span> <span class="err">➡️</span> <span class="err">👌</span> <span class="err">🍇</span>
+    <span class="err">🔂</span> <span class="n">i</span> <span class="err">🆕⏩⏩️</span> <span class="mi">1</span> <span class="err">🐔</span> <span class="n">numbers</span><span class="err">❗️❗️</span> <span class="err">🍇</span>
+      <span class="err">↪️</span> <span class="err">🐽</span> <span class="n">numbers</span> <span class="n">i</span> <span class="err">➖</span> <span class="mi">1</span><span class="err">❗️</span> <span class="err">▶️</span> <span class="err">🐽</span> <span class="n">numbers</span> <span class="n">i</span><span class="err">❗️</span> <span class="err">🍇</span>
+        <span class="err">↩️</span> <span class="err">👎</span>
+      <span class="err">🍉</span>
+    <span class="err">🍉</span>
+    <span class="err">↩️</span> <span class="err">👍</span>
+  <span class="err">🍉</span>
+<span class="err">🍉</span>
+
+<span class="err">🏁</span> <span class="err">🍇</span>
+  <span class="err">🍨</span> <span class="mf">1.7</span> <span class="o">-</span><span class="mf">3.0</span> <span class="mf">2.5</span> <span class="mf">2.0</span> <span class="mf">7.0</span> <span class="mf">1.5</span> <span class="o">-</span><span class="mf">4.3</span> <span class="mf">0.3</span> <span class="err">🍆</span>  <span class="err">➡️</span> <span class="n">numbers</span>
+
+  <span class="err">😀</span> <span class="err">🔤</span><span class="n">unordered</span><span class="p">:</span><span class="err">🔤❗️</span>
+  <span class="err">🔂</span> <span class="n">number</span> <span class="n">numbers</span> <span class="err">🍇</span>
+    <span class="err">😀</span> <span class="err">🔡</span> <span class="n">number</span> <span class="mi">10</span><span class="err">❗️❗️</span>
+  <span class="err">🍉</span>
+
+  <span class="err">🔀🐇🥇</span> <span class="n">numbers</span><span class="err">❗️</span>
+
+  <span class="err">😀</span> <span class="err">🔤</span><span class="n">ordered</span><span class="p">:</span><span class="err">🔤❗️</span>
+  <span class="err">🔂</span> <span class="n">number</span> <span class="n">numbers</span> <span class="err">🍇</span>
+    <span class="err">😀</span> <span class="err">🔡</span> <span class="n">number</span> <span class="mi">10</span><span class="err">❗️❗️</span>
+  <span class="err">🍉</span>
+<span class="err">🍉</span>
+</pre></div>
+
+</div></p>
+</div><div class="factor">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="err">!</span> <span class="n">There</span><span class="s1">&#39;s no built-in &quot;is sorted&quot; function, so let&#39;</span><span class="n">s</span> <span class="n">make</span> <span class="n">one</span><span class="p">:</span>
+<span class="n">USING</span><span class="p">:</span> <span class="nb">locals</span> <span class="p">;</span>
+<span class="p">:</span> <span class="nb">sorted</span><span class="err">?</span> <span class="p">(</span> <span class="n">seq</span> <span class="o">--</span> <span class="err">?</span> <span class="p">)</span>
+  <span class="mi">2</span> <span class="n">clump</span> <span class="err">!</span> <span class="n">split</span> <span class="n">it</span> <span class="n">up</span> <span class="n">into</span> <span class="n">overlapping</span> <span class="n">pairs</span>
+  <span class="err">!</span> <span class="n">so</span> <span class="n">now</span><span class="p">,</span> <span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="p">{</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="p">}</span> <span class="n">has</span> <span class="n">turned</span> <span class="n">into</span> <span class="p">{</span> <span class="p">{</span> <span class="mi">1</span> <span class="mi">2</span> <span class="p">}</span> <span class="p">{</span> <span class="mi">2</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="err">!</span> <span class="ow">and</span> <span class="n">now</span> <span class="n">we</span> <span class="n">make</span> <span class="n">sure</span> <span class="n">that</span> <span class="k">for</span> <span class="n">every</span> <span class="n">pair</span><span class="p">,</span> <span class="n">the</span> <span class="n">latter</span> <span class="ow">is</span> <span class="o">&gt;=</span> <span class="n">the</span> <span class="n">former</span>
+  <span class="p">[</span><span class="o">|</span> <span class="n">pair</span> <span class="o">|</span> <span class="n">pair</span> <span class="n">first</span> <span class="n">pair</span> <span class="n">last</span> <span class="o">&lt;=</span> <span class="p">]</span> <span class="nb">all</span><span class="err">?</span>
+<span class="p">;</span>
+
+<span class="n">USING</span><span class="p">:</span> <span class="n">random</span> <span class="p">;</span>
+<span class="p">:</span> <span class="n">bogosort</span> <span class="p">(</span> <span class="n">seq</span> <span class="o">--</span> <span class="n">seq</span><span class="s1">&#39; )</span>
+  <span class="err">!</span> <span class="sb">`dup`</span> <span class="n">duplicates</span> <span class="n">the</span> <span class="n">array</span><span class="p">,</span> <span class="n">because</span> <span class="sb">`sorted?`</span> <span class="n">pops</span> <span class="n">its</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">it</span>
+  <span class="err">!</span> <span class="n">randomize</span> <span class="n">works</span> <span class="ow">in</span><span class="o">-</span><span class="n">place</span>
+  <span class="err">!</span> <span class="n">so</span> <span class="n">we</span> <span class="sb">`randomize`</span> <span class="sb">`until`</span> <span class="n">it</span><span class="s1">&#39;s `sorted?`</span>
+  <span class="p">[</span> <span class="n">dup</span> <span class="nb">sorted</span><span class="err">?</span> <span class="p">]</span> <span class="p">[</span> <span class="n">randomize</span> <span class="p">]</span> <span class="n">until</span>
+<span class="p">;</span>
+
+<span class="err">!</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">Increasing</span> <span class="n">this</span> <span class="n">number</span> <span class="n">beyond</span> <span class="mi">5</span> <span class="ow">or</span> <span class="n">so</span> <span class="n">will</span> <span class="n">make</span> <span class="n">this</span> <span class="n">take</span> <span class="n">a</span> <span class="n">very</span> <span class="nb">long</span> <span class="n">time</span><span class="o">.</span>
+<span class="err">!</span>          <span class="n">That</span> <span class="n">said</span><span class="p">,</span> <span class="k">if</span> <span class="n">you</span> <span class="n">have</span> <span class="n">an</span> <span class="n">afternoon</span> <span class="n">to</span> <span class="n">kill</span><span class="o">...</span>
+<span class="mi">5</span> <span class="o">&lt;</span><span class="n">iota</span><span class="o">&gt;</span> <span class="o">&gt;</span><span class="n">array</span> <span class="n">randomize</span> <span class="err">!</span> <span class="n">generate</span> <span class="n">a</span> <span class="n">random</span> <span class="n">array</span> <span class="n">to</span> <span class="n">demo</span>
+<span class="n">dup</span> <span class="o">.</span>                     <span class="err">!</span> <span class="n">show</span> <span class="n">the</span> <span class="n">array</span>
+<span class="n">bogosort</span>                  <span class="err">!</span> <span class="n">bogosort</span> <span class="n">it</span>
+<span class="o">.</span>                         <span class="err">!</span> <span class="n">show</span> <span class="n">it</span> <span class="n">again</span>
+</pre></div>
+
+</div></p>
+</div><div class="f90">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">bogo</span>
+    <span class="n">IMPLICIT</span> <span class="n">NONE</span>
+    <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">::</span> <span class="n">array</span>
+
+    <span class="n">array</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="n">d0</span><span class="p">,</span> <span class="mi">1</span><span class="n">d0</span><span class="p">,</span> <span class="mi">0</span><span class="n">d0</span><span class="p">,</span> <span class="mi">3</span><span class="n">d0</span><span class="p">,</span> <span class="mi">7</span><span class="n">d0</span> <span class="o">/</span><span class="p">)</span>
+
+    <span class="n">CALL</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="n">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">array</span> 
+
+<span class="n">contaINs</span>
+
+    <span class="n">LOGICAL</span> <span class="n">FUNCTION</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> 
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="p">::</span> <span class="n">array</span>
+        <span class="n">INTEGER</span>                           <span class="p">::</span> <span class="n">i</span>
+
+         <span class="n">DO</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+            <span class="n">IF</span> <span class="p">(</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="n">THEN</span>
+                <span class="n">is_sorted</span> <span class="o">=</span> <span class="o">.</span><span class="n">FALSE</span><span class="o">.</span>
+            <span class="n">END</span> <span class="n">IF</span>
+         <span class="n">END</span> <span class="n">DO</span>
+    <span class="n">END</span> <span class="n">FUNCTION</span> <span class="n">is_sorted</span>
+
+    <span class="n">SUBROUTINE</span> <span class="n">bogo_sort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="p">::</span> <span class="n">array</span>
+
+        <span class="n">DO</span> <span class="n">WHILE</span> <span class="p">(</span><span class="n">is_sorted</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">.</span><span class="n">EQV</span><span class="o">.</span> <span class="o">.</span><span class="n">FALSE</span><span class="o">.</span><span class="p">)</span>
+
+            <span class="n">CALL</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+        <span class="n">END</span> <span class="n">DO</span>
+    <span class="n">END</span> <span class="n">SUBROUTINE</span> <span class="n">bogo_sort</span>
+    
+    <span class="n">SUBROUTINE</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">DIMENSION</span><span class="p">(:),</span> <span class="n">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="p">::</span> <span class="n">array</span>
+        <span class="n">INTEGER</span>                              <span class="p">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">randpos</span>
+        <span class="n">REAL</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>                              <span class="p">::</span> <span class="n">r</span><span class="p">,</span> <span class="n">temp</span>
+
+        <span class="n">DO</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">array</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">CALL</span> <span class="n">RANDOM_NUMBER</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">randpos</span>    <span class="o">=</span> <span class="n">INT</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">temp</span>       <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">randpos</span><span class="p">)</span>
+            <span class="n">array</span><span class="p">(</span><span class="n">randpos</span><span class="p">)</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>       <span class="o">=</span> <span class="n">temp</span>
+        <span class="n">END</span> <span class="n">DO</span>
+
+    <span class="n">END</span> <span class="n">SUBROUTINE</span> <span class="n">shuffle</span>
+<span class="n">END</span> <span class="n">PROGRAM</span> <span class="n">bogo</span>
+</pre></div>
+
+</div></p>
+</div><div class="racket">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#lang racket</span>
+
+<span class="p">(</span><span class="n">define</span> <span class="p">(</span><span class="n">bogo_sort</span> <span class="n">l</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">is_sorted</span><span class="err">?</span> <span class="n">l</span><span class="p">)</span>
+      <span class="n">l</span>
+      <span class="p">(</span><span class="n">bogo_sort</span> <span class="p">(</span><span class="n">shuffle</span> <span class="n">l</span><span class="p">))</span>
+    <span class="p">)</span>
+ <span class="p">)</span>
+
+<span class="p">(</span><span class="n">define</span> <span class="p">(</span><span class="n">is_sorted</span><span class="err">?</span> <span class="n">l</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">length</span> <span class="n">l</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">first</span> <span class="n">l</span><span class="p">)</span> <span class="p">(</span><span class="n">second</span> <span class="n">l</span><span class="p">))</span>
+             <span class="n">false</span>
+             <span class="p">(</span><span class="n">is_sorted</span><span class="err">?</span> <span class="p">(</span><span class="n">rest</span> <span class="n">l</span><span class="p">))</span>
+         <span class="p">)</span>
+      <span class="n">true</span>
+     <span class="p">)</span>
+ <span class="p">)</span>
+
+<span class="p">(</span><span class="n">define</span> <span class="n">unsorted_list</span> <span class="s1">&#39;(20 -3 50 1 -6 59))</span>
+<span class="p">(</span><span class="n">display</span> <span class="s2">&quot;unsorted list: &quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">displayln</span> <span class="n">unsorted_list</span><span class="p">)</span>
+<span class="p">(</span><span class="n">display</span> <span class="s2">&quot;sorted list: &quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">displayln</span> <span class="p">(</span><span class="n">bogo_sort</span> <span class="n">unsorted_list</span><span class="p">))</span>
+</pre></div>
+
+</div></p>
+</div><div class="st">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="s2">&quot;Add this to the SequenceableCollection: &quot;</span>
+<span class="n">SequenceableCollection</span><span class="o">&gt;&gt;</span><span class="n">bogoSort</span>
+    <span class="s2">&quot;A simple bogosort.&quot;</span>
+    <span class="p">[</span> <span class="bp">self</span> <span class="n">isSorted</span> <span class="p">]</span> <span class="n">whileFalse</span><span class="p">:</span> <span class="p">[</span> 
+        <span class="bp">self</span> <span class="n">shuffle</span><span class="o">.</span>
+    <span class="p">]</span>
+
+<span class="s2">&quot;Then you can run this anywhere: &quot;</span>
+<span class="c1">#(4 3 2 1 6 5) bogoSort &quot;#(1 2 3 4 5 6)&quot;</span>
+</pre></div>
+
+</div></p>
+</div><div class="bash">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="n">is_sorted</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">local</span> <span class="n">arr</span>
+    <span class="n">local</span> <span class="nb">len</span>
+    <span class="n">local</span> <span class="n">i</span>
+    <span class="n">local</span> <span class="nb">sorted</span>
+    <span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;$@&quot;</span><span class="p">)</span>
+    <span class="p">((</span> <span class="nb">len</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="c1">#arr[@]} - 1))</span>
+    <span class="p">((</span> <span class="nb">sorted</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">))</span>
+    
+    <span class="k">for</span> <span class="p">((</span> <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span> <span class="p">));</span> <span class="n">do</span>
+        <span class="k">if</span> <span class="p">((</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[((</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">))]</span> <span class="p">));</span> <span class="n">then</span>
+            <span class="p">((</span> <span class="nb">sorted</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">))</span>
+            <span class="k">break</span>
+        <span class="n">fi</span>
+    <span class="n">done</span>
+    <span class="n">printf</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="err">$</span><span class="nb">sorted</span>
+<span class="p">}</span>
+
+<span class="n">shuffle</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">local</span> <span class="n">arr</span>
+    <span class="n">local</span> <span class="nb">len</span>
+    <span class="n">local</span> <span class="n">i</span>
+    <span class="n">local</span> <span class="n">tmp</span>
+    <span class="n">local</span> <span class="n">rand</span>
+    <span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;$@&quot;</span><span class="p">)</span>
+    <span class="p">((</span> <span class="nb">len</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="c1">#arr[@]} ))</span>
+    
+    <span class="k">for</span> <span class="p">((</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">));</span> <span class="n">do</span>
+        <span class="p">((</span> <span class="n">rand</span> <span class="o">=</span> <span class="n">RANDOM</span> <span class="o">%</span> <span class="nb">len</span> <span class="p">))</span>
+        <span class="p">((</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">rand</span><span class="p">]</span> <span class="p">))</span>
+        <span class="p">((</span> <span class="n">arr</span><span class="p">[</span><span class="n">rand</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">))</span>
+        <span class="p">((</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span> <span class="p">))</span>
+    <span class="n">done</span>
+    <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">arr</span><span class="p">[</span><span class="o">*</span><span class="p">]}</span>
+<span class="p">}</span>
+
+<span class="n">bogo_sort</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">local</span> <span class="n">arr</span>
+    <span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;$@&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="p">[[</span> <span class="err">$</span><span class="p">(</span><span class="n">is_sorted</span> <span class="s2">&quot;${arr[@]}&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">]];</span> <span class="n">do</span>
+        <span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">shuffle</span> <span class="s2">&quot;${arr[@]}&quot;</span><span class="p">))</span>
+    <span class="n">done</span>
+    <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">arr</span><span class="p">[</span><span class="o">*</span><span class="p">]}</span>
+<span class="p">}</span>
+
+<span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="mi">3654</span> <span class="mi">78</span> <span class="mi">654</span> <span class="o">-</span><span class="mi">234</span> <span class="o">-</span><span class="mi">12</span> <span class="mi">4</span> <span class="mi">3</span> <span class="o">-</span><span class="mi">6</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">echo</span> <span class="s2">&quot;Unsorted array: ${arr[*]}&quot;</span>
+<span class="n">arr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;$(bogo_sort &quot;</span><span class="err">$</span><span class="p">{</span><span class="n">arr</span><span class="p">[</span><span class="err">@</span><span class="p">]}</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<span class="n">echo</span> <span class="s2">&quot;Sorted array: ${arr[*]}&quot;</span>
+</pre></div>
+
+</div></p>
+</div><div class="asm-x64">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">.</span><span class="n">intel_syntax</span> <span class="n">noprefix</span>
+
+<span class="o">.</span><span class="n">section</span> <span class="o">.</span><span class="n">rodata</span>
+  <span class="n">array</span><span class="p">:</span>
+    <span class="o">.</span><span class="n">align</span> <span class="mi">16</span>
+    <span class="o">.</span><span class="n">int</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3654</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span>
+    <span class="o">.</span><span class="n">equ</span> <span class="n">array_len</span><span class="p">,</span> <span class="p">(</span><span class="o">.-</span><span class="n">array</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+  <span class="n">array_fmt</span><span class="p">:</span> <span class="o">.</span><span class="n">string</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &quot;</span>
+  <span class="n">lf</span><span class="p">:</span>        <span class="o">.</span><span class="n">string</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+  <span class="n">unsorted</span><span class="p">:</span>  <span class="o">.</span><span class="n">string</span> <span class="s2">&quot;Unsorted array: &quot;</span>
+  <span class="nb">sorted</span><span class="p">:</span>    <span class="o">.</span><span class="n">string</span> <span class="s2">&quot;Sorted array: &quot;</span>
+
+<span class="o">.</span><span class="n">section</span> <span class="o">.</span><span class="n">text</span>
+  <span class="o">.</span><span class="k">global</span> <span class="n">main</span>
+  <span class="o">.</span><span class="n">extern</span> <span class="n">printf</span><span class="p">,</span> <span class="n">rand</span><span class="p">,</span> <span class="n">srand</span>
+
+<span class="c1"># rdi - array ptr</span>
+<span class="c1"># rsi - array size</span>
+<span class="n">print_array</span><span class="p">:</span>
+  <span class="n">push</span>   <span class="n">r12</span>
+  <span class="n">push</span>   <span class="n">r13</span>
+  <span class="n">mov</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">rdi</span>                 <span class="c1"># Loop variable</span>
+  <span class="n">lea</span>    <span class="n">r13</span><span class="p">,</span> <span class="p">[</span><span class="n">rdi</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">rsi</span><span class="p">]</span>     <span class="c1"># Pointer after the last element</span>
+<span class="n">print_array_loop</span><span class="p">:</span>
+  <span class="nb">cmp</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span>                 <span class="c1"># If we&#39;re done iterating over the array then bail</span>
+  <span class="n">jge</span>    <span class="n">print_array_done</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">OFFSET</span> <span class="n">array_fmt</span>    <span class="c1"># Otherwise print the current value</span>
+  <span class="n">mov</span>    <span class="n">esi</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">r12</span><span class="p">]</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">call</span>   <span class="n">printf</span>
+  <span class="n">lea</span>    <span class="n">r12</span><span class="p">,</span> <span class="p">[</span><span class="n">r12</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>           <span class="c1"># And increment the loop variable pointer</span>
+  <span class="n">jmp</span>    <span class="n">print_array_loop</span>
+<span class="n">print_array_done</span><span class="p">:</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">OFFSET</span> <span class="n">lf</span>           <span class="c1"># Print a closing newline</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">call</span>   <span class="n">printf</span>
+  <span class="n">pop</span>    <span class="n">r13</span>
+  <span class="n">pop</span>    <span class="n">r12</span>
+  <span class="n">ret</span>
+
+<span class="c1"># rdi - array ptr</span>
+<span class="c1"># rsi - array size</span>
+<span class="c1"># RET rax - boolean</span>
+<span class="n">is_sorted</span><span class="p">:</span>
+  <span class="n">sub</span>    <span class="n">rsi</span><span class="p">,</span> <span class="mi">1</span>                   <span class="c1"># Getting array + n and *array + n - 1</span>
+  <span class="n">lea</span>    <span class="n">rcx</span><span class="p">,</span> <span class="p">[</span><span class="n">rsi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+  <span class="n">lea</span>    <span class="n">rcx</span><span class="p">,</span> <span class="p">[</span><span class="n">rdi</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">rcx</span><span class="p">]</span>
+  <span class="n">lea</span>    <span class="n">rsi</span><span class="p">,</span> <span class="p">[</span><span class="n">rdi</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">rsi</span><span class="p">]</span>
+<span class="n">is_sorted_loop</span><span class="p">:</span>
+  <span class="nb">cmp</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">rdi</span>                 <span class="c1"># Check if array + n - 1 == array</span>
+  <span class="n">je</span>     <span class="n">is_sorted_done</span>
+  <span class="n">mov</span>    <span class="n">edx</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rsi</span><span class="p">]</span>     <span class="c1"># Load value to register</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>                 <span class="c1"># Set rax to 0</span>
+  <span class="nb">cmp</span>    <span class="n">edx</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rcx</span><span class="p">]</span>     <span class="c1"># Check if array[n] &lt; array[n - 1]</span>
+  <span class="n">jl</span>     <span class="n">is_sorted_return</span>
+  <span class="n">sub</span>    <span class="n">rcx</span><span class="p">,</span> <span class="mi">4</span>                   <span class="c1"># If not make pointers go to down an element</span>
+  <span class="n">sub</span>    <span class="n">rsi</span><span class="p">,</span> <span class="mi">4</span>
+  <span class="n">jmp</span>    <span class="n">is_sorted_loop</span>
+<span class="n">is_sorted_done</span><span class="p">:</span>
+  <span class="n">mov</span>    <span class="n">rax</span><span class="p">,</span> <span class="mi">1</span>                   <span class="c1"># If sorted then set rax to 1</span>
+<span class="n">is_sorted_return</span><span class="p">:</span>
+  <span class="n">ret</span>                             <span class="c1"># Return</span>
+
+<span class="c1"># rdi - array ptr</span>
+<span class="c1"># rsi - array size</span>
+<span class="n">shuffle</span><span class="p">:</span>
+  <span class="n">push</span>   <span class="n">r12</span>
+  <span class="n">push</span>   <span class="n">r13</span>
+  <span class="n">push</span>   <span class="n">r14</span>
+  <span class="n">push</span>   <span class="n">r15</span>
+  <span class="n">mov</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">rdi</span>                          <span class="c1"># Save parameters</span>
+  <span class="n">mov</span>    <span class="n">r13</span><span class="p">,</span> <span class="n">rsi</span>
+  <span class="n">xor</span>    <span class="n">r14</span><span class="p">,</span> <span class="n">r14</span>
+<span class="n">shuffle_loop</span><span class="p">:</span>
+  <span class="nb">cmp</span>    <span class="n">r14</span><span class="p">,</span> <span class="n">r13</span>                          <span class="c1"># Check if i == array size</span>
+  <span class="n">je</span>     <span class="n">shuffle_done</span>
+  <span class="n">mov</span>    <span class="n">r15d</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">r12</span> <span class="o">+</span> <span class="n">r14</span> <span class="o">*</span> <span class="mi">4</span><span class="p">]</span>   <span class="c1"># Save array[i]</span>
+  <span class="n">call</span>   <span class="n">rand</span>                              <span class="c1"># Swap a random element with array[i]</span>
+  <span class="n">xor</span>    <span class="n">edx</span><span class="p">,</span> <span class="n">edx</span>
+  <span class="n">div</span>    <span class="n">r13</span>                               <span class="c1"># Mod random number to keep in array</span>
+  <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">r12</span> <span class="o">+</span> <span class="n">rdx</span> <span class="o">*</span> <span class="mi">4</span><span class="p">]</span>
+  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">r12</span> <span class="o">+</span> <span class="n">r14</span> <span class="o">*</span> <span class="mi">4</span><span class="p">],</span> <span class="n">eax</span>
+  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">r12</span> <span class="o">+</span> <span class="n">rdx</span> <span class="o">*</span> <span class="mi">4</span><span class="p">],</span> <span class="n">r15d</span>
+  <span class="n">add</span>    <span class="n">r14</span><span class="p">,</span> <span class="mi">1</span>                            <span class="c1"># increment then repeat</span>
+  <span class="n">jmp</span>    <span class="n">shuffle_loop</span>
+<span class="n">shuffle_done</span><span class="p">:</span>
+  <span class="n">pop</span>    <span class="n">r15</span>
+  <span class="n">pop</span>    <span class="n">r14</span>
+  <span class="n">pop</span>    <span class="n">r13</span>
+  <span class="n">pop</span>    <span class="n">r12</span>
+  <span class="n">ret</span>
+
+<span class="c1"># rdi - array ptr</span>
+<span class="c1"># rsi - array size</span>
+<span class="n">bogo_sort</span><span class="p">:</span>
+  <span class="n">push</span>   <span class="n">r12</span>
+  <span class="n">push</span>   <span class="n">r13</span>
+  <span class="n">mov</span>    <span class="n">r12</span><span class="p">,</span> <span class="n">rdi</span>
+  <span class="n">mov</span>    <span class="n">r13</span><span class="p">,</span> <span class="n">rsi</span>
+<span class="n">bogo_sort_loop</span><span class="p">:</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">r12</span>                         <span class="c1"># Check if the array is sorted</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">r13</span>
+  <span class="n">call</span>   <span class="n">is_sorted</span>
+  <span class="n">test</span>   <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">jnz</span>    <span class="n">bogo_sort_done</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">r12</span>                         <span class="c1"># If not then shuffle</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">r13</span>
+  <span class="n">call</span>   <span class="n">shuffle</span>
+  <span class="n">jmp</span>    <span class="n">bogo_sort_loop</span>
+<span class="n">bogo_sort_done</span><span class="p">:</span>
+  <span class="n">pop</span>    <span class="n">r13</span>
+  <span class="n">pop</span>    <span class="n">r12</span>
+  <span class="n">ret</span>
+
+<span class="n">main</span><span class="p">:</span>
+  <span class="c1"># Set up our stack</span>
+  <span class="n">sub</span>    <span class="n">rsp</span><span class="p">,</span> <span class="mi">40</span>
+  <span class="c1"># We load the array in chunks onto the stack</span>
+  <span class="n">movaps</span> <span class="n">xmm0</span><span class="p">,</span> <span class="n">XMMWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">array</span><span class="p">]</span>
+  <span class="n">movaps</span> <span class="n">XMMWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rsp</span><span class="p">],</span> <span class="n">xmm0</span>
+  <span class="n">movaps</span> <span class="n">xmm0</span><span class="p">,</span> <span class="n">XMMWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">array</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
+  <span class="n">movaps</span> <span class="n">XMMWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rsp</span> <span class="o">+</span> <span class="mi">16</span><span class="p">],</span> <span class="n">xmm0</span>
+  <span class="n">mov</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">array</span> <span class="o">+</span> <span class="mi">32</span><span class="p">]</span>
+  <span class="n">mov</span>    <span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rsp</span> <span class="o">+</span> <span class="mi">32</span><span class="p">],</span> <span class="n">rax</span>
+  <span class="c1"># Print the unsorted array</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">OFFSET</span> <span class="n">unsorted</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">call</span>   <span class="n">printf</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">array_len</span>
+  <span class="n">call</span>   <span class="n">print_array</span>
+  <span class="c1"># Sort</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">array_len</span>
+  <span class="n">call</span>   <span class="n">bogo_sort</span>
+  <span class="c1"># Print the sorted array</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">OFFSET</span> <span class="nb">sorted</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">call</span>   <span class="n">printf</span>
+  <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">mov</span>    <span class="n">rsi</span><span class="p">,</span> <span class="n">array_len</span>
+  <span class="n">call</span>   <span class="n">print_array</span>
+  <span class="c1"># Restore the stack pointer, set return value to 0</span>
+  <span class="n">add</span>    <span class="n">rsp</span><span class="p">,</span> <span class="mi">40</span>
+  <span class="n">xor</span>    <span class="n">rax</span><span class="p">,</span> <span class="n">rax</span>
+  <span class="n">ret</span>
+</pre></div>
+
+</div></p>
+</div><div class="lisp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="p">;;;;</span> <span class="n">Bogo</span> <span class="n">sort</span> <span class="n">implementation</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="n">sortedp</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+  <span class="s2">&quot;Checks if a list is sorted&quot;</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span> <span class="p">(</span><span class="n">length</span> <span class="nb">list</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="n">t</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;=</span> <span class="p">(</span><span class="n">first</span> <span class="nb">list</span><span class="p">)</span> <span class="p">(</span><span class="n">second</span> <span class="nb">list</span><span class="p">))</span>
+          <span class="p">(</span><span class="n">sortedp</span> <span class="p">(</span><span class="n">rest</span> <span class="nb">list</span><span class="p">))</span>
+          <span class="n">nil</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="n">shuffle</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+  <span class="s2">&quot;Returns a shuffled list using the Fisher-Yates method&quot;</span>
+  <span class="p">(</span><span class="n">loop</span> <span class="k">for</span> <span class="n">i</span> <span class="kn">from</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="p">(</span><span class="n">length</span> <span class="nb">list</span><span class="p">))</span> <span class="n">downto</span> <span class="mi">0</span>
+    <span class="n">do</span>
+      <span class="p">(</span><span class="n">rotatef</span> 
+        <span class="p">(</span><span class="n">nth</span> <span class="n">i</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">nth</span> <span class="p">(</span><span class="n">random</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span> <span class="n">i</span><span class="p">))</span> <span class="nb">list</span><span class="p">))</span>
+    <span class="k">finally</span> <span class="p">(</span><span class="k">return</span> <span class="nb">list</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="n">defun</span> <span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+  <span class="s2">&quot;Sorts a given list (eventually)&quot;</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">sortedp</span> <span class="nb">list</span><span class="p">)</span>
+      <span class="nb">list</span>
+      <span class="p">(</span><span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">(</span><span class="n">shuffle</span> <span class="nb">list</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">print</span> <span class="p">(</span><span class="n">bogo</span><span class="o">-</span><span class="n">sort</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)))</span>
+</pre></div>
+
+</div></p>
+</div><div class="crystal">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_sorted</span><span class="err">?</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="mf">0.</span><span class="n">upto</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="n">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+    <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+      <span class="k">return</span> <span class="n">false</span>
+    <span class="n">end</span>
+  <span class="n">end</span>
+  <span class="n">true</span>
+<span class="n">end</span>
+
+<span class="k">def</span> <span class="nf">bogo_sort</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="k">while</span> <span class="err">!</span><span class="n">is_sorted</span><span class="err">?</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">shuffle</span><span class="err">!</span>
+  <span class="n">end</span>
+<span class="n">end</span>
+
+<span class="k">def</span> <span class="nf">main</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span>
+  <span class="n">bogo_sort</span><span class="err">!</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="n">puts</span> <span class="n">a</span>
+<span class="n">end</span>
+
+<span class="n">main</span>
+</pre></div>
+
+</div></p>
+</div><div class="r">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">bogo_sort</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">unsorted</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">a</span> <span class="o">&lt;-</span> <span class="n">sample</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">test</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">59</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;unsorted list&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;sorted list&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">bogo_sort</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+</pre></div>
+
+</div></p>
+</div><div class="scala">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scala.util.Random.shuffle</span>
+
+<span class="nb">object</span> <span class="n">BogoSort</span> <span class="p">{</span>
+
+  <span class="k">def</span> <span class="nf">isSorted</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Int</span><span class="p">]):</span> <span class="n">Boolean</span> <span class="o">=</span>
+    <span class="nb">list</span> <span class="n">match</span> <span class="p">{</span>
+      <span class="n">case</span> <span class="n">Nil</span> <span class="o">=&gt;</span> <span class="n">true</span>
+      <span class="n">case</span> <span class="n">a</span> <span class="p">::</span> <span class="n">b</span> <span class="p">::</span> <span class="n">_</span> <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">=&gt;</span> <span class="n">false</span>
+      <span class="n">case</span> <span class="n">_</span> <span class="p">::</span> <span class="n">tail</span> <span class="o">=&gt;</span> <span class="n">isSorted</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
+    <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">bogoSort</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Int</span><span class="p">]):</span> <span class="n">List</span><span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span>
+    <span class="n">isSorted</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
+      <span class="n">case</span> <span class="n">false</span> <span class="o">=&gt;</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">shuffle</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+      <span class="n">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="nb">list</span>
+    <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">[</span><span class="n">String</span><span class="p">]):</span> <span class="n">Unit</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">val</span> <span class="n">unsorted</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+    
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;Unsorted list is &quot;</span> <span class="o">+</span> <span class="n">unsorted</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;  Sorted list is &quot;</span> <span class="o">+</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">unsorted</span><span class="p">))</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="go">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Submitted</span> <span class="n">by</span> <span class="n">Christopher</span> <span class="n">Milan</span> <span class="p">(</span><span class="n">christopherm99</span><span class="p">)</span>
+
+<span class="n">package</span> <span class="n">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s2">&quot;fmt&quot;</span>
+    <span class="s2">&quot;math/rand&quot;</span>
+    <span class="s2">&quot;time&quot;</span>
+<span class="p">)</span>
+
+<span class="n">func</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">a</span> <span class="p">[]</span><span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span> <span class="p">{</span>
+        <span class="n">j</span> <span class="p">:</span><span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">Intn</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">isSorted</span><span class="p">(</span><span class="n">a</span> <span class="p">[]</span><span class="nb">int</span><span class="p">)</span> <span class="nb">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">true</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">bogoSort</span><span class="p">(</span><span class="n">a</span> <span class="p">[]</span><span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="err">!</span><span class="n">isSorted</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">rand</span><span class="o">.</span><span class="n">Seed</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">UnixNano</span><span class="p">())</span>
+    <span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="nb">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span>
+    <span class="n">bogoSort</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div>
+</div>
+
+<script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+
+<h2>License</h2>
+<h5>Code Examples</h5>
+<p>The code examples are licensed under the MIT license (found in <a href="https://github.com/algorithm-archivists/algorithm-archive/blob/master/LICENSE.md">LICENSE.md</a>).</p>
+<h5>Text</h5>
+<p>The text of this chapter was written by <a href="https://github.com/leios">James Schloss</a> and is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+<p><a href="https://creativecommons.org/licenses/by-sa/4.0/"><p><img  class="center" src="../cc/CC-BY-SA_icon.svg" /></p></a></p>
+<h5>Pull Requests</h5>
+<p>After initial licensing (<a href="https://github.com/algorithm-archivists/algorithm-archive/pull/560">#560</a>), the following pull requests have modified the text or graphics of this chapter:
+- none</p>
+        <hr>
+    </div>
+</body>
+</html>

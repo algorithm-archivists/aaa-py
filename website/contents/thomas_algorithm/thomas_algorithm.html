@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel=stylesheet href="/pygments.css" type="text/css">
+    <link rel=stylesheet href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title id="ttl"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        var bjs = {"gitbook": "3.x.x", "plugins": ["fontsettings", "mathjax@https://github.com/algorithm-archivists/plugin-mathjax", "bibtex-cite", "wordcount", "api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git", "include-codeblock", "ga", "bulk-redirect", "prism", "-highlight"], "lunr": {"maxIndexSize": 1000000000}, "pluginsConfig": {"mathjax": {"version": "2.6.1"}, "include-codeblock": {"fixlang": true, "unindent": true}, "bulk-redirect": {"basepath": "/", "redirectsFile": "redirects.json"}, "ga": {"token": "UA-118252470-1"}, "prism": {"lang": {"asm-x64": "nasm"}, "ignore": ["emojicode", "text"], "css": ["prismjs/themes/prism-tomorrow.css"]}, "api-language-selector": {"languages": [{"lang": "jl", "name": "Julia", "default": true}, {"lang": "bash", "name": "Bash"}, {"lang": "cs", "name": "C#"}, {"lang": "cpp", "name": "C++"}, {"lang": "c", "name": "C"}, {"lang": "c8", "name": "chip-8"}, {"lang": "py", "name": "Python"}, {"lang": "js", "name": "JavaScript"}, {"lang": "scratch", "name": "Scratch"}, {"lang": "hs", "name": "Haskell"}, {"lang": "rs", "name": "Rust"}, {"lang": "ml", "name": "OCaml"}, {"lang": "java", "name": "Java"}, {"lang": "clj", "name": "Clojure"}, {"lang": "elm", "name": "Elm"}, {"lang": "LabVIEW", "name": "LabVIEW"}, {"lang": "d", "name": "D"}, {"lang": "go", "name": "Go"}, {"lang": "swift", "name": "Swift"}, {"lang": "racket", "name": "Racket"}, {"lang": "m", "name": "Matlab"}, {"lang": "r", "name": "R"}, {"lang": "ti83b", "name": "TI-83 Basic"}, {"lang": "lua", "name": "Lua"}, {"lang": "crystal", "name": "Crystal"}, {"lang": "php", "name": "PHP"}, {"lang": "lisp", "name": "Common Lisp"}, {"lang": "nim", "name": "Nim"}, {"lang": "asm-x64", "name": "X86-64 Assembly"}, {"lang": "f90", "name": "Fortran90"}, {"lang": "factor", "name": "Factor"}, {"lang": "ws", "name": "Whitespace"}, {"lang": "scala", "name": "Scala"}, {"lang": "emojic", "name": "Emojicode"}, {"lang": "lolcode", "name": "LOLCODE"}, {"lang": "piet", "name": "Piet"}, {"lang": "ss", "name": "Scheme"}, {"lang": "ps1", "name": "PowerShell"}, {"lang": "v", "name": "Vlang"}, {"lang": "coffee", "name": "CoffeeScript"}, {"lang": "kotlin", "name": "Kotlin"}]}}};		    
+        var lang = "jl";
+        var langs = {};
+        var langNames = bjs.pluginsConfig["api-language-selector"].languages;
+        var translations = {
+            "python": "Python",
+            "bf": "Brainfuck",
+            "st": "Smalltalk",
+            "ruby": "Ruby",
+            "kotlin": "Kotlin",
+            "bash": "Bash",
+            "haskell": "Haskell",
+            "matlab": "Matlab",
+            "javascript": "JavaScript"
+        };
+	
+        function initLangs () {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    langs[element.className] = true;
+                };
+            };
+	    langs = Object.keys(langs);
+	    if (langs.length == 1) {
+		lang = langs[0];
+	    }
+            langNames.forEach(function(element) { translations[element.lang] = element.name });
+        }
+        function reload() {
+            var samples = document.getElementsByClassName("code-section");
+            for (var a = 0; a < samples.length; a++) {
+                var sample = samples[a];
+                var children = sample.children;
+                for (var b = 0; b < children.length; b++)  {
+                    var element = children[b];
+                    if (element.className == lang) {
+                        element.style.display = 'block';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+        };
+        window.onload = () => {
+            initLangs();
+            reload();
+            document.getElementById("name").innerText = pages[index];
+            document.getElementById("ttl").innerText = pages[index];
+            initLs();
+        };
+        var index = 18;
+        var pages = [];
+	var lsed = false;
+				
+        function flipLs () {
+            var ls = document.getElementById("ls");
+            var ls2 = document.getElementById("ls2");
+            if (lsed) {
+                ls.style.display = 'none';
+                ls2.style.display = 'none';
+            } else {
+                ls.style.display = 'block';
+                ls2.style.display = 'block';
+            }
+            lsed = !lsed
+        }
+
+	var funcs = {};
+        function initLs () {
+            if (langs.length === 0) {
+                document.getElementById("flipper").remove();
+            } else {
+                var h1 = 0;
+                var h2 = 0;
+                for (var i = 0; i < langs.length; i++) {
+                    let language = langs[i];
+		    console.log(language);
+		    var elem = document.createElement("p");
+                    funcs[language] = {}
+                    funcs[language] = () => {
+                        lang = language;
+                        reload();
+                    };
+                    elem.innerHTML = "<a onclick='funcs[\"" + language + "\"]()' href='#' class=ls-link>" + translations[language] + "</a>";
+                    if (i % 2) {
+                        h2 += 1
+                        document.getElementById("ls2").appendChild(elem);
+                    } else {
+                        h1 += 1
+                        document.getElementById("ls").appendChild(elem);
+                    }
+                }
+                if (h1 > h2) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls2").appendChild(elem);
+                } else if (h2 > h1) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = "&nbsp;";
+                    document.getElementById("ls").appendChild(elem);
+                }
+                document.getElementById("ls").style.display = "none";
+                document.getElementById("ls2").style.display = "none";
+            }
+        }
+        function toggleSidenav () {
+            $("#sidebar").toggleClass("hide");
+            $("#content").toggleClass("on-sidebar");
+            $("#navbar").toggleClass("no-sidebar");
+        }
+    </script>
+    <div class="sidebar-wrapper" id="sidebar">
+        
+            <p>
+                
+                <a name="Algorithm Archive"></a>
+                <a href="/index.html#Algorithm Archive">Algorithm Archive</a>
+                <script>pages[0] = "Algorithm Archive"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Introduction"></a>
+                <a href="/contents/introduction/introduction.html#Introduction">Introduction</a>
+                <script>pages[1] = "Introduction"</script>
+            </p>
+        
+            <p>
+                
+                <a name="How To Contribute"></a>
+                <a href="/contents/how_to_contribute/how_to_contribute.html#How To Contribute">How To Contribute</a>
+                <script>pages[2] = "How To Contribute"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Plotting"></a>
+                <a href="/contents/plotting/plotting.html#Plotting">Plotting</a>
+                <script>pages[3] = "Plotting"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Structures"></a>
+                <a href="/contents/data_structures/data_structures.html#Data Structures">Data Structures</a>
+                <script>pages[4] = "Data Structures"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stacks and Queues"></a>
+                <a href="/contents/stacks_and_queues/stacks_and_queues.html#Stacks and Queues">Stacks and Queues</a>
+                <script>pages[5] = "Stacks and Queues"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Mathematical Background"></a>
+                <a href="/contents/mathematical_background/mathematical_background.html#Mathematical Background">Mathematical Background</a>
+                <script>pages[6] = "Mathematical Background"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Complexity Notation"></a>
+                <a href="/contents/notation/notation.html#Complexity Notation">Complexity Notation</a>
+                <script>pages[7] = "Complexity Notation"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bit Logic"></a>
+                <a href="/contents/bitlogic/bitlogic.html#Bit Logic">Bit Logic</a>
+                <script>pages[8] = "Bit Logic"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Taylor Series"></a>
+                <a href="/contents/taylor_series_expansion/taylor_series_expansion.html#Taylor Series">Taylor Series</a>
+                <script>pages[9] = "Taylor Series"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Sorting and Searching"></a>
+                <a href="/contents/sorting_and_searching/sorting_and_searching.html#Sorting and Searching">Sorting and Searching</a>
+                <script>pages[10] = "Sorting and Searching"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bubble Sort"></a>
+                <a href="/contents/bubble_sort/bubble_sort.html#Bubble Sort">Bubble Sort</a>
+                <script>pages[11] = "Bubble Sort"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Bogo Sort"></a>
+                <a href="/contents/bogo_sort/bogo_sort.html#Bogo Sort">Bogo Sort</a>
+                <script>pages[12] = "Bogo Sort"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Tree Traversal"></a>
+                <a href="/contents/tree_traversal/tree_traversal.html#Tree Traversal">Tree Traversal</a>
+                <script>pages[13] = "Tree Traversal"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Euclidean Algorithm"></a>
+                <a href="/contents/euclidean_algorithm/euclidean_algorithm.html#Euclidean Algorithm">Euclidean Algorithm</a>
+                <script>pages[14] = "Euclidean Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Monte Carlo"></a>
+                <a href="/contents/monte_carlo_integration/monte_carlo_integration.html#Monte Carlo">Monte Carlo</a>
+                <script>pages[15] = "Monte Carlo"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Matrix Methods"></a>
+                <a href="/contents/matrix_methods/matrix_methods.html#Matrix Methods">Matrix Methods</a>
+                <script>pages[16] = "Matrix Methods"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gaussian Elimination"></a>
+                <a href="/contents/gaussian_elimination/gaussian_elimination.html#Gaussian Elimination">Gaussian Elimination</a>
+                <script>pages[17] = "Gaussian Elimination"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Thomas Algorithm"></a>
+                <a href="/contents/thomas_algorithm/thomas_algorithm.html#Thomas Algorithm">Thomas Algorithm</a>
+                <script>pages[18] = "Thomas Algorithm"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Computational Geometry"></a>
+                <a href="/contents/computational_geometry/computational_geometry.html#Computational Geometry">Computational Geometry</a>
+                <script>pages[19] = "Computational Geometry"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Gift Wrapping"></a>
+                <a href="/contents/gift_wrapping/gift_wrapping.html#Gift Wrapping">Gift Wrapping</a>
+                <script>pages[20] = "Gift Wrapping"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Jarvis March"></a>
+                <a href="/contents/jarvis_march/jarvis_march.html#Jarvis March">Jarvis March</a>
+                <script>pages[21] = "Jarvis March"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Graham Scan"></a>
+                <a href="/contents/graham_scan/graham_scan.html#Graham Scan">Graham Scan</a>
+                <script>pages[22] = "Graham Scan"</script>
+            </p>
+        
+            <p>
+                
+                <a name="FFT"></a>
+                <a href="/contents/cooley_tukey/cooley_tukey.html#FFT">FFT</a>
+                <script>pages[23] = "FFT"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Decision Problems"></a>
+                <a href="/contents/decision_problems/decision_problems.html#Decision Problems">Decision Problems</a>
+                <script>pages[24] = "Decision Problems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Stable Marriage Problem"></a>
+                <a href="/contents/stable_marriage_problem/stable_marriage_problem.html#Stable Marriage Problem">Stable Marriage Problem</a>
+                <script>pages[25] = "Stable Marriage Problem"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Differential Equation Solvers"></a>
+                <a href="/contents/differential_equations/differential_equations.html#Differential Equation Solvers">Differential Equation Solvers</a>
+                <script>pages[26] = "Differential Equation Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Forward Euler Method"></a>
+                <a href="/contents/forward_euler_method/forward_euler_method.html#Forward Euler Method">Forward Euler Method</a>
+                <script>pages[27] = "Forward Euler Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Physics Solvers"></a>
+                <a href="/contents/physics_solvers/physics_solvers.html#Physics Solvers">Physics Solvers</a>
+                <script>pages[28] = "Physics Solvers"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Verlet Integration"></a>
+                <a href="/contents/verlet_integration/verlet_integration.html#Verlet Integration">Verlet Integration</a>
+                <script>pages[29] = "Verlet Integration"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Quantum Systems"></a>
+                <a href="/contents/quantum_systems/quantum_systems.html#Quantum Systems">Quantum Systems</a>
+                <script>pages[30] = "Quantum Systems"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                    &nbsp;
+                
+                <a name="Split-Operator Method"></a>
+                <a href="/contents/split-operator_method/split-operator_method.html#Split-Operator Method">Split-Operator Method</a>
+                <script>pages[31] = "Split-Operator Method"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Data Compression"></a>
+                <a href="/contents/data_compression/data_compression.html#Data Compression">Data Compression</a>
+                <script>pages[32] = "Data Compression"</script>
+            </p>
+        
+            <p>
+                
+                    &nbsp;
+                
+                <a name="Huffman Encoding"></a>
+                <a href="/contents/huffman_encoding/huffman_encoding.html#Huffman Encoding">Huffman Encoding</a>
+                <script>pages[33] = "Huffman Encoding"</script>
+            </p>
+        
+            <p>
+                
+                <a name="Quantum Information"></a>
+                <a href="/contents/quantum_information/quantum_information.html#Quantum Information">Quantum Information</a>
+                <script>pages[34] = "Quantum Information"</script>
+            </p>
+        
+        <hr>
+    </div>
+    <nav class="navbarrio" id=navbar>
+        <ul class="navbarro">
+            <li>
+                <span onclick="toggleSidenav()">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </li>
+            <li>
+                <span onclick="flipLs()" id=flipper>
+                    <i class="fas fa-code"></i>
+                    <div class=ls id=ls></div>
+                    <div class=ls2 id=ls2></div>
+                </span>
+            </li>
+            <li>
+                <span id=name></span>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid on-sidebar" id="content">
+        <h1>Thomas Algorithm</h1>
+<p>As alluded to in the <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination chapter</a>, the Thomas Algorithm (or TDMA, Tri-Diagonal Matrix Algorithm) allows for programmers to <strong>massively</strong> cut the computational cost of their code from <script type='math/tex'> O(n^3)</script> to <script type='math/tex'>O(n)</script> in certain cases!
+This is done by exploiting a particular case of Gaussian Elimination where the matrix looks like this:</p>
+<p><script type='math/tex'>
+\left[
+    \begin{array}{ccccc|c}
+        b_0 & c_0 & & & & d_0 \\
+        a_1 & b_1 & c_1 & & & d_1 \\
+        & a_2 & \ddots & & & \vdots \\
+        & & & & c_{n-1}& d_{n-1} \\
+        & & & a_n & b_n & d_n
+    \end{array}
+\right]
+</script></p>
+<p>This matrix shape is called <em>Tri-Diagonal</em> (excluding the right-hand side of our system of equations, of course!).
+Now, at first, it might not be obvious how this helps. Well, firstly, it makes the system easier to encode: we may divide it into four separate vectors corresponding to <script type='math/tex'>a</script>, <script type='math/tex'>b</script>, <script type='math/tex'>c</script>, and <script type='math/tex'>d</script> (in some implementations, you will see the missing <script type='math/tex'>a_0</script> and <script type='math/tex'>c_n</script> set to zero to get four vectors of the same size).
+Secondly, and most importantly, equations this short and regular are easy to solve analytically.</p>
+<p>We'll start by applying mechanisms familiar to those who have read the <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination</a> chapter.
+Our first goal is to eliminate the <script type='math/tex'>a_i</script> terms and set the diagonal values <script type='math/tex'>b_i</script> to <script type='math/tex'>1</script>. The <script type='math/tex'>c_i</script> and <script type='math/tex'>d_i</script> terms will be transformed into <script type='math/tex'>c'_i</script> and <script type='math/tex'>d'_i</script>.
+The first row is particularly easy to transform since there is no <script type='math/tex'>a_0</script>, we simply need to divide the row by <script type='math/tex'>b_0</script>:</p>
+<p><script type='math/tex'>
+\left[
+\begin{align}
+c'_0 &= \frac{c_0}{b_0} \\
+d'_0 &= \frac{d_0}{b_0}
+\end{align}
+\right]
+</script></p>
+<p>Let's assume that we found a way to transform the first <script type='math/tex'>i-1</script> rows. How would we transform the next one? We have</p>
+<p><script type='math/tex'>
+\begin{array}{ccccccc|c}
+    &  & \ddots & & & & &  \\
+(i-1) & & 0 & 1 & c'*{i-1} & & & d'*{i-1} \\
+(i)   & &   & a_i & b_i & c_i & & d_i \\
+      & &   &   &   &  \ddots &  &
+\end{array}
+</script></p>
+<p>Let's transform row <script type='math/tex'>(i)</script> in two steps.</p>
+<p><strong>Step one</strong>: eliminate <script type='math/tex'>a_i</script> with the transformation <script type='math/tex'>(i)^* = (i) - a_i \times (i-1)</script>:</p>
+<p><script type='math/tex'>
+\left[
+\begin{align}
+a^*_i &= 0 \\
+b^**i &= b_i - a_i \times c'*{i-1} \\
+c^*_i &= c_i \\
+d^**i &= d_i - a_i \times d'*{i-1}
+\end{align}
+\right]
+</script></p>
+<p><strong>Step two</strong>: get <script type='math/tex'>b'_i=1</script> with the transformation <script type='math/tex'>(i)' = (i)^* / b^*_i </script>:</p>
+<p><script type='math/tex'>
+\left[
+\begin{align}
+a'*i &= 0 \\
+b'_i &= 1 \\
+c'_i &= \frac{c_i}{b_i - a_i \times c'*{i-1}} \\
+d'*i &= \frac{d_i - a_i \times d'*{i-1}}{b_i - a_i \times c'_{i-1}}
+\end{align}
+\right]
+</script></p>
+<p>Brilliant! With the last two formula, we can calculate all the <script type='math/tex'>c'_i</script> and <script type='math/tex'>d'_i</script> in a single pass, starting from row <script type='math/tex'>1</script>, since we already know the values of <script type='math/tex'>c'_0</script> and <script type='math/tex'>d'_0</script>.</p>
+<p>Of course, what we really need are the solutions <script type='math/tex'>x_i</script>. It's back substitution time!</p>
+<p>If we express our system in terms of equations instead of a matrix, we get</p>
+<p><script type='math/tex'>
+x_i + c'*i \times x*{i+1} = d'_i
+</script></p>
+<p>plus the last row that is even simpler: <script type='math/tex'>x_n = d'_n</script>. One solution for free!
+Maybe we can backtrack from the last solution? Let's (barely) transform the above equation:</p>
+<p><script type='math/tex'>
+x_i = d'*i - c'_i \times x*{i+1}
+</script></p>
+<p>and that's all there is to it. We can calculate all the <script type='math/tex'>x_i</script> in a single pass starting from the end.</p>
+<p>Overall, we only need two passes, and that's why our algorithm is <script type='math/tex'>O(n)</script>!
+The transformations are quite easy too, isn't that neat?</p>
+<h2>Example Code</h2>
+<div class=code-section>
+<div class="jl">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">b</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">c</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span>
+                <span class="n">d</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">n</span><span class="p">::</span><span class="n">Int64</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">c_prime</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="c1"># Setting initial elements</span>
+    <span class="n">c_prime</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">:</span><span class="n">n</span>
+        <span class="c1"># Scale factor is for c_prime and x</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="n">end</span>
+
+    <span class="c1"># Back-substitution</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="p">(</span><span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">end</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">end</span>
+
+<span class="n">function</span> <span class="n">main</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+
+    <span class="n">println</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;The system</span>
+<span class="sd">        $(join((b[1], c[1], &quot;&quot;,   &quot;|&quot;, d[1]), &quot;\t&quot;))</span>
+<span class="sd">        $(join((a[2], b[2], c[2], &quot;|&quot;, d[2]), &quot;\t&quot;))</span>
+<span class="sd">        $(join((&quot;&quot;,   a[3], b[3], &quot;|&quot;, d[3]), &quot;\t&quot;))</span>
+<span class="sd">        Has the solution:&quot;&quot;&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">println</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="c">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &lt;string.h&gt;</span>
+
+<span class="n">void</span> <span class="n">thomas</span><span class="p">(</span><span class="n">double</span> <span class="o">*</span> <span class="n">const</span> <span class="n">a</span><span class="p">,</span> <span class="n">double</span> <span class="o">*</span> <span class="n">const</span> <span class="n">b</span><span class="p">,</span> <span class="n">double</span> <span class="o">*</span> <span class="n">const</span> <span class="n">c</span><span class="p">,</span>
+            <span class="n">double</span> <span class="o">*</span> <span class="n">const</span> <span class="n">x</span><span class="p">,</span> <span class="n">const</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="n">double</span> <span class="n">y</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+    <span class="n">memset</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">double</span><span class="p">));</span>
+
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">double</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">};</span>
+    <span class="n">double</span> <span class="n">b</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">};</span>
+    <span class="n">double</span> <span class="n">c</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">};</span>
+    <span class="n">double</span> <span class="n">x</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">};</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;The system,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;[1.0  4.0  0.0][x] = [7.0]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;[2.0  3.0  5.0][y] = [5.0]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;[0.0  3.0  6.0][z] = [3.0]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;has the solution:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+
+    <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="py">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1"># Author: gammison</span>
+
+<span class="c1"># note this example is inplace and destructive</span>
+<span class="k">def</span> <span class="nf">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+
+    <span class="c1"># set the initial elements</span>
+    <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># number of equations to solve</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c1"># scale factor for c and d</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+
+
+    <span class="c1"># do the back substitution</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># example for matrix</span>
+    <span class="c1"># [1  4  0][x]   [7]</span>
+    <span class="c1"># [2  3  5][y] = [5]</span>
+    <span class="c1"># [0  3  6][z]   [3]</span>
+
+    <span class="c1">#                 [.8666]</span>
+    <span class="c1"># soln will equal [1.533]</span>
+    <span class="c1">#                 [-.266]</span>
+    <span class="c1"># note we index a from 1 and c from 0</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="scratch">
+<p>You will find this algorithm implemented <a href="https://scratch.mit.edu/projects/169418273/">in this project</a>.
+<p>
+  <img  class="center" src="code/scratch/thomas.svg" width="1000" />
+</p></p>
+</div><div class="java">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">Thomas</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">static</span> <span class="n">double</span><span class="p">[]</span> <span class="n">thomasAlgorithm</span><span class="p">(</span><span class="n">double</span><span class="p">[]</span> <span class="n">a</span><span class="p">,</span> <span class="n">double</span><span class="p">[]</span> <span class="n">b</span><span class="p">,</span> <span class="n">double</span><span class="p">[]</span> <span class="n">c</span><span class="p">,</span> <span class="n">double</span><span class="p">[]</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">length</span><span class="p">;</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">y</span> <span class="o">=</span> <span class="n">new</span> <span class="n">double</span><span class="p">[</span><span class="n">size</span><span class="p">];</span> <span class="o">//</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">needed</span> <span class="n">so</span> <span class="n">that</span> <span class="n">we</span> <span class="n">don</span><span class="s1">&#39;t have to modify c</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">new</span> <span class="n">double</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+
+        <span class="o">//</span> <span class="n">Set</span> <span class="n">initial</span> <span class="n">elements</span>
+        <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="n">Scale</span> <span class="n">factor</span> <span class="ow">is</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">x</span>
+            <span class="n">double</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+            <span class="n">solution</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">solution</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="o">//</span> <span class="n">Back</span><span class="o">-</span><span class="n">substitution</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">solution</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">solution</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">solution</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">};</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">};</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">};</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">};</span>
+        <span class="n">double</span><span class="p">[]</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">thomasAlgorithm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;The system,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">][x] = [</span><span class="si">%.1f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">][y] = [</span><span class="si">%.1f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">][z] = [</span><span class="si">%.1f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;has the solution:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">solution</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">% .5f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">solution</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="hs">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Data.List</span> <span class="p">(</span><span class="n">zip4</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Data.Ratio</span>
+
+<span class="n">thomas</span> <span class="p">::</span> <span class="n">Fractional</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">thomas</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">=</span> <span class="n">init</span> <span class="o">.</span> <span class="n">scanr</span> <span class="n">back</span> <span class="mi">0</span> <span class="o">.</span> <span class="n">tail</span> <span class="o">.</span> <span class="n">scanl</span> <span class="n">forward</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.</span> <span class="n">zip4</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span>
+  <span class="n">where</span>
+    <span class="n">forward</span> <span class="p">(</span><span class="n">c</span><span class="s1">&#39;, d&#39;</span><span class="p">)</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span>
+      <span class="n">let</span> <span class="n">denominator</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span><span class="s1">&#39;</span>
+       <span class="ow">in</span> <span class="p">(</span><span class="n">c</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">,</span> <span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">d</span><span class="s1">&#39;) / denominator)</span>
+    <span class="n">back</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="n">x</span> <span class="o">=</span> <span class="n">d</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="n">main</span> <span class="p">::</span> <span class="n">IO</span> <span class="p">()</span>
+<span class="n">main</span> <span class="o">=</span> <span class="n">do</span>
+  <span class="n">let</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="p">::</span> <span class="p">[</span><span class="n">Ratio</span> <span class="n">Int</span><span class="p">]</span>
+      <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+      <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+      <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+  <span class="k">print</span> <span class="err">$</span> <span class="n">thomas</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span>
+</pre></div>
+
+</div></p>
+</div><div class="go">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">main</span>
+
+<span class="kn">import</span> <span class="s2">&quot;fmt&quot;</span>
+
+<span class="n">func</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="p">[]</span><span class="n">float64</span><span class="p">)</span> <span class="p">[]</span><span class="n">float64</span> <span class="p">{</span>
+	<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">scale</span> <span class="p">:</span><span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+		<span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span>
+		<span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span> <span class="p">{</span>
+		<span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">d</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="n">float64</span><span class="p">{</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">}</span>
+	<span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="n">float64</span><span class="p">{</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">}</span>
+	<span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="n">float64</span><span class="p">{</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">}</span>
+	<span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="n">float64</span><span class="p">{</span><span class="mf">7.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">}</span>
+
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;The system,&quot;</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;[1.0  4.0  0.0][x] = [7.0]&quot;</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;[2.0  3.0  5.0][y] = [5.0]&quot;</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;[0.0  3.0  6.0][z] = [3.0]&quot;</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;has the solution:&quot;</span><span class="p">)</span>
+	<span class="n">solve</span> <span class="p">:</span><span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="nb">range</span> <span class="n">solve</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="v">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">fn</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span> <span class="p">[]</span><span class="n">f32</span><span class="p">,</span> <span class="n">b</span> <span class="p">[]</span><span class="n">f32</span><span class="p">,</span> <span class="n">c</span> <span class="p">[]</span><span class="n">f32</span><span class="p">,</span> <span class="n">d</span> <span class="p">[]</span><span class="n">f32</span><span class="p">)</span> <span class="p">[]</span><span class="n">f32</span> <span class="p">{</span>
+	<span class="n">mut</span> <span class="n">new_c</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span>
+	<span class="n">mut</span> <span class="n">new_d</span> <span class="p">:</span><span class="o">=</span> <span class="n">d</span>
+	<span class="n">new_c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">new_d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">d</span><span class="o">.</span><span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">scale</span> <span class="p">:</span><span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_c</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+		<span class="n">new_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span>
+		<span class="n">new_d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">new_d</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">len</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span> <span class="p">{</span>
+		<span class="n">new_d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">new_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">new_d</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">new_d</span>
+<span class="p">}</span>
+
+<span class="n">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+	<span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+	<span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+	<span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+
+	<span class="n">println</span><span class="p">(</span><span class="s2">&quot;The system,&quot;</span><span class="p">)</span>
+	<span class="n">println</span><span class="p">(</span><span class="s2">&quot;[1.0  4.0  0.0][x] = [7.0]&quot;</span><span class="p">)</span>
+	<span class="n">println</span><span class="p">(</span><span class="s2">&quot;[2.0  3.0  5.0][y] = [5.0]&quot;</span><span class="p">)</span>
+	<span class="n">println</span><span class="p">(</span><span class="s2">&quot;[0.0  3.0  6.0][z] = [3.0]&quot;</span><span class="p">)</span>
+	<span class="n">println</span><span class="p">(</span><span class="s2">&quot;has the solution:&quot;</span><span class="p">)</span>
+	<span class="n">solution</span> <span class="p">:</span><span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">solution</span> <span class="p">{</span>
+		<span class="n">println</span><span class="p">(</span><span class="s2">&quot;[$i]&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="swift">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">func</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">],</span> <span class="n">b</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">],</span> <span class="n">c</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Double</span><span class="p">]</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="n">var</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="n">var</span> <span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+
+    <span class="o">//</span> <span class="nb">set</span> <span class="n">the</span> <span class="n">initial</span> <span class="n">elements</span>
+    <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">let</span> <span class="n">n</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">count</span> <span class="o">//</span> <span class="n">number</span> <span class="n">of</span> <span class="n">equations</span> <span class="n">to</span> <span class="n">solve</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.&lt;</span><span class="n">n</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">scale</span> <span class="n">factor</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">d</span>
+        <span class="n">let</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="p">}</span>
+
+    <span class="o">//</span> <span class="n">do</span> <span class="n">the</span> <span class="n">back</span> <span class="n">substitution</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">stride</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+    <span class="n">let</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+    <span class="n">let</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="n">let</span> <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div></p>
+</div><div class="php">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<span class="n">declare</span><span class="p">(</span><span class="n">strict_types</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">function</span> <span class="n">thomas_algorithm</span><span class="p">(</span><span class="n">array</span> <span class="err">$</span><span class="n">a</span><span class="p">,</span> <span class="n">array</span> <span class="err">$</span><span class="n">b</span><span class="p">,</span> <span class="n">array</span> <span class="err">$</span><span class="n">c</span><span class="p">,</span> <span class="n">array</span> <span class="err">$</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span> <span class="err">$</span><span class="n">size</span><span class="p">):</span> <span class="n">array</span>
+<span class="p">{</span>
+    <span class="err">$</span><span class="n">y</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="err">$</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="err">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="err">$</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="err">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="err">$</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="err">$</span><span class="n">i</span> <span class="o">&lt;</span> <span class="err">$</span><span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="err">$</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="err">$</span><span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">)(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="err">$</span><span class="n">a</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="err">$</span><span class="n">y</span><span class="p">[</span><span class="err">$</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]));</span>
+        <span class="err">$</span><span class="n">y</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="n">c</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="err">$</span><span class="n">scale</span><span class="p">;</span>
+        <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="err">$</span><span class="n">a</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="err">$</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="err">$</span><span class="n">scale</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="err">$</span><span class="n">i</span> <span class="o">=</span> <span class="err">$</span><span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="err">$</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="err">$</span><span class="n">i</span><span class="p">)</span>
+        <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="err">$</span><span class="n">y</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="err">$</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+
+    <span class="k">return</span> <span class="err">$</span><span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="err">$</span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">];</span>
+<span class="err">$</span><span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">];</span>
+<span class="err">$</span><span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">];</span>
+<span class="err">$</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">];</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;The system,</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">PHP_EOL</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;  [</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">][x] = [</span><span class="si">%s</span><span class="s1">]</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="err">$</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PHP_EOL</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;  [</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">][y] = [</span><span class="si">%s</span><span class="s1">]</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="err">$</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="err">$</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">PHP_EOL</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;  [</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">][z] = [</span><span class="si">%s</span><span class="s1">]</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="err">$</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="err">$</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="err">$</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">PHP_EOL</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s1">&#39;has the solution:</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">PHP_EOL</span><span class="p">);</span>
+
+<span class="err">$</span><span class="n">solution</span> <span class="o">=</span> <span class="n">thomas_algorithm</span><span class="p">(</span><span class="err">$</span><span class="n">a</span><span class="p">,</span> <span class="err">$</span><span class="n">a</span><span class="p">,</span> <span class="err">$</span><span class="n">c</span><span class="p">,</span> <span class="err">$</span><span class="n">x</span><span class="p">,</span> <span class="n">count</span><span class="p">(</span><span class="err">$</span><span class="n">x</span><span class="p">));</span>
+<span class="k">for</span> <span class="p">(</span><span class="err">$</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="err">$</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">(</span><span class="err">$</span><span class="n">solution</span><span class="p">);</span> <span class="err">$</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s1">&#39;  [</span><span class="si">%s</span><span class="s1">]</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="err">$</span><span class="n">solution</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">],</span> <span class="n">PHP_EOL</span><span class="p">);</span>
+</pre></div>
+
+</div>
+{%sample lang="nim" </p>
+</div><div class="cpp">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1">#include &lt;iostream&gt;</span>
+<span class="c1">#include &lt;vector&gt;</span>
+<span class="c1">#include &lt;cstring&gt;</span>
+
+<span class="n">void</span> <span class="n">thomas</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">const</span> <span class="n">a</span><span class="p">,</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">const</span> <span class="n">b</span><span class="p">,</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">const</span> <span class="n">c</span><span class="p">,</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">double</span> <span class="n">y</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+    <span class="n">memset</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">double</span><span class="p">));</span>
+
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">};</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">};</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">};</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">};</span>
+
+    <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;The system&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span> 
+    <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;[1.0  4.0  0.0][x] = [7.0]&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;[2.0  3.0  5.0][y] = [5.0]&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;[0.0  3.0  6.0][z] = [3.0]&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;has the solution&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;[&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;]&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="lua">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+  <span class="o">--</span> <span class="n">Create</span> <span class="n">tables</span> <span class="ow">and</span> <span class="nb">set</span> <span class="n">initial</span> <span class="n">elements</span>
+  <span class="n">local</span> <span class="n">c_prime</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+  <span class="n">local</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">#a do</span>
+    <span class="o">--</span> <span class="n">Scale</span> <span class="n">factor</span> <span class="ow">is</span> <span class="k">for</span> <span class="n">c_prime</span> <span class="ow">and</span> <span class="n">result</span>
+    <span class="n">local</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">c_prime</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+  <span class="n">end</span>
+
+  <span class="o">--</span> <span class="n">Back</span><span class="o">-</span><span class="n">substitution</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="c1">#a-1, 1, -1 do</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">result</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+  <span class="n">end</span>
+
+  <span class="k">return</span> <span class="n">result</span>
+<span class="n">end</span>
+
+<span class="n">local</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">}</span>
+<span class="n">local</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">}</span>
+<span class="n">local</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span>
+<span class="n">local</span> <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">}</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The system&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Has the solution:&quot;</span><span class="p">)</span>
+
+<span class="n">local</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">solution</span><span class="p">))</span>
+</pre></div>
+
+</div></p>
+</div><div class="crystal">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+  <span class="n">c_prime</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">dup</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">dup</span>
+
+  <span class="c1"># Setting initial elements</span>
+  <span class="n">c_prime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="mf">1.</span><span class="n">upto</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+    <span class="c1"># Scale factor is for c_prime and x</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c_prime</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+  <span class="n">end</span>
+
+  <span class="c1"># Back-substitution</span>
+  <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">downto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="p">(</span><span class="n">c_prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+  <span class="n">end</span>
+
+  <span class="n">x</span>
+<span class="n">end</span>
+
+<span class="k">def</span> <span class="nf">main</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+
+  <span class="n">puts</span> <span class="s2">&quot;The system&quot;</span>
+  <span class="n">puts</span> <span class="p">[</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">puts</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">puts</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">puts</span> <span class="s2">&quot;Has the solution:&quot;</span>
+
+  <span class="n">soln</span> <span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+  <span class="n">puts</span> <span class="n">soln</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">main</span>
+</pre></div>
+
+</div></p>
+</div><div class="kotlin">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">fun</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">DoubleArray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">DoubleArray</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">DoubleArray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">DoubleArray</span><span class="p">):</span> <span class="n">DoubleArray</span> <span class="p">{</span>
+    <span class="n">val</span> <span class="n">cPrime</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">val</span> <span class="n">x</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">val</span> <span class="n">size</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">cPrime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span> <span class="n">until</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">val</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cPrime</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">cPrime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="n">downTo</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">cPrime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">x</span>
+<span class="p">}</span>
+
+<span class="n">fun</span> <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">doubleArrayOf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">b</span> <span class="o">=</span> <span class="n">doubleArrayOf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">c</span> <span class="o">=</span> <span class="n">doubleArrayOf</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">x</span> <span class="o">=</span> <span class="n">doubleArrayOf</span><span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">solution</span> <span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;System:&quot;</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">][x] = [</span><span class="si">%.1f</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">][y] = [</span><span class="si">%.1f</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">, </span><span class="si">%.1f</span><span class="s2">][z] = [</span><span class="si">%.1f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;Solution:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">println</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">% .5f</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div></p>
+</div><div class="ruby">
+<p><div class="codehilite">
+<div class="highlight"><pre><span></span><span class="c1"># note this example is inplace and destructive</span>
+<span class="k">def</span> <span class="nf">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+  <span class="c1"># set the initial elements</span>
+  <span class="n">c</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">/</span> <span class="n">b</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+  <span class="n">d</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">/</span> <span class="n">b</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+
+  <span class="n">n</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">length</span> <span class="c1"># number of equations to solve</span>
+  <span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">c</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">*</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span> <span class="c1"># scale factor for c and d</span>
+    <span class="n">c</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">*=</span> <span class="n">scale</span>
+    <span class="n">d</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">*</span> <span class="n">d</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+  <span class="k">end</span>
+
+  <span class="c1"># do the back substitution</span>
+  <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">downto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
+    <span class="n">d</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">-=</span> <span class="n">c</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">*</span> <span class="n">d</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="n">d</span>
+<span class="k">end</span>
+
+<span class="c1"># example for matrix</span>
+<span class="c1"># [1  4  0][x]   [7]</span>
+<span class="c1"># [2  3  5][y] = [5]</span>
+<span class="c1"># [0  3  6][z]   [3]</span>
+
+<span class="c1">#                 [.8666]</span>
+<span class="c1"># soln will equal [1.533]</span>
+<span class="c1">#                 [-.266]</span>
+<span class="c1"># note we index a from 1 and c from 0</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+<span class="n">c</span> <span class="o">=</span> <span class="o">[</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+<span class="n">d</span> <span class="o">=</span> <span class="o">[</span><span class="mi">7</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+
+<span class="n">soln</span> <span class="o">=</span> <span class="n">thomas</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">soln</span>
+</pre></div>
+
+</div></p>
+</div>
+</div>
+
+<script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+
+<h2>License</h2>
+<h5>Code Examples</h5>
+<p>The code examples are licensed under the MIT license (found in <a href="https://github.com/algorithm-archivists/algorithm-archive/blob/master/LICENSE.md">LICENSE.md</a>).</p>
+<h5>Text</h5>
+<p>The text of this chapter was written by <a href="https://github.com/leios">James Schloss</a> and is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+<p><a href="https://creativecommons.org/licenses/by-sa/4.0/"><p><img  class="center" src="../cc/CC-BY-SA_icon.svg" /></p></a></p>
+<h5>Pull Requests</h5>
+<p>After initial licensing (<a href="https://github.com/algorithm-archivists/algorithm-archive/pull/560">#560</a>), the following pull requests have modified the text or graphics of this chapter:
+- none</p>
+        <hr>
+    </div>
+</body>
+</html>
