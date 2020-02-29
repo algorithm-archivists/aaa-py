@@ -1,19 +1,11 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
-
-[packages]
-markdown = "*"
-pygments = "*"
-"jinja2" = "*"
-requests = ">=2.20.0"
-gunicorn = "*"
-pybtex = "*"
-tqdm = "*"
-pygit2 = "*"
 
 [dev-packages]
 
+[packages]
+
 [requires]
-python_version = "3"
+python_version = "3.6"
