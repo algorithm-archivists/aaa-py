@@ -26,11 +26,11 @@ EXT = [
     "tables",
     "ext.mdx_links"
 ]
-TEMPLATE_PATH = "build/templates/index.html"
+TEMPLATE_PATH = "templates/index.html"
 PYGMENT_THEME = "friendly"
 SUMMARY_INDENT_LEVEL = 4
-STYLE_PATH = "build/styles"
-FAVICON_PATH = "build/favicon.ico"
+STYLE_PATH = "styles"
+FAVICON_PATH = "favicon.ico"
 EXTENSIONS = [
     ("handle_languages", "HandleLanguages"),
     ("mdify", "MDfier"),
