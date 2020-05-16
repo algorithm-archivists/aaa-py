@@ -1,7 +1,7 @@
 """ Default configuration file for aaa-py. """
 
 
-O_NAME = "book"
+O_NAME = "website"
 CONTENTS_NAME = "contents"
 INDEX_NAME = "README.md"
 SUMMARY_NAME = "SUMMARY.md"

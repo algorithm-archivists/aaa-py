@@ -22,7 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script>
-        var bjs = {{bjs}};
+        var bjs = {{bjs}};		    
         var lang = "jl";
         var langs = {};
         var langNames = bjs.pluginsConfig["api-language-selector"].languages;
@@ -37,6 +37,7 @@
             "matlab": "Matlab",
             "javascript": "JavaScript"
         };
+	
         function initLangs () {
             var samples = document.getElementsByClassName("code-section");
             for (var a = 0; a < samples.length; a++) {
@@ -47,7 +48,10 @@
                     langs[element.className] = true;
                 };
             };
-            langs = Object.keys(langs);
+	    langs = Object.keys(langs);
+	    if (langs.length == 1) {
+		lang = langs[0];
+	    }
             langNames.forEach(function(element) { translations[element.lang] = element.name });
         }
         function reload() {
@@ -74,7 +78,8 @@
         };
         var index = {{index}};
         var pages = [];
-        var lsed = false;
+	var lsed = false;
+				
         function flipLs () {
             var ls = document.getElementById("ls");
             var ls2 = document.getElementById("ls2");
@@ -87,7 +92,8 @@
             }
             lsed = !lsed
         }
-        var funcs = {};
+
+	var funcs = {};
         function initLs () {
             if (langs.length === 0) {
                 document.getElementById("flipper").remove();
@@ -96,7 +102,8 @@
                 var h2 = 0;
                 for (var i = 0; i < langs.length; i++) {
                     let language = langs[i];
-                    var elem = document.createElement("p");
+		    console.log(language);
+		    var elem = document.createElement("p");
                     funcs[language] = {}
                     funcs[language] = () => {
                         lang = language;

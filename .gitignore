@@ -1,9 +1,5 @@
-_book/
-book/
 .vscode
 contents
-book.json
-literature.bib
 aaa-repo.zip
 
 # Created by https://www.gitignore.io/api/vim,linux,emacs,macos,windows,gitbook,sublimetext,visualstudio,visualstudiocode

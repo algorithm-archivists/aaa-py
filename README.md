@@ -3,12 +3,11 @@
 A Python implementation of the Algorithm Archive build system.
 
 # Building and running
+
+This is literally just it.
 ```
 pip3 install pipenv
-pipenv install
-pipenv run python3 build.py
-cd _book
-python3 -m http.server 8080
+make
 ```
 
 # Screenshot
