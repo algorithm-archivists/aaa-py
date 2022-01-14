@@ -11,13 +11,13 @@ def bibtex(code, bib_database, path, use_path=False):
     if use_path:
         with open(path) as f:
             code = f.read()
-    halves = code.split("\" | cite }}")
+    halves = code.replace('" | cite}}', '" | cite }}').split("\" | cite }}")
     if len(halves) < 2:
         return code, []
     references = []
     for index, ref in enumerate(halves[:-1]):
-        to_ref = ref.split('"')[1]
-        halves[index] = ref.split('{{ ')[0]
+        to_ref = ref.split('"')[-1]
+        halves[index] = ref.split('{{')[0].rstrip()
         references.append(to_ref)
         halves[index] += f'<a href="#ref-{index + 1}">[{index + 1}]</a>'
     code = "".join(halves)
@@ -33,12 +33,9 @@ def bibtex(code, bib_database, path, use_path=False):
             count += len(form)
         else:
             entry = bib_database.entries[i]
-            author = entry.persons['author']
+            author = entry.persons.get('author', 'No author specified')
             title = entry.fields['title']
-            try:
-                publisher = entry.fields['publisher']
-            except:
-                publisher = "No Publisher Specified"
+            publisher = entry.fields.get('publisher', 'No Publisher specified')
             year = entry.fields['year']
             jumper = f"<a name=\"ref-{count}\" class=bib-link></a>"
             string = f"{author}: {title}, <i>{publisher}</i>, {year}"
