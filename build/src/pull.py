@@ -11,7 +11,7 @@ def pull(repo: pygit2.Repository, remote_name: str = 'origin'):
     for remote in repo.remotes:
         if remote.name == remote_name:
             remote.fetch()
-            remote_master_id = repo.lookup_reference('refs/remotes/origin/master').target
+            remote_master_id = repo.lookup_reference('refs/remotes/origin/main').target
             merge_result, _ = repo.merge_analysis(remote_master_id)
             # Up to date, do nothing
             if merge_result & pygit2.GIT_MERGE_ANALYSIS_UP_TO_DATE:
