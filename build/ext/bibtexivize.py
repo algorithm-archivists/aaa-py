@@ -11,13 +11,13 @@ def bibtex(code, bib_database, path, use_path=False):
     if use_path:
         with open(path) as f:
             code = f.read()
-    halves = code.split("\" | cite }}")
+    halves = code.replace('" | cite}}', '" | cite }}').split("\" | cite }}")
     if len(halves) < 2:
         return code, []
     references = []
     for index, ref in enumerate(halves[:-1]):
-        to_ref = ref.split('"')[1]
-        halves[index] = ref.split('{{ ')[0]
+        to_ref = ref.split('"')[-1]
+        halves[index] = ref.split('{{')[0].rstrip()
         references.append(to_ref)
         halves[index] += f'<a href="#ref-{index + 1}">[{index + 1}]</a>'
     code = "".join(halves)

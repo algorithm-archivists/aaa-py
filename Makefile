@@ -1,7 +1,7 @@
 default: local
 
 install:
-	pipenv install
+	cd build && pipenv install
 
 build: build/main.py
 	cd build && pipenv run python3 main.py
