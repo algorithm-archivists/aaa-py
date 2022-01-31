@@ -123,7 +123,7 @@ def render_chapter(chapter, renderer, template, summary, book_json):
         shutil.copyfile(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg",
                         f"{O_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg")
     
-        with suppress(FileNotFoundError):
+    with suppress(FileNotFoundError):
         shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
     
     with suppress(FileNotFoundError)::
