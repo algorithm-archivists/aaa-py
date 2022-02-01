@@ -27,7 +27,7 @@ def build(local=False):
     elif not local:
         print("Contents already exists.")
         print("Updating...")
-        pull(pygit2.Repository(AAA_CLONE_PATH))
+        pull(pygit2.Repository(str(AAA_CLONE_PATH)))
     else:
         print('Found contents.')
         
@@ -46,7 +46,7 @@ def build(local=False):
 
     print("Copying res folder...")
     with suppress(FileNotFoundError):
-        shutil.copytree(f"{AAA_CLONE_PATH}/rest", f"{O_NAME}/res")
+        shutil.copytree(f"{AAA_CLONE_PATH}/res", f"{O_NAME}/res")
 
     print("Done making, looking for chapters...")
     chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a),
