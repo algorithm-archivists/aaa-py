@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
+    <script>var pages = [];</script>
     <div class="sidebar-wrapper" id="sidebar">
         {% for i, line in enumerate(summary) %}
             <p>
@@ -111,7 +112,6 @@
             initLs();
         };
         var index = {{index}};
-        var pages = [];
 	var lsed = false;
 				
         function flipLs () {

@@ -1,18 +1,18 @@
-import os
-import shutil
-import re
-import jinja2
-import markdown
-import pybtex.database
-import json
-from contextlib import suppress
+from .pull import pull
 from config import *
 from ext import get_ext
-from .pull import pull
+
+from contextlib import suppress
 from pathlib import Path
+import jinja2
+import json
+import markdown
+import os
+import pybtex.database
 import pygit2
-import subprocess
+import re
 import shlex
+import shutil
 
 
 def build(local=False):
@@ -46,7 +46,7 @@ def build(local=False):
 
     print("Copying res folder...")
     with suppress(FileNotFoundError):
-        shutil.copytree(f"{AAA_CLONE_PATH}/res", f"{O_NAME}/res")
+        shutil.copytree(AAA_CLONE_PATH/"res", O_NAME/"res")
 
     print("Done making, looking for chapters...")
     chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a),
@@ -71,7 +71,7 @@ def build(local=False):
     bib_database = pybtex.database.parse_file(AAA_CLONE_PATH / "literature.bib")
 
     print("Opening book.json...")
-    with open(os.path.join(CONTENTS_NAME, "book.json")) as bjs:
+    with open(CONTENTS_NAME / "book.json") as bjs:
         book_json = json.load(bjs)
 
     print("Creating rendering pipeline...")
@@ -88,15 +88,16 @@ def build(local=False):
     shutil.copytree(STYLE_PATH, O_NAME / "styles")
 
     print("Parsing redirects...")
-    with open(f"{AAA_PATH}/redirects.json") as rjs_file:
+    with open(AAA_PATH / "redirects.json") as rjs_file:
         rjs = json.load(rjs_file)
     rjs = {i["from"]: i["to"] for i in rjs["redirects"]}
     with open(f"{O_NAME}/redirects.json", 'w') as rjs_file:
         json.dump(rjs, rjs_file)
 
     print("Rendering index...")
-    with open(os.path.join(CONTENTS_NAME, INDEX_NAME), 'r') as readme, open(f"{O_NAME}/index.html", 'w') as index:
-        index.write(render_one(readme.read(), f"{O_NAME}/", 0, renderer, template, summary, book_json))
+    (O_NAME / "index.html").write_text(
+            render_one((CONTENTS_NAME / INDEX_NAME).read_text(), f"{O_NAME}/", 0,
+                renderer, template, summary, book_json)) 
     print("Done!")
 
 
@@ -116,26 +117,27 @@ def parse_summary(summary):
 
 
 def render_chapter(chapter, renderer, template, summary, book_json):
-    os.mkdir(f"{O_NAME}/{CONTENTS_NAME}/{chapter}")
+    (O_NAME/CONTENTS_NAME/chapter).mkdir()
 
     with suppress(FileNotFoundError):
         # dirty hack but it works
-        shutil.copyfile(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg",
-                        f"{O_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg")
+        shutil.copyfile(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/CC-BY-SA_icon.svg",
+                        O_NAME/CONTENTS_NAME/f"{chapter}/CC-BY-SA_icon.svg")
     
     with suppress(FileNotFoundError):
-        shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/res",
+            O_NAME/CONTENTS_NAME/f"{chapter}/res")
     
     with suppress(FileNotFoundError):
-        shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/code",
+            O_NAME/CONTENTS_NAME/f"{chapter}/code")
 
     try:
-        md_file: str = next(filter(lambda a: a.endswith(".md"),
-                                   os.listdir(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}")))
+        md_file: str = next((CONTENTS_NAME/CONTENTS_NAME/chapter).glob('*.md'))
     except StopIteration:
         return
-    out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.replace('.md', '.html')}"
-    with open(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/{md_file}", 'r') as r:
+    out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.name.replace('.md', '.html')}"
+    with md_file.open('r') as r:
         try:
             index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
                                           ((i, a[1]) for i, a in enumerate(summary)))][0]
