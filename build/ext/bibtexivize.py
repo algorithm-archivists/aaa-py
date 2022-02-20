@@ -33,13 +33,16 @@ def bibtex(code, bib_database, path, use_path=False):
             count += len(form)
         else:
             entry = bib_database.entries[i]
-            author = entry.persons.get('author')
+            authors = entry.persons.get('author')
+            if authors is not None:
+                authors = ', '.join(map(str, authors))
             title = entry.fields['title']
             publisher = entry.fields.get('publisher', "No Publisher Specified")
             year = entry.fields.get('year')
             jumper = f"<a name=\"ref-{count}\" class=bib-link></a>"
-            string = f"{f'{author}: ' if author is not None else ''}{title}, <i>{publisher}</i>,{f', {year}' if year is not None else ''}"
+            string = f"{f'{authors}: ' if authors is not None else ''}<i>{title}</i>, {publisher}{f', {year}' if year is not None else ''}"
             formatted.append(jumper + string)
             count += 1
-    code = ("".join(formatted)).join(code.split('{% references %} {% endreferences %}'))
+    formatted = '<ol><li>' + "</li>\n<li>".join(formatted) + '</li></ol>'
+    code = formatted.join(code.split('{% references %} {% endreferences %}'))
     return code, formatted
