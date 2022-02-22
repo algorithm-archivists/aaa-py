@@ -1,62 +1,77 @@
-import os
-import shutil
-import re
-import jinja2
-import markdown
-import pybtex.database
-import json
+from .pull import pull
 from config import *
 from ext import get_ext
-from .pull import pull
+
+from contextlib import suppress
+from pathlib import Path
+import jinja2
+import json
+import markdown
+import os
+import pybtex.database
 import pygit2
+import re
+import shlex
+import shutil
 
 
-def build():
+def build(local=False):
     md = markdown.Markdown(extensions=EXT)
     print("Detecting if contents present...")
-    do_clone = not os.path.exists(AAA_CLONE_PATH)
-    if do_clone:
+    do_clone = not AAA_CLONE_PATH.exists()
+    if do_clone and not local:
         print("No contents present, cloning...")
-        pygit2.clone_repository(AAA_ORIGIN, AAA_CLONE_PATH)
-    else:
+        pygit2.clone_repository(AAA_ORIGIN, str(AAA_CLONE_PATH))
+    elif do_clone and local:
+        raise FileNotFoundError('Contents must be present to build them in local mode')
+    elif not local:
         print("Contents already exists.")
         print("Updating...")
-        pull(pygit2.Repository(AAA_CLONE_PATH))
+        pull(pygit2.Repository(str(AAA_CLONE_PATH)))
+    else:
+        print('Found contents.')
+        
     try:
         print("Trying to create _book directory...")
-        os.mkdir(O_NAME)
+        O_NAME.mkdir()
         print("Successfully created.")
     except FileExistsError:
         print("_book already exists. Removing...")
         shutil.rmtree(O_NAME)
         print("Making _book...")
-        os.mkdir(O_NAME)
+        O_NAME.mkdir()
 
     print("Making contents folder...")
-    os.mkdir(f"{O_NAME}/{CONTENTS_NAME}")
+    (O_NAME/CONTENTS_NAME).mkdir()
+
+    print("Copying res folder...")
+    with suppress(FileNotFoundError):
+        shutil.copytree(AAA_CLONE_PATH/"res", O_NAME/"res")
 
     print("Done making, looking for chapters...")
     chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a),
-                      os.listdir(os.path.join(AAA_CLONE_PATH, CONTENTS_NAME)))
+                      map(lambda p: p.stem,
+                          (AAA_CLONE_PATH / CONTENTS_NAME).iterdir()
+                         )
+                     )
 
     print("Looking for the template...")
-    with open(TEMPLATE_PATH, 'r') as template_file:
-        print("Reading...")
-        template = jinja2.Template(template_file.read())
-        print("Template ready!")
+
+    print("Reading...")
+    template = jinja2.Template(TEMPLATE_PATH.read_text())
+    print("Template ready!")
 
     print("Building Pygments...")
     os.system(f"pygmentize -S {PYGMENT_THEME} -f html -a .codehilite > {O_NAME}/pygments.css")
 
     print("Parsing SUMMARY.md...")
-    with open(os.path.join(AAA_PATH, SUMMARY_NAME)) as s:
-        summary = parse_summary(s.read())
+    summary = parse_summary((AAA_PATH / SUMMARY_NAME).read_text())
 
     print("Opening bibtex...")
-    bib_database = pybtex.database.parse_file(f"{AAA_CLONE_PATH}/literature.bib")
+    bib_database = pybtex.database.parse_file(AAA_CLONE_PATH / "literature.bib")
 
     print("Opening book.json...")
-    with open(os.path.join(CONTENTS_NAME, "book.json")) as bjs:
+    with open(CONTENTS_NAME / "book.json") as bjs:
         book_json = json.load(bjs)
 
     print("Creating rendering pipeline...")
@@ -67,21 +82,22 @@ def build():
         render_chapter(chapter, renderer, template, summary, book_json)
 
     print("Moving favicon.ico...")
-    shutil.copy(FAVICON_PATH, f"{O_NAME}/favicon.ico")
+    shutil.copy(FAVICON_PATH, O_NAME / "favicon.ico")
 
     print("Moving styles...")
-    shutil.copytree(STYLE_PATH, f"{O_NAME}/styles")
+    shutil.copytree(STYLE_PATH, O_NAME / "styles")
 
     print("Parsing redirects...")
-    with open(f"{AAA_PATH}/redirects.json") as rjs_file:
+    with open(AAA_PATH / "redirects.json") as rjs_file:
         rjs = json.load(rjs_file)
     rjs = {i["from"]: i["to"] for i in rjs["redirects"]}
     with open(f"{O_NAME}/redirects.json", 'w') as rjs_file:
         json.dump(rjs, rjs_file)
 
     print("Rendering index...")
-    with open(os.path.join(CONTENTS_NAME, INDEX_NAME), 'r') as readme, open(f"{O_NAME}/index.html", 'w') as index:
-        index.write(render_one(readme.read(), f"{O_NAME}/", 0, renderer, template, summary, book_json))
+    (O_NAME / "index.html").write_text(
+            render_one((CONTENTS_NAME / INDEX_NAME).read_text(), f"{O_NAME}/", 0,
+                renderer, template, summary, book_json)) 
     print("Done!")
 
 
@@ -101,33 +117,30 @@ def parse_summary(summary):
 
 
 def render_chapter(chapter, renderer, template, summary, book_json):
-    os.mkdir(f"{O_NAME}/{CONTENTS_NAME}/{chapter}")
+    (O_NAME/CONTENTS_NAME/chapter).mkdir()
 
-    try:
+    with suppress(FileNotFoundError):
         # dirty hack but it works
-        shutil.copyfile(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg",
-                        f"{O_NAME}/{CONTENTS_NAME}/{chapter}/CC-BY-SA_icon.svg")
-    except FileNotFoundError:
-        pass
-    try:
-        shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/res", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/res")
-    except FileNotFoundError:
-        pass
-    try:
-        shutil.copytree(f"{AAA_CLONE_PATH}/{CONTENTS_NAME}/{chapter}/code", f"{O_NAME}/{CONTENTS_NAME}/{chapter}/code")
-    except FileNotFoundError:
-        pass
+        shutil.copyfile(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/CC-BY-SA_icon.svg",
+                        O_NAME/CONTENTS_NAME/f"{chapter}/CC-BY-SA_icon.svg")
+    
+    with suppress(FileNotFoundError):
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/res",
+            O_NAME/CONTENTS_NAME/f"{chapter}/res")
+    
+    with suppress(FileNotFoundError):
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/code",
+            O_NAME/CONTENTS_NAME/f"{chapter}/code")
 
     try:
-        md_file: str = next(filter(lambda a: a.endswith(".md"),
-                                   os.listdir(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}")))
+        md_file: str = next((CONTENTS_NAME/CONTENTS_NAME/chapter).glob('*.md'))
     except StopIteration:
         return
-    out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.replace('.md', '.html')}"
-    with open(f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}/{md_file}", 'r') as r:
+    out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.name.replace('.md', '.html')}"
+    with md_file.open('r') as r:
         try:
             index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
-                                          [(i, a[1]) for i, a in enumerate(summary)])][0]
+                                          ((i, a[1]) for i, a in enumerate(summary)))][0]
         except IndexError:
             return
         contents: str = render_one(r.read(), f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}",

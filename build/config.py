@@ -1,16 +1,16 @@
 """ Default configuration file for aaa-py. """
+from pathlib import Path
 
-
-O_NAME = "website"
-CONTENTS_NAME = "contents"
-INDEX_NAME = "README.md"
-SUMMARY_NAME = "SUMMARY.md"
-AAA_CLONE_PATH = "contents"
-AAA_PATH = "contents"
+O_NAME = Path("website")
+CONTENTS_NAME = Path("contents")
+INDEX_NAME = Path("README.md")
+SUMMARY_NAME = Path("SUMMARY.md")
+AAA_CLONE_PATH = Path("contents")
+AAA_PATH = Path("contents")
 AAA_ORIGIN = "git://github.com/algorithm-archivists/algorithm-archive.git"
-CONTENTS_PATH = "contents"
-AAA_README = "README.md"
-AAA_SUMMARY = "SUMMARY.md"
+CONTENTS_PATH = Path("contents")
+AAA_README = Path("README.md")
+AAA_SUMMARY = Path("SUMMARY.md")
 AAA_REPO_PATH = "algorithm-archive-master"
 IMPORT_FILES = {
     "SUMMARY.md": "SUMMARY.md",
@@ -26,10 +26,10 @@ EXT = [
     "tables",
     "ext.mdx_links"
 ]
-TEMPLATE_PATH = "templates/index.html"
+TEMPLATE_PATH = Path("templates/index.html")
 PYGMENT_THEME = "friendly"
 SUMMARY_INDENT_LEVEL = 4
-STYLE_PATH = "styles"
+STYLE_PATH = Path("styles")
 FAVICON_PATH = "favicon.ico"
 EXTENSIONS = [
     ("handle_languages", "HandleLanguages"),

@@ -19,7 +19,7 @@ def pull(repo: pygit2.Repository, remote_name: str = 'origin'):
             # We can just fastforward
             elif merge_result & pygit2.GIT_MERGE_ANALYSIS_FASTFORWARD:
                 repo.checkout_tree(repo.get(remote_master_id))
-                master_ref = repo.lookup_reference('refs/heads/master')
+                master_ref = repo.lookup_reference('refs/heads/main')
                 master_ref.set_target(remote_master_id)
                 repo.head.set_target(remote_master_id)
             elif merge_result & pygit2.GIT_MERGE_ANALYSIS_NORMAL:

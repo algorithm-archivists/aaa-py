@@ -1,6 +1,7 @@
 .vscode
 contents
 aaa-repo.zip
+build/website/*
 
 # Created by https://www.gitignore.io/api/vim,linux,emacs,macos,windows,gitbook,sublimetext,visualstudio,visualstudiocode
 

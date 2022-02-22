@@ -1,10 +1,19 @@
-default: main
-
-# This file will expand to cover more cases, like initial install of pipenv and initial pip packages.
+default: local
 
 install:
-	pipenv install
+	cd build && pipenv install
 
-main: build/main.py
-	$(MAKE) install
-	cd build && pipenv run python3 main.py && cd ../website && python3 -m http.server 8080
+build: build/main.py
+	cd build && pipenv run python3 main.py
+
+build_local: build/main.py
+	cd build && pipenv run python3 main.py --local
+
+serve:
+	cd build/website && pipenv run python3 -m http.server 8080
+
+main: | install build serve
+
+local: | build_local serve
+
+.PHONY: build build_local install local main serve
