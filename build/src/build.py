@@ -49,11 +49,8 @@ def build(local=False):
         shutil.copytree(AAA_CLONE_PATH/"res", O_NAME/"res")
 
     print("Done making, looking for chapters...")
-    chapters = filter(lambda a: re.match('^[a-zA-Z0-9_-]+$', a),
-                      map(lambda p: p.stem,
-                          (AAA_CLONE_PATH / CONTENTS_NAME).iterdir()
-                         )
-                     )
+    chapter_mds = (AAA_CLONE_PATH / CONTENTS_NAME).glob('**/*.md')
+    chapters = map(lambda p: p.parent.relative_to(AAA_CLONE_PATH/CONTENTS_NAME), chapter_mds)
 
     print("Looking for the template...")
 
@@ -79,6 +76,7 @@ def build(local=False):
 
     print("Rendering chapters...")
     for chapter in chapters:
+        breakpoint()
         render_chapter(chapter, renderer, template, summary, book_json)
 
     print("Moving favicon.ico...")
