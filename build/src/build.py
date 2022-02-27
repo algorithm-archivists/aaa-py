@@ -76,7 +76,6 @@ def build(local=False):
 
     print("Rendering chapters...")
     for chapter in chapters:
-        breakpoint()
         render_chapter(chapter, renderer, template, summary, book_json)
 
     print("Moving favicon.ico...")
