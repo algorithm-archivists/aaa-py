@@ -48,6 +48,9 @@ def build(local=False):
     with suppress(FileNotFoundError):
         shutil.copytree(AAA_CLONE_PATH/"res", O_NAME/"res")
 
+    with suppress(FileNotFoundError):
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/"cc", O_NAME/CONTENTS_NAME/"cc")
+
     print("Done making, looking for chapters...")
     chapter_mds = (AAA_CLONE_PATH / CONTENTS_NAME).glob('**/*.md')
     chapters = map(lambda p: p.parent.relative_to(AAA_CLONE_PATH/CONTENTS_NAME), chapter_mds)
@@ -107,7 +110,7 @@ def parse_summary(summary):
     for index, line in enumerate(summary.split('\n')[2:-1]):
         indent, rest = line.split('[')
         name, link = rest.split('](')
-        link = link[:-1]
+        link = Path(link[:-1])
         current_indent = len(indent) // SUMMARY_INDENT_LEVEL
         summary_parsed.append((name, link, current_indent))
     return summary_parsed
@@ -118,30 +121,30 @@ def render_chapter(chapter, renderer, template, summary, book_json):
 
     with suppress(FileNotFoundError):
         # dirty hack but it works
-        shutil.copyfile(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/CC-BY-SA_icon.svg",
-                        O_NAME/CONTENTS_NAME/f"{chapter}/CC-BY-SA_icon.svg")
+        shutil.copyfile(AAA_CLONE_PATH/CONTENTS_NAME/"cc"/"CC-BY-SA_icon.svg",
+                        O_NAME/CONTENTS_NAME/chapter/"CC-BY-SA_icon.svg")
     
     with suppress(FileNotFoundError):
-        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/res",
-            O_NAME/CONTENTS_NAME/f"{chapter}/res")
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/chapter/"res",
+            O_NAME/CONTENTS_NAME/chapter/"res")
     
     with suppress(FileNotFoundError):
-        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/f"{chapter}/code",
-            O_NAME/CONTENTS_NAME/f"{chapter}/code")
+        shutil.copytree(AAA_CLONE_PATH/CONTENTS_NAME/chapter/"code",
+            O_NAME/CONTENTS_NAME/chapter/"code")
 
     try:
         md_file: str = next((CONTENTS_NAME/CONTENTS_NAME/chapter).glob('*.md'))
     except StopIteration:
         return
-    out_file = f"{O_NAME}/{CONTENTS_NAME}/{chapter}/{md_file.name.replace('.md', '.html')}"
-    with md_file.open('r') as r:
-        try:
-            index = [k[0] for k in filter(lambda x: out_file.split('/')[-1] in x[1],
-                                          ((i, a[1]) for i, a in enumerate(summary)))][0]
-        except IndexError:
-            return
-        contents: str = render_one(r.read(), f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}",
-                                   index, renderer, template, summary, book_json)
+    out_file = O_NAME/CONTENTS_NAME/chapter/md_file.name.replace('.md', '.html')
+
+    try:
+        index = next(index for (index, _) in filter(lambda x: out_file.name == x[1].name,
+                                      ((i, a[1]) for i, a in enumerate(summary))))
+    except StopIteration:
+        return
+    contents: str = render_one(md_file.read_text(), f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}",
+                               index, renderer, template, summary, book_json)
     with open(out_file, 'w') as f:
         f.write(contents)
 
