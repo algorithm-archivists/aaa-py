@@ -2,6 +2,7 @@ from .pull import pull
 from config import *
 from ext import get_ext
 
+from collections import namedtuple
 from contextlib import suppress
 from pathlib import Path
 import jinja2
@@ -101,6 +102,9 @@ def build(local=False):
     print("Done!")
 
 
+SummaryEntry = namedtuple('SummaryEntry', ['name', 'link', 'depth'])
+
+
 def parse_summary(summary):
     summary = summary.replace(".md", ".html") \
         .replace("(contents", "(/contents") \
@@ -112,7 +116,7 @@ def parse_summary(summary):
         name, link = rest.split('](')
         link = Path(link[:-1])
         current_indent = len(indent) // SUMMARY_INDENT_LEVEL
-        summary_parsed.append((name, link, current_indent))
+        summary_parsed.append(SummaryEntry(name, link, current_indent))
     return summary_parsed
 
 
@@ -139,8 +143,8 @@ def render_chapter(chapter, renderer, template, summary, book_json):
     out_file = O_NAME/CONTENTS_NAME/chapter/md_file.name.replace('.md', '.html')
 
     try:
-        index = next(index for (index, _) in filter(lambda x: out_file.name == x[1].name,
-                                      ((i, a[1]) for i, a in enumerate(summary))))
+        index = next(index for (index, _) in filter(lambda x: out_file.name == x[1].link.name,
+                                                    enumerate(summary)))
     except StopIteration:
         return
     contents: str = render_one(md_file.read_text(), f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}",
