@@ -84,7 +84,7 @@
                 };
             };
 	    langs = Object.keys(langs);
-	    if (langs.length == 1) {
+	    if (langs.length == 1 || !langs.includes(lang)) {
 		lang = langs[0];
 	    }
             langNames.forEach(function(element) { translations[element.lang] = element.name });

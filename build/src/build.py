@@ -149,8 +149,7 @@ def render_chapter(chapter, renderer, template, summary, book_json):
         return
     contents: str = render_one(md_file.read_text(), f"{CONTENTS_NAME}/{CONTENTS_NAME}/{chapter}",
                                index, renderer, template, summary, book_json)
-    with open(out_file, 'w') as f:
-        f.write(contents)
+    out_file.write_text(contents)
 
 
 def render_one(text, code_dir, index, renderer, template, summary, book_json) -> str:
