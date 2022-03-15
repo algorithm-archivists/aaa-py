@@ -1,4 +1,4 @@
-default: local
+default: main
 
 install:
 	cd build && pipenv install
