@@ -114,7 +114,7 @@ def parse_summary(summary):
     for index, line in enumerate(summary.split('\n')[2:-1]):
         indent, rest = line.split('[')
         name, link = rest.split('](')
-        link = Path(link[:-1])
+        link = Path(link.rstrip()[:-1])
         current_indent = len(indent) // SUMMARY_INDENT_LEVEL
         summary_parsed.append(SummaryEntry(name, link, current_indent))
     return summary_parsed
