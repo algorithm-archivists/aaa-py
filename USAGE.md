@@ -6,7 +6,7 @@ The CLI for the AAA-py is (for now) based on Make and pipenv.
 
 To setup the dependencies properly, make sure that the Python and git2 development headers are available in your `PATH`.
 
-One this is done, simply run `make`, and the website will be available at http://localhost:8080once building is completed (provided the 8080 port is available for the spawned server).
+One this is done, simply run `make`, and the website will be available at http://localhost:8080 once building is completed (provided the 8080 port is available for the spawned server).
 
 ## Advanced setup
 
