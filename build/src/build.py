@@ -78,10 +78,6 @@ def build(local=False):
     print("Creating rendering pipeline...")
     renderer = get_ext(bib_database, PYGMENT_THEME, md)
 
-    print("Rendering chapters...")
-    for chapter in chapters:
-        render_chapter(chapter, renderer, template, summary, book_json)
-
     print("Moving favicon.ico...")
     shutil.copy(FAVICON_PATH, O_NAME / "favicon.ico")
 
@@ -99,6 +95,11 @@ def build(local=False):
     (O_NAME / "index.html").write_text(
             render_one((CONTENTS_NAME / INDEX_NAME).read_text(), f"{O_NAME}/", 0,
                 renderer, template, summary, book_json)) 
+
+    print("Rendering chapters...")
+    for chapter in chapters:
+        render_chapter(chapter, renderer, template, summary, book_json)
+
     print("Done!")
 
 
